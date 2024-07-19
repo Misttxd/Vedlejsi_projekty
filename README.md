@@ -1,1 +1,1 @@
-Soubor s menšímy progrmy, které sloužily pro naučení programovacích jazyků.
+Soubor s menšímy programy, které sloužily pro naučení programovacích jazyků.
