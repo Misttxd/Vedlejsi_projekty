@@ -8,3 +8,4 @@ Tento repozitář obsahuje sbírku menších projektů a cvičení, které slou�
 *   **C**: Projekty a cvičení v jazyce C.
 *   **CUDA**: Projekty a materiály související s programováním v CUDA.
 *   **MCU**: Projekty a materiály související s programováním mikrokontrolérů.
+*   **FPR**: Projekty a cvičení z funkcionálního programování v Haskellu.
