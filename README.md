@@ -7,3 +7,4 @@ Tento repozitář obsahuje sbírku menších projektů a cvičení, které slou�
 *   **ASM**: Projekty a cvičení v jazyce Assembler.
 *   **C**: Projekty a cvičení v jazyce C.
 *   **CUDA**: Projekty a materiály související s programováním v CUDA.
+*   **MCU**: Projekty a materiály související s programováním mikrokontrolérů.
