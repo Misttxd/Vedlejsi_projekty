@@ -14,3 +14,6 @@ Makefile
 # Dočasné soubory OS
 .DS_Store
 Thumbs.db
+
+# Ignorovat GitHub Workflows
+.github/workflows/
