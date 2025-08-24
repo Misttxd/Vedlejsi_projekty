@@ -1,0 +1,1 @@
+# Projekt MCU: LED 1\n\nTento adresář obsahuje projekt zaměřený na ovládání LED diod (první verze).\n

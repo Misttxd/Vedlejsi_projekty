@@ -1,0 +1,1 @@
+# Projekt MCU: LCD 2\n\nTento adresář obsahuje projekt zaměřený na ovládání LCD displeje (druhá verze).\n
