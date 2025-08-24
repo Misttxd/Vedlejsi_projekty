@@ -1,0 +1,1 @@
+Tento adresář obsahuje projekty související s CUDA 2.
