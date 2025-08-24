@@ -1,0 +1,1 @@
+nieco x = x * x
