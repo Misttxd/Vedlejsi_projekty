@@ -1,0 +1,1 @@
+Tento adresář obsahuje projekty a materiály související s programováním v CUDA.
