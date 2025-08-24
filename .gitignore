@@ -1,0 +1,16 @@
+# Zkompilované soubory
+*.exe
+*.o
+*.out
+
+# Nastavení editoru
+.vscode/
+
+# Soubory generované CMake
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Dočasné soubory OS
+.DS_Store
+Thumbs.db
