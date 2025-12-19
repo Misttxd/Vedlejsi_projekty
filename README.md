@@ -27,3 +27,8 @@ Projekty jsou rozděleny do následujících adresářů:
 ### Objektově Orientované Programování (OOP)
 - Sada projektů v C++ demonstrující principy OOP, jako je dědičnost, polymorfismus a abstraktní třídy.
 - Zahrnuje návrhy jednoduchých systémů (banka, škola, fakturace).
+### Algoritmy II (ALG II)
+- Implementace pokročilých algoritmů a datových struktur v C++.
+- Zahrnuje témata jako AVL stromy, grafové algoritmy (Kruskal, DFS/BFS), dynamické programování a lineární algebru.
+- Součástí je i semestrální projekt na analýzu závislostí zdrojových kódů.
+
