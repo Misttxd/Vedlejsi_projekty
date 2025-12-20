@@ -1,0 +1,267 @@
+% --- PDFLATEX PREAMBLE BLOCK ---
+\documentclass[11pt, a4paper]{article}
+
+% Geometrie stránky
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+
+% Kódování a fonty pro pdfLaTeX
+\usepackage[utf8]{inputenc} % Vstupní kódování
+\usepackage[T1]{fontenc}    % Výstupní kódování fontů
+\usepackage[scaled]{helvet} % Načtení fontu Helvetica (klon Arialu)
+\renewcommand{\familydefault}{\sfdefault} % Nastavení bezpatkového písma
+
+% Barvy a grafika
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float} 
+
+% Tabulky
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% Čeština
+\usepackage[czech]{babel}
+
+% Balíčky pro formátování textu
+\usepackage{parskip}       % Pro kontrolu mezer mezi odstavci
+\usepackage{enumitem}
+\setlist[itemize]{label=-, leftmargin=*} 
+
+% Odkazy (musí být poslední)
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+    pdftitle={Databázové systémy I - Projekt},
+    pdfauthor={Andreas Brudovský},
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    citecolor=black
+}
+
+% Vypnutí mezer mezi odstavci a zapnutí odsazení prvního řádku
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1em}
+
+% --- VLASTNÍ PŘÍKAZY ---
+\newcommand{\uppersection}[1]{
+    \subsection*{#1}
+    \vspace{-0.5em}
+}
+
+% Definice sloupce pro tabulky (vycentrovaný X sloupec)
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{document}
+
+% --- TITULNÍ STRANA ---
+\begin{titlepage}
+    \vspace*{5cm} 
+    \centering
+    {\LARGE Projekt do předmětu Databázové systémy I\par}
+    \vspace{0.6cm}
+    {\Huge\bfseries Databáze pro Rytmickou Hru \par}
+    \vspace{0.6cm}
+    {\Large (c) 2025, verze 1.0\par}
+    \vspace{0.6cm}
+    {\Large Andreas Brudovský, BRU0098\par}
+    \vspace{0.6cm}
+    {\Large VŠB -- Technická univerzita Ostrava\par}
+    \vfill
+\end{titlepage}
+
+% --- OBSAH ---
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+% 1. POPIS SYSTÉMU
+% =========================================================================
+\section{Popis systému}
+
+\subsection{Popis}
+Tento projekt se zabývá návrhem databázové vrstvy pro počítačovou rytmickou hru. V této hře uživatelé do rytmu hudby mačkají klávesy, čímž získávají skóre. Mají na výběr z vícero "map" \newline reprezontovaných jako jednotlivé skladby, které mají dále variaci obtížností. Uživatelé mají možnost si oblíbené skladby / mapy ukládát do playlistů. Dále jsou odměňování ve formě úspěchů = achievementů.
+
+\subsection{Rozsah systému}
+Databáze pokrývá následující klíčové oblasti:
+\begin{itemize}
+    \item \textbf{Správa obsahu:} Evidence skladeb (Songs) a jejich herních variant (obtížností).
+    \item \textbf{Hráčská data:} Uživatelé, jejich role a autentizační údaje.
+    \item \textbf{Historie a statistiky:} Záznam každé odehrané hry (Session), včetně detailů jako přesnost a kombo.
+    \item \textbf{Úspěchy:} Systém achievementů, které hráči získávají za splnění podmínek.
+    \item \textbf{Uživatelský obsah:} Tvorba a správa vlastních seznamů skladeb.
+\end{itemize}
+
+\newpage
+
+% =========================================================================
+% 2. DATOVÉ MODELY
+% =========================================================================
+\section{Datové modely}
+
+% 2.1 ERD (Zakomentováno dle tvého souboru)
+%\subsection{Konceptuální datový model (ERD)}
+%\begin{figure}[H]
+%  \centering
+%  \IfFileExists{erd_model.png}{
+%    \includegraphics[width=1\textwidth]{erd_model.png}
+%  }{
+%      \framebox{\parbox{0.9\textwidth}{\centering
+%        \vspace{4cm}
+%        \textbf{ZDE VLOŽTE OBRÁZEK: erd\_model.png} \\
+%        \small (Nahrajte soubor s tímto názvem do projektu v Overleafu)
+%        \vspace{4cm}
+%      }}
+%  }
+%  \caption{Konceptuální datový model}
+%  \label{fig:erd}
+%\end{figure}
+
+% 2.2 Relační model
+\subsection{Relační datový model}
+\begin{figure}[H]
+  \centering
+  \IfFileExists{relacni_model.png}{
+    \includegraphics[width=1\textwidth]{relacni_model.png}
+  }{
+      \framebox{\parbox{0.9\textwidth}{\centering
+        \vspace{6cm}
+        \textbf{ZDE VLOŽTE OBRÁZEK: relacni\_model.png} \\
+        \small (Export z dbdiagram.io)
+        \vspace{6cm}
+      }}
+  }
+  \caption{Relační datový model}
+  \label{fig:relational}
+\end{figure}
+
+\newpage
+
+% 2.3 Popis významu tabulek
+\subsection{Význam záznamů v tabulkách}
+
+Níže je uveden popis toho, co reprezentuje jeden konkrétní záznam v každé navržené tabulce.
+
+% --- ZDE JSME ODSTRANILI CHYBNÝ \begin{description} ---
+
+\subsection{Tabulka Users}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|c|c|X|}
+\hline
+\textbf{Atribut} & \textbf{Dat. typ} & \textbf{Délka} & \textbf{Klíč} & \textbf{Null} & \textbf{Popis} \\ \hline
+user\_id & INT & - & PK & Ne & ID uživatele \\ \hline
+username & VARCHAR & 50 & UQ & Ne & Přihlašovací jméno \\ \hline
+email & VARCHAR & 100 & UQ & Ne & Kontaktní email \\ \hline
+password & VARCHAR & 255 & & Ne & Hash hesla \\ \hline
+role & CHAR & 1 & & Ne & Role (P=Player, A=Admin) \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{Tabulka Songs}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|c|c|X|}
+\hline
+\textbf{Atribut} & \textbf{Dat. typ} & \textbf{Délka} & \textbf{Klíč} & \textbf{Null} & \textbf{Popis} \\ \hline
+song\_id & INT & - & PK & Ne & ID skladby \\ \hline
+title & VARCHAR & 100 & & Ne & Název skladby \\ \hline
+artist & VARCHAR & 100 & & Ne & Interpret / Autor \\ \hline
+bpm & INT & - & & Ano & Rychlost (Beats per min) \\ \hline
+duration\_seconds & INT & - & & Ano & Délka v sekundách \\ \hline
+file\_path & VARCHAR & 255 & & Ano & Cesta k souboru \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{Tabulka Song\_Variants}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|c|c|X|}
+\hline
+\textbf{Atribut} & \textbf{Dat. typ} & \textbf{Délka} & \textbf{Klíč} & \textbf{Null} & \textbf{Popis} \\ \hline
+variant\_id & INT & - & PK & Ne & ID varianty \\ \hline
+song\_id & INT & - & FK & Ne & ID Skladby \\ \hline
+difficulty\_name & VARCHAR & 20 & & Ne & Název obtížnosti (Easy, Medium...) \\ \hline
+note\_count & INT & - & & Ne & Počet not v levelu \\ \hline
+max\_score & INT & - & & Ano & Maximální možné skóre \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{Tabulka Game\_Sessions}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|c|c|X|}
+\hline
+\textbf{Atribut} & \textbf{Dat. typ} & \textbf{Délka} & \textbf{Klíč} & \textbf{Null} & \textbf{Popis} \\ \hline
+session\_id & INT & - & PK & Ne & ID Sessionu \\ \hline
+user\_id & INT & - & FK & Ne & ID Uživatele - kdo hru hrál \\ \hline
+variant\_id & INT & - & FK & Ne & Co hrál (obtížnost) \\ \hline
+score & INT & - & & Ne & Dosažené skóre \\ \hline
+accuracy & DEC & 5,2 & & Ano & Přesnost v \% \\ \hline
+max\_combo & INT & - & & Ano & Nejvyšší kombo \\ \hline
+is\_full\_combo & BIT & - & & Ano & Vše trefeno (0/1) \\ \hline
+played\_at & DATETIME & - & & Ne & Čas odehrání (default na now()) \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{Tabulka Achievements}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|c|c|X|}
+\hline
+\textbf{Atribut} & \textbf{Dat. typ} & \textbf{Délka} & \textbf{Klíč} & \textbf{Null} & \textbf{Popis} \\ \hline
+achievement\_id & INT & - & PK & Ne & ID achievementu \\ \hline
+title & VARCHAR & 50 & & Ne & Název úspěchu \\ \hline
+description & VARCHAR & MAX & & Ano & Popis podmínky \\ \hline
+required\_points & INT & - & & Ano & Body nutné k získání \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{Tabulka User\_Achievements}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|c|c|X|}
+\hline
+\textbf{Atribut} & \textbf{Dat. typ} & \textbf{Délka} & \textbf{Klíč} & \textbf{Null} & \textbf{Popis} \\ \hline
+id & INT & - & PK & Ne & Technické ID záznamu \\ \hline
+user\_id & INT & - & FK & Ne & ID Uživatele \\ \hline
+achievement\_id & INT & - & FK & Ne & ID Úspěchu \\ \hline
+earned\_at & DATETIME & - & & Ano & Datum získání \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{Tabulka Playlists}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|c|c|X|}
+\hline
+\textbf{Atribut} & \textbf{Dat. typ} & \textbf{Délka} & \textbf{Klíč} & \textbf{Null} & \textbf{Popis} \\ \hline
+playlist\_id & INT & - & PK & Ne & ID playlistu \\ \hline
+user\_id & INT & - & FK & Ne & Vlastník playlistu \\ \hline
+name & VARCHAR & 50 & & Ne & Název playlistu \\ \hline
+is\_public & BIT & - & & Ano & Veřejný (0/1) \\ \hline
+\end{tabularx}
+\end{table}
+
+\subsection{Tabulka Playlist\_Items}
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|l|l|c|c|c|X|}
+\hline
+\textbf{Atribut} & \textbf{Dat. typ} & \textbf{Délka} & \textbf{Klíč} & \textbf{Null} & \textbf{Popis} \\ \hline
+playlist\_id & INT & - & FK & Ne & ID playlistu \\ \hline
+song\_id & INT & - & FK & Ne & ID Skladby \\ \hline
+\end{tabularx}
+\end{table}
+
+\end{document}

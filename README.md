@@ -14,6 +14,11 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 - **Grafové algoritmy**: Kruskalův algoritmus (MST), Žárliví manželé (BFS), Analýza závislostí (DFS).
 - **Ostatní**: Radix sort, Sběr mincí (Dynamické programování), Lights Out (Lineární algebra), Simplex, Binární vyhledávání.
 
+
+### Databázové Systémy I (DS I)
+- **Projekt**: Kompletní SQL skripty (DDL, DML) a LaTeX dokumentace pro databázi rytmické hry.
+- **SQL Cvičení**: Sada vyřešených SQL dotazů zaměřených na analýzu dat z vědecké databáze.
+
 ### Assembler (ASM)
 - Implementace základních algoritmů a práce s pamětí v NASM ve spojení s jazykem C.
 
@@ -35,3 +40,4 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 ### Objektově Orientované Programování (OOP)
 - Sada projektů v C++ demonstrující principy OOP, jako je dědičnost, polymorfismus a abstraktní třídy.
 - Zahrnuje návrhy jednoduchých systémů (banka, škola, fakturace).
+
