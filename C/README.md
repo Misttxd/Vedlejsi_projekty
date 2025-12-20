@@ -10,7 +10,7 @@ Sbírka projektů demonstrujících klíčové koncepty procedurálního program
 
 ### Paměť a Ukazatele
 - **Ukazatele**: Práce s adresami, aritmetika ukazatelů.
-- **Dynamická alokace paměti**: Správa paměti na haldě (malloc, free).
+- **Dynamická alokace paměti**: Správa paměti na haldě.
 
 ### Strukturovaná Data
 - **Struktury**: Definice vlastních datových typů.
