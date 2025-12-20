@@ -1,10 +1,18 @@
-# Vedlejší Projekty
+﻿# Vedlejší Projekty
 
 Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různých oblastí programování. Slouží jako přehled technologií a jazyků, kterým jsem se věnoval.
 
 ## Přehled Projektů
 
-Projekty jsou rozděleny do následujících adresářů:
+### Algoritmy I (ALG I)
+- **Slévání Seřazených Seznamů**: Projekt v C++ pro efektivní slévání k seřazených seznamů do jednoho výsledného souboru.
+- Obsahuje implementaci v C++ a pomocný Python skript pro generování dat.
+
+### Algoritmy II (ALG II)
+- Implementace pokročilých algoritmů a datových struktur v C++.
+- **Datové struktury**: AVL stromy, Binární halda (Heap).
+- **Grafové algoritmy**: Kruskalův algoritmus (MST), Žárliví manželé (BFS), Analýza závislostí (DFS).
+- **Ostatní**: Radix sort, Sběr mincí (Dynamické programování), Lights Out (Lineární algebra), Simplex, Binární vyhledávání.
 
 ### Assembler (ASM)
 - Implementace základních algoritmů a práce s pamětí v NASM ve spojení s jazykem C.
@@ -27,8 +35,3 @@ Projekty jsou rozděleny do následujících adresářů:
 ### Objektově Orientované Programování (OOP)
 - Sada projektů v C++ demonstrující principy OOP, jako je dědičnost, polymorfismus a abstraktní třídy.
 - Zahrnuje návrhy jednoduchých systémů (banka, škola, fakturace).
-### Algoritmy II (ALG II)
-- Implementace pokročilých algoritmů a datových struktur v C++.
-- Zahrnuje témata jako AVL stromy, grafové algoritmy (Kruskal, DFS/BFS), dynamické programování a lineární algebru.
-- Součástí je i semestrální projekt na analýzu závislostí zdrojových kódů.
-
