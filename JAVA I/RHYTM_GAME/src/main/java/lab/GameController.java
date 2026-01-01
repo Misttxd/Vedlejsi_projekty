@@ -188,6 +188,15 @@ public class GameController {
         togglePause();
     }
 
+    @FXML
+    public void onSettingsClicked(ActionEvent event) {
+        try {
+            app.switchToSettingsFromGame(this, currentMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void stop() {
         if (timer != null) {
             timer.stop();

@@ -59,7 +59,7 @@
             </HBox>
          </bottom>
       </BorderPane>
-      <VBox fx:id="pauseMenu" alignment="CENTER" maxWidth="300.0" prefHeight="200.0" spacing="20.0" style="-fx-background-color: rgba(0,0,0,0.8); -fx-background-radius: 20;" visible="false">
+      <VBox fx:id="pauseMenu" alignment="CENTER" maxWidth="300.0" prefHeight="250.0" spacing="15.0" style="-fx-background-color: rgba(0,0,0,0.8); -fx-background-radius: 20;" visible="false">
          <children>
             <Label text="PAUZA" textFill="WHITE">
                <font>
@@ -69,6 +69,11 @@
             <Button mnemonicParsing="false" onAction="#onResumeClicked" prefWidth="200.0" text="POKRAČOVAT">
                <font>
                   <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onSettingsClicked" prefWidth="200.0" text="NASTAVENÍ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Button>
             <Button mnemonicParsing="false" onAction="#onMenuClicked" prefWidth="200.0" text="ZPĚT DO MENU">

@@ -89,6 +89,33 @@ public class App extends Application {
         primaryStage.setScene(scene);
     }
 
+    public void switchToSettingsFromGame(GameController pausedGameController, MapInfo currentMap) throws IOException {
+        FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/lab/settings.fxml"));
+        Parent root = settingsLoader.load();
+
+        SettingsController settingsController = settingsLoader.getController();
+        settingsController.setApp(this);
+        settingsController.setReturnToGame(pausedGameController, currentMap);
+
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+    }
+
+    public void resumeGame(GameController pausedGameController, MapInfo map) throws IOException {
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/lab/gameWindow.fxml"));
+        Parent root = gameLoader.load();
+
+        gameController = gameLoader.getController();
+        gameController.setApp(this);
+        gameController.startGame(map);
+
+        Scene scene = new Scene(root);
+        scene.setOnKeyPressed(event -> gameController.handleKeyPress(event.getCode()));
+        scene.setOnKeyReleased(event -> gameController.handleKeyRelease(event.getCode()));
+
+        primaryStage.setScene(scene);
+    }
+
     @Override
     public void stop() throws Exception {
         if (gameController != null) {

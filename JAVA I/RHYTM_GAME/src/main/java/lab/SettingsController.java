@@ -3,6 +3,7 @@ package lab;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import lab.map.MapInfo;
 
 /**
  * Controller pro obrazovku nastavení.
@@ -10,6 +11,7 @@ import javafx.scene.control.Slider;
 public class SettingsController {
     
     private App app;
+    private MapInfo returnToGameMap = null;
     
     @FXML
     private Slider musicVolumeSlider;
@@ -59,6 +61,13 @@ public class SettingsController {
     public void setApp(App app) {
         this.app = app;
     }
+
+    /**
+     * Nastaví návrat do hry místo do menu.
+     */
+    public void setReturnToGame(GameController pausedController, MapInfo map) {
+        this.returnToGameMap = map;
+    }
     
     @FXML
     void onSaveClicked() {
@@ -67,17 +76,22 @@ public class SettingsController {
         settings.setSfxVolume(sfxVolumeSlider.getValue() / 100.0);
         settings.setNoteOffsetMs((int) noteOffsetSlider.getValue());
         
-        try {
-            app.switchToMenu();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        navigateBack();
     }
     
     @FXML
     void onBackClicked() {
+        navigateBack();
+    }
+
+    private void navigateBack() {
         try {
-            app.switchToMenu();
+            if (returnToGameMap != null) {
+                // Návrat do hry - spustí hru znovu s novou hlasitostí
+                app.switchToGame(returnToGameMap);
+            } else {
+                app.switchToMenu();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
