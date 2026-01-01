@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab.SettingsController">
+   <top>
+      <Label text="Nastavení" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </Label>
+   </top>
+   <center>
+      <VBox alignment="CENTER" spacing="25.0" BorderPane.alignment="CENTER">
+         <children>
+            <!-- Hlasitost hudby -->
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Hlasitost hudby">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Slider fx:id="musicVolumeSlider" max="100.0" min="0.0" prefWidth="300.0" value="100.0" />
+                        <Label fx:id="musicVolumeLabel" text="100%" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            
+            <!-- Hlasitost zvukových efektů -->
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Hlasitost efektů">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Slider fx:id="sfxVolumeSlider" max="100.0" min="0.0" prefWidth="300.0" value="100.0" />
+                        <Label fx:id="sfxVolumeLabel" text="100%" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            
+            <!-- Note Offset -->
+            <VBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Offset not (latence)">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Slider fx:id="noteOffsetSlider" max="200.0" min="-200.0" prefWidth="300.0" value="0.0" />
+                        <Label fx:id="noteOffsetLabel" text="0 ms" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onSaveClicked" text="Uložit">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onBackClicked" text="Zpět">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </HBox>
+   </bottom>
+</BorderPane>

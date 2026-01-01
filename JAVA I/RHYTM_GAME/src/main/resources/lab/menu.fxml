@@ -87,11 +87,16 @@
       </SplitPane>
    </center>
    <bottom>
-      <HBox alignment="CENTER" prefHeight="60.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="60.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="playButton" mnemonicParsing="false" onAction="#onPlayClicked" text="HRÁT VYBRANOU OBTÍŽNOST">
                <font>
                   <Font name="System Bold" size="18.0" />
+               </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onSettingsClicked" text="NASTAVENÍ">
+               <font>
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Button>
          </children>

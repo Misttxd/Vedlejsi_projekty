@@ -73,11 +73,7 @@ public class Level {
             return 0;
         };
 
-        List<DrawableSimulable> deco = Stream.<DrawableSimulable>generate(() -> new DrawableSimulable() {
-            @Override public void draw(GraphicsContext gc) {}
-            @Override public void simulate(double deltaT) {}
-        }).limit(0).toList();
-        entities.addAll(deco);
+
     }
 
     public void addPartialScore(double amount) {
@@ -141,18 +137,9 @@ public class Level {
 
         double laneWidth = dimension.getWidth() / lanecount;
 
-        // Barvy pro jednotlivé dráhy (stejné jako v Note.java)
-        Color[] laneColors = {
-            Color.rgb(0, 200, 83),    // Zelená - S
-            Color.rgb(255, 64, 129),   // Růžová - D
-            Color.rgb(41, 121, 255),   // Modrá - J
-            Color.rgb(255, 193, 7),    // Žlutá - K
-            Color.rgb(156, 39, 176)    // Fialová - L
-        };
-
         for (int i = 0; i < lanecount; i++) {
             double x = i * laneWidth;
-            Color baseColor = laneColors[i % laneColors.length];
+            Color baseColor = LaneColors.getColor(i);
 
             if (lanePressed[i] == 1) {
                 // Úspěšný zásah - jasná barva dráhy

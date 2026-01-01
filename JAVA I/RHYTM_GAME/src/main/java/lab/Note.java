@@ -12,13 +12,7 @@ public class Note extends WorldEntity implements Collisionable {
     private double noteWidth;
     private static final double NOTE_HEIGHT = 40;
 
-    private static final Color[] LANE_COLORS = {
-        Color.rgb(0, 200, 83),
-        Color.rgb(255, 64, 129),
-        Color.rgb(41, 121, 255),
-        Color.rgb(255, 193, 7),
-        Color.rgb(156, 39, 176)
-    };
+
 
     private double length;
     private boolean isBeingHeld = false;
@@ -35,7 +29,7 @@ public class Note extends WorldEntity implements Collisionable {
         this.lane = lane;
         this.speed = 200;
         this.length = length;
-        this.laneColor = LANE_COLORS[lane % LANE_COLORS.length];
+        this.laneColor = LaneColors.getColor(lane);
 
         double laneWidth = level.getWidth() / level.getLanecount();
         this.noteWidth = laneWidth;

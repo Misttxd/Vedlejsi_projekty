@@ -195,8 +195,7 @@ public class MapRepository {
         }
     }
 
-    public static void save(List<MapInfo> maps) throws MapException {
-    }
+
 
     private static org.h2.tools.Server server;
 

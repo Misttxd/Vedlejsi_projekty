@@ -78,6 +78,17 @@ public class App extends Application {
         switchToMenu();
     }
 
+    public void switchToSettings() throws IOException {
+        FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/lab/settings.fxml"));
+        Parent root = settingsLoader.load();
+
+        SettingsController settingsController = settingsLoader.getController();
+        settingsController.setApp(this);
+
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
+    }
+
     @Override
     public void stop() throws Exception {
         if (gameController != null) {

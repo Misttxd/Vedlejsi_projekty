@@ -88,12 +88,10 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
-@joedatlive
-joedatlive commented on Mar 25, 2020
-
-How about the work space files for VSCode?
 *.code-workspace
-@alvhix
-alvhix commented on Apr 29, 2020
 
-Thank you very much!
+##############################
+## H2 Database
+##############################
+*.mv.db
+*.trace.db

@@ -106,4 +106,14 @@ public class MenuController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    void onSettingsClicked(ActionEvent event) {
+        try {
+            app.switchToSettings();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Chyba", "Nepodařilo se otevřít nastavení: " + e.getMessage());
+        }
+    }
 }
