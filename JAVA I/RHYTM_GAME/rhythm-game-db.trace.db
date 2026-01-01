@@ -1,0 +1,44 @@
+2026-01-01 21:26:38.322189+01:00 database: flush
+org.h2.message.DbException: Obecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Andreas/Documents/JAVA I/DU cv2/RHYTM_GAME/rhythm-game-db.mv.db [2.4.240/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Andreas/Documents/JAVA I/DU cv2/RHYTM_GAME/rhythm-game-db.mv.db [2.4.240/7]" [50000-240]
+	at com.h2database@2.4.240/org.h2.message.DbException.get(DbException.java:212)
+	at com.h2database@2.4.240/org.h2.message.DbException.convert(DbException.java:407)
+	at com.h2database@2.4.240/org.h2.mvstore.db.Store.lambda$new$0(Store.java:122)
+	at com.h2database@2.4.240/org.h2.mvstore.MVStore.handleException(MVStore.java:1675)
+	at com.h2database@2.4.240/org.h2.mvstore.MVStore.panic(MVStore.java:502)
+	at com.h2database@2.4.240/org.h2.mvstore.MVStore.<init>(MVStore.java:296)
+	at com.h2database@2.4.240/org.h2.mvstore.MVStore$Builder.open(MVStore.java:2164)
+	at com.h2database@2.4.240/org.h2.mvstore.db.Store.<init>(Store.java:133)
+	at com.h2database@2.4.240/org.h2.engine.Database.<init>(Database.java:328)
+	at com.h2database@2.4.240/org.h2.engine.Engine.openSession(Engine.java:92)
+	at com.h2database@2.4.240/org.h2.engine.Engine.openSession(Engine.java:222)
+	at com.h2database@2.4.240/org.h2.engine.Engine.createSession(Engine.java:201)
+	at com.h2database@2.4.240/org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:350)
+	at com.h2database@2.4.240/org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:124)
+	at com.h2database@2.4.240/org.h2.Driver.connect(Driver.java:59)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:613)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:222)
+	at lab01/lab.map.MapRepository.getConnection(MapRepository.java:21)
+	at lab01/lab.map.MapRepository.init(MapRepository.java:31)
+	at lab01/lab.App.start(App.java:28)
+	at javafx.graphics@23/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(LauncherImpl.java:839)
+	at javafx.graphics@23/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$12(PlatformImpl.java:483)
+	at javafx.graphics@23/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:138)
+	at javafx.graphics@23/com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at javafx.graphics@23/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at javafx.graphics@23/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@23/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:184)
+	at java.base/java.lang.Thread.run(Thread.java:1474)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Obecná chyba: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Andreas/Documents/JAVA I/DU cv2/RHYTM_GAME/rhythm-game-db.mv.db [2.4.240/7]"
+General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Andreas/Documents/JAVA I/DU cv2/RHYTM_GAME/rhythm-game-db.mv.db [2.4.240/7]" [50000-240]
+	at com.h2database@2.4.240/org.h2.message.DbException.getJdbcSQLException(DbException.java:566)
+	at com.h2database@2.4.240/org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	... 29 more
+Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/Andreas/Documents/JAVA I/DU cv2/RHYTM_GAME/rhythm-game-db.mv.db [2.4.240/7]
+	at com.h2database@2.4.240/org.h2.mvstore.DataUtils.newMVStoreException(DataUtils.java:996)
+	at com.h2database@2.4.240/org.h2.mvstore.SingleFileStore.lockFileChannel(SingleFileStore.java:143)
+	at com.h2database@2.4.240/org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:117)
+	at com.h2database@2.4.240/org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
+	at com.h2database@2.4.240/org.h2.mvstore.MVStore.<init>(MVStore.java:291)
+	... 23 more

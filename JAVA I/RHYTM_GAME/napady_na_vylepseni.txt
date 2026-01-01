@@ -1,0 +1,45 @@
+# Nápady na budoucí vylepšení Rytmické Hry
+
+Tento dokument slouží jako zásobník nápadů pro budoucí úpravy a rozšiřování hry, až bude hotový základní systém.
+
+---
+
+### 1. Pokročilý systém hodnocení zásahu (Scoring System)
+
+- **Přesnost zásahu:** Místo jednoduchého "Trefa/Minul", zavést více úrovní přesnosti.
+  - **Mechanika:** Zjistit, jak velká část noty se překrývá s "hit zónou" v momentě stisku, nebo jak blízko je střed noty ke středu "hit zóny".
+  - **Hodnocení:**
+    - **Perfect (1 bod):** Nota je téměř dokonale v zóně.
+    - **Good (0.5 bodu):** Nota je v zóně jen částečně (na začátku nebo na konci).
+    - **Miss (0 bodů):** Nota je mimo zónu.
+
+- **Analýza hráče:**
+  - **Průměrná odchylka:** Počítat průměrnou odchylku hráče od ideálního středu zásahu (jestli mačká spíše dříve nebo později).
+  - **Zobrazení:** Tuto statistiku zobrazit na konci písničky jako "Průměrná přesnost: -15ms" (příliš brzy) nebo "+20ms" (příliš pozdě).
+
+---
+
+### 2. Systém obtížnosti
+
+- **Vytvořit `enum Difficult`:** Podobně jako v referenčním projektu, vytvořit `enum` pro různé obtížnosti (např. `EASY`, `MEDIUM`, `HARD`, `EXPERT`).
+
+- **Vliv obtížnosti na hru:**
+  - **Velikost "Hit zóny":**
+    - `EASY`: Velká a benevolentní hit zóna.
+    - `HARD`: Velmi úzká hit zóna vyžadující přesné načasování.
+  - **Počet a rychlost not:**
+    - `EASY`: Málo not, padají pomalu.
+    - `HARD`: Hodně not, padají rychle, složitější sekvence.
+  - **Počet drah:**
+    - `EASY`/`MEDIUM`/`HARD`: 4 dráhy (S, D, J, K).
+    - `EXPERT` (nebo speciální mód): 5 drah (přidá se např. mezerník nebo klávesa uprostřed).
+
+---
+
+### 3. Další nápady
+
+- **Kombo systém:** Vizuálně zobrazovat aktuální kombo (počet trefených not v řadě). Při vyšším kombu může hráč dostávat více bodů za notu (násobič skóre).
+- **Držené noty (Long Notes):** Implementovat noty, které je potřeba držet po určitou dobu.
+- **Vizuální efekty:** Přidat efekty při trefení noty (záblesk, částicový efekt).
+- **Výběr písniček:** Vytvořit menu, kde si hráč může vybrat, kterou "písničku" (sekvenci not) chce hrát.
+
