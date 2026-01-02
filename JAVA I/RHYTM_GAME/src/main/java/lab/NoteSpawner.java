@@ -27,15 +27,47 @@ public class NoteSpawner implements DrawableSimulable {
     public void simulate(double deltaT) {
         long now = System.currentTimeMillis();
         if (nextNoteTime < now) {
-            int randomLane = RANDOM.nextInt(level.getLanecount());
-            if (RANDOM.nextDouble() < 0.2) {
-                lastNoteLength = RANDOM.nextDouble(150, 400);
-                level.add(new Note(level, randomLane, lastNoteLength));
-            } else {
-                lastNoteLength = 0;
-                level.add(new Note(level, randomLane));
+            lastNoteLength = 0;
+            
+            // Seznam volných drah
+            java.util.List<Integer> availableLanes = new java.util.ArrayList<>();
+            for (int i = 0; i < level.getLanecount(); i++) {
+                availableLanes.add(i);
             }
+            
+            // Vždy spawneme alespoň jednu notu
+            int firstLaneIndex = RANDOM.nextInt(availableLanes.size());
+            int firstLane = availableLanes.remove(firstLaneIndex);
+            spawnNote(firstLane);
+            
+            // 8% šance na druhou notu
+            if (!availableLanes.isEmpty() && RANDOM.nextDouble() < 0.08) {
+                int secondLaneIndex = RANDOM.nextInt(availableLanes.size());
+                int secondLane = availableLanes.remove(secondLaneIndex);
+                spawnNote(secondLane);
+                
+                // 10% šance na třetí a každou další
+                while (!availableLanes.isEmpty() && RANDOM.nextDouble() < 0.10) {
+                    int nextLaneIndex = RANDOM.nextInt(availableLanes.size());
+                    int nextLane = availableLanes.remove(nextLaneIndex);
+                    spawnNote(nextLane);
+                }
+            }
+            
             scheduleNextSpawn();
+        }
+    }
+    
+    private void spawnNote(int lane) {
+        // 20% šance na dlouhou notu
+        if (RANDOM.nextDouble() < 0.2) {
+            double noteLength = RANDOM.nextDouble(150, 400);
+            if (noteLength > lastNoteLength) {
+                lastNoteLength = noteLength;
+            }
+            level.add(new Note(level, lane, noteLength));
+        } else {
+            level.add(new Note(level, lane));
         }
     }
 

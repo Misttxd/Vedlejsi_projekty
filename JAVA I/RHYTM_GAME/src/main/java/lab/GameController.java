@@ -1,5 +1,6 @@
 package lab;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -10,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import lab.map.MapInfo;
 
 import java.util.HashSet;
@@ -39,7 +41,14 @@ public class GameController {
     @FXML
     private VBox pauseMenu;
 
+    @FXML
+    private ProgressBar songProgressBar;
+
+    @FXML
+    private Label songTimeLabel;
+
     private boolean isPaused = false;
+    private AnimationTimer progressTimer;
 
 
     @FXML
@@ -82,15 +91,28 @@ public class GameController {
             }
 
             @Override
-            public void onComboChanged(int newCombo) {
-                int multiplier = (newCombo / 10) + 1;
-                // Zobrazí combo i multiplier pro debugging
-                comboLabel.setText(String.format("%d (%dx)", newCombo, multiplier));
+            public void onComboChanged(int newCombo, int multiplier, boolean overdriveActive) {
+                // Při overdrive je multiplier 2x a barva oranžová
+                int displayMultiplier = overdriveActive ? multiplier * 2 : multiplier;
+                comboLabel.setText(String.format("%d (%dx)", newCombo, displayMultiplier));
+                
+                if (overdriveActive) {
+                    comboLabel.setTextFill(javafx.scene.paint.Color.ORANGE);
+                } else {
+                    comboLabel.setTextFill(javafx.scene.paint.Color.CYAN);
+                }
             }
 
             @Override
-            public void onOverdriveChanged(double newProgress) {
+            public void onOverdriveChanged(double newProgress, boolean overdriveActive) {
                 overdriveBar.setProgress(newProgress);
+                
+                // Změna barvy combo labelu při změně overdrive stavu
+                if (overdriveActive) {
+                    comboLabel.setTextFill(javafx.scene.paint.Color.ORANGE);
+                } else {
+                    comboLabel.setTextFill(javafx.scene.paint.Color.CYAN);
+                }
             }
 
             @Override
@@ -127,7 +149,36 @@ public class GameController {
                 });
             }
         });
+        
+        // Timer pro aktualizaci progress baru
+        progressTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updateSongProgress();
+            }
+        };
+        progressTimer.start();
+        
         timer.start();
+    }
+
+    private void updateSongProgress() {
+        if (mediaPlayer != null && songProgressBar != null) {
+            Duration current = mediaPlayer.getCurrentTime();
+            Duration total = mediaPlayer.getTotalDuration();
+            
+            if (total != null && total.toSeconds() > 0) {
+                double progress = current.toSeconds() / total.toSeconds();
+                songProgressBar.setProgress(progress);
+                
+                // Formát času jako M:SS
+                int currentSec = (int) current.toSeconds();
+                int totalSec = (int) total.toSeconds();
+                songTimeLabel.setText(String.format("%d:%02d / %d:%02d", 
+                    currentSec / 60, currentSec % 60,
+                    totalSec / 60, totalSec % 60));
+            }
+        }
     }
 
     public void handleKeyPress(KeyCode code) {
@@ -200,6 +251,10 @@ public class GameController {
     public void stop() {
         if (timer != null) {
             timer.stop();
+        }
+        
+        if (progressTimer != null) {
+            progressTimer.stop();
         }
 
         if (mediaPlayer != null) {

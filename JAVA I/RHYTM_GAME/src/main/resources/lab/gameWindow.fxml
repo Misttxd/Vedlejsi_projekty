@@ -13,52 +13,91 @@
 
 <StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab.GameController">
    <children>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="824.0">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="1000.0">
          <center>
-            <Canvas fx:id="canvas" height="400.0" width="824.0" BorderPane.alignment="CENTER" />
+            <Canvas fx:id="canvas" height="500.0" width="800.0" BorderPane.alignment="CENTER" />
          </center>
-         <bottom>
-            <HBox alignment="CENTER_LEFT" prefHeight="40.0" spacing="10.0" style="-fx-background-color: #333333;">
+         <right>
+            <!-- Pravý boční panel se statistikami -->
+            <VBox alignment="TOP_CENTER" prefWidth="200.0" spacing="15.0" style="-fx-background-color: #2a2a2a;">
                <padding>
-                  <Insets left="10.0" right="10.0" />
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
                <children>
-                  <Label text="Skóre:" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="scoreLabel" text="000000" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label text="Combo:" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="comboLabel" text="0" textFill="CYAN">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Label text="Overdrive:" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </Label>
-                  <ProgressBar fx:id="overdriveBar" prefWidth="200.0" progress="0.0" />
+                  <!-- Skóre -->
+                  <VBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Label text="SKÓRE" textFill="#888888">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="scoreLabel" text="0" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="28.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  
+                  <!-- Combo -->
+                  <VBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Label text="COMBO" textFill="#888888">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="comboLabel" text="0" textFill="CYAN">
+                           <font>
+                              <Font name="System Bold" size="32.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  
+                  <!-- Overdrive -->
+                  <VBox alignment="CENTER" spacing="5.0">
+                     <children>
+                        <Label text="OVERDRIVE" textFill="#888888">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <ProgressBar fx:id="overdriveBar" prefWidth="170.0" prefHeight="20.0" progress="0.0" style="-fx-accent: #ff6600;" />
+                        <Label text="(SPACE)" textFill="#555555">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  
+                  <!-- Postup v písničce -->
+                  <VBox alignment="CENTER" spacing="5.0">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="POSTUP" textFill="#888888">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <ProgressBar fx:id="songProgressBar" prefWidth="170.0" prefHeight="15.0" progress="0.0" style="-fx-accent: #00cc66;" />
+                        <Label fx:id="songTimeLabel" text="0:00 / 0:00" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
-            </HBox>
-         </bottom>
+            </VBox>
+         </right>
       </BorderPane>
+      
+      <!-- Pause menu overlay -->
       <VBox fx:id="pauseMenu" alignment="CENTER" maxWidth="300.0" prefHeight="250.0" spacing="15.0" style="-fx-background-color: rgba(0,0,0,0.8); -fx-background-radius: 20;" visible="false">
          <children>
             <Label text="PAUZA" textFill="WHITE">

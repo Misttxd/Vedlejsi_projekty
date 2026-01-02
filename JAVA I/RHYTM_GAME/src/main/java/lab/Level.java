@@ -82,7 +82,7 @@ public class Level {
         if (overdriveActive) {
             overdriveFactor = 2;
         }
-        
+
         scoreAccumulator += amount * comboMultiplier * overdriveFactor;
         if (scoreAccumulator >= 1) {
             score += (int) scoreAccumulator;
@@ -190,6 +190,8 @@ public class Level {
             if(overdrive <= 0) {
                 overdriveActive = false;
                 overdrive = 0;
+                fireOverdriveChanged();
+                fireComboChanged(combo);  // Okamžitě aktualizovat UI - vrátit normální barvu a multiplier
             }
         }
     }
@@ -215,7 +217,7 @@ public class Level {
             .filter(e -> e instanceof Note)
             .map(e -> (Note) e)
             .anyMatch(n -> n.getLane() == lane && n.isBeingHeld());
-        
+
         if (alreadyHolding) {
             return;
         }
@@ -249,7 +251,19 @@ public class Level {
                 note.deactivate();
             }
 
-            int comboMultiplier = Math.min((combo / 10) + 1, 5);
+            int comboMultiplier = 1;
+            if(combo <= 9){
+                comboMultiplier = 1;
+            }
+            else if(combo > 9 && combo <= 19){
+                comboMultiplier = 2;
+            }
+            else if(combo > 19 && combo <= 29){
+                comboMultiplier = 3;
+            }
+            else if(combo > 29 && combo <= 39){
+                comboMultiplier = 4;
+            }
             int overdriveFactor = overdriveActive ? 2 : 1;
             score += comboMultiplier * overdriveFactor * qualityMultiplier;
             fireScoreChanged();
@@ -298,7 +312,7 @@ public class Level {
 
     private void fireOverdriveChanged() {
         for (GameEventListener listener : listeners) {
-            listener.onOverdriveChanged(overdrive);
+            listener.onOverdriveChanged(overdrive, overdriveActive);
         }
     }
 
@@ -318,15 +332,28 @@ public class Level {
     }
 
     private void fireComboChanged(int newCombo) {
+        // Výpočet combo multiplikátoru (max 4x)
+        int comboMultiplier = 1;
+        if (newCombo <= 9) {
+            comboMultiplier = 1;
+        } else if (newCombo <= 19) {
+            comboMultiplier = 2;
+        } else if (newCombo <= 29) {
+            comboMultiplier = 3;
+        } else {
+            comboMultiplier = 4;
+        }
+        
         for (GameEventListener listener : listeners) {
-            listener.onComboChanged(newCombo);
+            listener.onComboChanged(newCombo, comboMultiplier, overdriveActive);
         }
     }
 
     public void activateOverdrive() {
         if (overdrive > 0.5) {
             overdriveActive = true;
+            fireOverdriveChanged();
+            fireComboChanged(combo);  // Okamžitě aktualizovat UI
         }
-
     }
 }

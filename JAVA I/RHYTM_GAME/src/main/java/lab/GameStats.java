@@ -59,12 +59,24 @@ public class GameStats {
      */
     public String getRank() {
         double accuracy = getAccuracy();
-        if (accuracy >= 95) return "S";
-        if (accuracy >= 90) return "A";
-        if (accuracy >= 80) return "B";
-        if (accuracy >= 70) return "C";
-        if (accuracy >= 60) return "D";
-        return "F";
+        if (accuracy >= 95) {            
+            return "S";
+        }
+        if (accuracy >= 90) {            
+            return "A";
+        }
+        if (accuracy >= 80){                
+            return "B";
+        }
+        if (accuracy >= 70){
+            return "C";
+        }
+        if (accuracy >= 60){       
+            return "D";
+        }
+        else{
+            return "F";
+        }
     }
 
     @Override
