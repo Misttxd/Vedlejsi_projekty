@@ -14,8 +14,6 @@ import java.util.List;
 
 import java.util.Comparator;
 import java.util.Optional;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Level {
 
@@ -62,7 +60,7 @@ public class Level {
         this.mediaPlayer = mediaPlayer;
         this.lanePressed = new int[lanecount];
 
-        this.noteSpawner = new NoteSpawner(this, map);
+        this.noteSpawner = new NoteSpawner(this, map, mediaPlayer);
         entities.add(noteSpawner);
 
         noteSorter = (o1,o2) -> {
@@ -107,19 +105,23 @@ public class Level {
 
         if (releaseNote.isPresent()) {
             Note note = releaseNote.get();
-            double arrowY = note.getBottomY() + 60 + 12; // Mezera (60) + střed šipky (12)
-            if (arrowY >= hitZone.getMinY() && arrowY <= hitZone.getMaxY()) {
+            double arrowY = note.getHeadY() - 40 - 10; // Šipka NAD notou: gap (40) + střed šipky (10)
+            double toleranceUp = 30; // Rezerva směrem nahoru
+            if (arrowY >= hitZone.getMinY() - toleranceUp && arrowY <= hitZone.getMaxY()) {
                 add(new HitEffect(this, note.getPosition(), "RELEASE!", Color.MAGENTA, 0.5));
-                
+
                 int comboMultiplier = Math.min((combo / 10) + 1, 4);
-                int overdriveFactor = overdriveActive ? 2 : 1;
+                int overdriveFactor = 1;
+                if (overdriveActive) {
+                    overdriveFactor = 2;
+                }
                 score += 2 * comboMultiplier * overdriveFactor;
                 fireScoreChanged();
-                
+
                 combo++;
                 if (combo > maxCombo) maxCombo = combo;
                 fireComboChanged(combo);
-                
+
                 perfectCount++;
             } else {
                 add(new HitEffect(this, note.getPosition(), "MISS", Color.RED, 0.5));
@@ -136,7 +138,7 @@ public class Level {
             .map(e -> (Note) e)
             .filter(n -> n.getLane() == lane && n.isBeingHeld())
             .findFirst();
-            
+
         if (heldNote.isPresent()) {
             Note note = heldNote.get();
             note.setBeingHeld(false);
@@ -185,21 +187,25 @@ public class Level {
             gc.fillRect(x, hitZone.getMinY(), laneWidth, hitZone.getHeight());
 
             // Okraj hit zóny
-            gc.setStroke(baseColor.darker());
+            gc.setStroke(Color.BLACK);
             gc.setLineWidth(2);
             gc.strokeRect(x, hitZone.getMinY(), laneWidth, hitZone.getHeight());
         }
 
-        IntStream.range(0, lanecount + 1).forEach(i -> {
+        for (int i = 0; i <= lanecount; i++) {
             double x = i * laneWidth;
             gc.strokeLine(x, 0, x, dimension.getHeight());
-        });
+        }
 
-        entities.forEach(entity -> entity.draw(gc));
+        for (DrawableSimulable entity : entities) {
+            entity.draw(gc);
+        }
     }
 
     public void simulate(double delay) {
-        entities.forEach(entity -> entity.simulate(delay));
+        for (DrawableSimulable entity : entities) {
+            entity.simulate(delay);
+        }
 
         entities.addAll(entitiesToAdd);
         entities.removeAll(entitiesToRemove);
@@ -303,7 +309,10 @@ public class Level {
             else if(combo > 29 && combo <= 39){
                 comboMultiplier = 4;
             }
-            int overdriveFactor = overdriveActive ? 2 : 1;
+            int overdriveFactor = 1;
+            if (overdriveActive) {
+                overdriveFactor = 2;
+            }
             score += comboMultiplier * overdriveFactor * qualityMultiplier;
             fireScoreChanged();
 
@@ -332,7 +341,10 @@ public class Level {
 
     public void longNoteCompleted() {
         int comboMultiplier = Math.min((combo / 10) + 1, 5);
-        int overdriveFactor = overdriveActive ? 2 : 1;
+        int overdriveFactor = 1;
+        if (overdriveActive) {
+            overdriveFactor = 2;
+        }
         score += 5 * comboMultiplier * overdriveFactor;
 
         if (!overdriveActive) {
@@ -382,7 +394,7 @@ public class Level {
         } else {
             comboMultiplier = 4;
         }
-        
+
         for (GameEventListener listener : listeners) {
             listener.onComboChanged(newCombo, comboMultiplier, overdriveActive);
         }

@@ -92,8 +92,12 @@ public class GameController {
 
             @Override
             public void onComboChanged(int newCombo, int multiplier, boolean overdriveActive) {
-                // Při overdrive je multiplier 2x a barva oranžová
-                int displayMultiplier = overdriveActive ? multiplier * 2 : multiplier;
+                int displayMultiplier;
+                if (overdriveActive) {
+                    displayMultiplier = multiplier * 2;
+                } else {
+                    displayMultiplier = multiplier;
+                }
                 comboLabel.setText(String.format("%d (%dx)", newCombo, displayMultiplier));
                 
                 if (overdriveActive) {
@@ -191,13 +195,27 @@ public class GameController {
         pressedKeys.add(code);
 
         switch (code) {
-            case S -> level.checkHit(0);
-            case D -> level.checkHit(1);
-            case J -> level.checkHit(2);
-            case K -> level.checkHit(3);
-            case L -> level.checkHit(4);
-            case SPACE -> level.activateOverdrive();
-            case ESCAPE -> togglePause();
+            case S:
+                level.checkHit(0);
+                break;
+            case D:
+                level.checkHit(1);
+                break;
+            case J:
+                level.checkHit(2);
+                break;
+            case K:
+                level.checkHit(3);
+                break;
+            case L:
+                level.checkHit(4);
+                break;
+            case SPACE:
+                level.activateOverdrive();
+                break;
+            case ESCAPE:
+                togglePause();
+                break;
         }
     }
 
@@ -207,11 +225,21 @@ public class GameController {
         pressedKeys.remove(code);
 
         switch (code) {
-            case S -> level.checkRelease(0);
-            case D -> level.checkRelease(1);
-            case J -> level.checkRelease(2);
-            case K -> level.checkRelease(3);
-            case L -> level.checkRelease(4);
+            case S:
+                level.checkRelease(0);
+                break;
+            case D:
+                level.checkRelease(1);
+                break;
+            case J:
+                level.checkRelease(2);
+                break;
+            case K:
+                level.checkRelease(3);
+                break;
+            case L:
+                level.checkRelease(4);
+                break;
         }
     }
 
