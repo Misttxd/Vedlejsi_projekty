@@ -18,10 +18,13 @@ public class Note extends WorldEntity implements Collisionable {
     private boolean isBeingHeld = false;
     private boolean wasHit = false;
     private final Color laneColor;
+    
 
+    private boolean inReleaseNote;
+    private boolean waitingForRelease = false;
 
     public Note(Level level, int lane) {
-        this(level, lane, 0);
+        this(level, lane, false);
     }
 
     public Note(Level level, int lane, double length) {
@@ -35,6 +38,30 @@ public class Note extends WorldEntity implements Collisionable {
         this.noteWidth = laneWidth;
         double x = lane * laneWidth;
         this.position = new Point2D(x, -NOTE_HEIGHT);
+    }
+    public Note(Level level, int lane, boolean inReleaseNote) {
+        super(level, new Point2D(0, 0));
+        this.lane = lane;
+        this.speed = 200;
+        this.laneColor = LaneColors.getColor(lane);
+
+        double laneWidth = level.getWidth() / level.getLanecount();
+        this.noteWidth = laneWidth;
+        double x = lane * laneWidth;
+        this.position = new Point2D(x, -NOTE_HEIGHT);
+        this.inReleaseNote = inReleaseNote;
+    }
+
+    public boolean isReleaseNote() {
+        return inReleaseNote;
+    }
+
+    public boolean isWaitingForRelease() {
+        return waitingForRelease;
+    }
+
+    public void setWaitingForRelease(boolean waiting) {
+        this.waitingForRelease = waiting;
     }
 
     public int getLane() {
@@ -116,8 +143,26 @@ public class Note extends WorldEntity implements Collisionable {
         gc.setStroke(laneColor.darker());
         gc.setLineWidth(2);
         gc.strokeRoundRect(position.getX() + 2, position.getY(), noteWidth - 4, NOTE_HEIGHT, arcSize, arcSize);
+        if (inReleaseNote) {
+            double centerX = position.getX() + noteWidth / 2;
+            double gap = 60;  // Mezera mezi notou a šipkou
+            double arrowTop = position.getY() + NOTE_HEIGHT + gap;
+            double arrowBottom = arrowTop + 25;  // Výška šipky
+            gc.setFill(waitingForRelease ? Color.WHITE : laneColor);
+            gc.fillPolygon(
+                new double[] {centerX - 15, centerX + 15, centerX},
+                new double[] {arrowTop, arrowTop, arrowBottom},
+                3
+            );
+            gc.setStroke(laneColor.darker());
+            gc.strokePolygon(
+                new double[] {centerX - 15, centerX + 15, centerX},
+                new double[] {arrowTop, arrowTop, arrowBottom},
+                3
+            );
+        }
     }
-
+    
     @Override
     public void simulate(double delta) {
         position = position.add(0, speed * delta);

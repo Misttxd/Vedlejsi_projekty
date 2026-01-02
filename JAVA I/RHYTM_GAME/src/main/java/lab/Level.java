@@ -41,7 +41,6 @@ public class Level {
 
     private int qualityMultiplier = 0;
 
-    // Statistiky hry
     private int perfectCount = 0;
     private int goodCount = 0;
     private int missCount = 0;
@@ -100,12 +99,44 @@ public class Level {
     public void checkRelease(int lane) {
         lanePressed[lane] = 0;
 
+        Optional<Note> releaseNote = entities.stream()
+            .filter(e -> e instanceof Note)
+            .map(e -> (Note) e)
+            .filter(n -> n.getLane() == lane && n.isWaitingForRelease())
+            .findFirst();
+
+        if (releaseNote.isPresent()) {
+            Note note = releaseNote.get();
+            double arrowY = note.getBottomY() + 60 + 12; // Mezera (60) + střed šipky (12)
+            if (arrowY >= hitZone.getMinY() && arrowY <= hitZone.getMaxY()) {
+                add(new HitEffect(this, note.getPosition(), "RELEASE!", Color.MAGENTA, 0.5));
+                
+                int comboMultiplier = Math.min((combo / 10) + 1, 4);
+                int overdriveFactor = overdriveActive ? 2 : 1;
+                score += 2 * comboMultiplier * overdriveFactor;
+                fireScoreChanged();
+                
+                combo++;
+                if (combo > maxCombo) maxCombo = combo;
+                fireComboChanged(combo);
+                
+                perfectCount++;
+            } else {
+                add(new HitEffect(this, note.getPosition(), "MISS", Color.RED, 0.5));
+                missCount++;
+                combo = 0;
+                fireComboChanged(combo);
+            }
+            note.deactivate();
+            return;
+        }
+
         Optional<Note> heldNote = entities.stream()
             .filter(e -> e instanceof Note)
             .map(e -> (Note) e)
             .filter(n -> n.getLane() == lane && n.isBeingHeld())
             .findFirst();
-
+            
         if (heldNote.isPresent()) {
             Note note = heldNote.get();
             note.setBeingHeld(false);
@@ -233,6 +264,14 @@ public class Level {
 
             double headOffset = Math.abs(note.getHeadY() - hitZone.getMinY());
             boolean isPerfectTiming = headOffset <= 20;
+
+            if (note.isReleaseNote()) {
+                // Release nota - jen označ a čekej na puštění
+                note.setWaitingForRelease(true);
+                note.markAsHit();
+                add(new HitEffect(this, note.getPosition(), "HOLD", Color.YELLOW, 0.3));
+                return;  // Žádné body - ty přijdou při puštění
+            }
 
             if (isPerfectTiming) {
                 qualityMultiplier = 2;

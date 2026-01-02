@@ -60,14 +60,19 @@ public class NoteSpawner implements DrawableSimulable {
     
     private void spawnNote(int lane) {
         // 20% šance na dlouhou notu
-        if (RANDOM.nextDouble() < 0.2) {
-            double noteLength = RANDOM.nextDouble(150, 400);
-            if (noteLength > lastNoteLength) {
-                lastNoteLength = noteLength;
-            }
-            level.add(new Note(level, lane, noteLength));
+        if (RANDOM.nextDouble() < 0.15) {
+            level.add(new Note(level, lane, true)); // true = release note
         } else {
-            level.add(new Note(level, lane));
+            // normální nota
+            if (RANDOM.nextDouble() < 0.2) {
+                double noteLength = RANDOM.nextDouble(150, 400);
+                if (noteLength > lastNoteLength) {
+                    lastNoteLength = noteLength;
+                }
+                level.add(new Note(level, lane, noteLength));
+            } else {
+                level.add(new Note(level, lane));
+            }
         }
     }
 
