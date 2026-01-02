@@ -5,7 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Note extends WorldEntity implements Collisionable {
+public class Note extends WorldEntity {
     private int lane;
     private double speed;
     private boolean isActive = true;
@@ -184,8 +184,6 @@ public class Note extends WorldEntity implements Collisionable {
     public void simulate(double delta) {
         position = position.add(0, speed * delta);
 
-        Rectangle2D hitZone = level.getHitZone();
-
         if (isLongNote()) {
             if (isBeingHeld && isAnyPartInHitZone()) {
                 level.addPartialScore(delta * 10);
@@ -214,23 +212,5 @@ public class Note extends WorldEntity implements Collisionable {
                 deactivate();
             }
         }
-    }
-
-    @Override
-    public Rectangle2D getBoundingBox() {
-        if (isLongNote()) {
-            return new Rectangle2D(position.getX(), getTailEndY(), noteWidth, length + NOTE_HEIGHT);
-        }
-        return new Rectangle2D(position.getX(), position.getY(), noteWidth, NOTE_HEIGHT);
-    }
-
-    @Override
-    public boolean intersect(Rectangle2D another) {
-        return getBoundingBox().intersects(another);
-    }
-
-    @Override
-    public void hitBy(Collisionable another) {
-        // Not needed for this game logic
     }
 }

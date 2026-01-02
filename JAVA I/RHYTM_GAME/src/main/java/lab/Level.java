@@ -74,11 +74,8 @@ public class Level {
     }
 
     public void addPartialScore(double amount) {
-        int comboMultiplier = Math.min((combo / 10) + 1, 5);
-        int overdriveFactor = 1;
-        if (overdriveActive) {
-            overdriveFactor = 2;
-        }
+        int comboMultiplier = getComboMultiplier();
+        int overdriveFactor = getOverdriveFactor();
 
         scoreAccumulator += amount * comboMultiplier * overdriveFactor;
         if (scoreAccumulator >= 1) {
@@ -110,11 +107,8 @@ public class Level {
             if (arrowY >= hitZone.getMinY() - toleranceUp && arrowY <= hitZone.getMaxY()) {
                 add(new HitEffect(this, note.getPosition(), "RELEASE!", Color.MAGENTA, 0.5));
 
-                int comboMultiplier = Math.min((combo / 10) + 1, 4);
-                int overdriveFactor = 1;
-                if (overdriveActive) {
-                    overdriveFactor = 2;
-                }
+                int comboMultiplier = getComboMultiplier();
+                int overdriveFactor = getOverdriveFactor();
                 score += 2 * comboMultiplier * overdriveFactor;
                 fireScoreChanged();
 
@@ -296,23 +290,8 @@ public class Level {
                 note.deactivate();
             }
 
-            int comboMultiplier = 1;
-            if(combo <= 9){
-                comboMultiplier = 1;
-            }
-            else if(combo > 9 && combo <= 19){
-                comboMultiplier = 2;
-            }
-            else if(combo > 19 && combo <= 29){
-                comboMultiplier = 3;
-            }
-            else if(combo > 29 && combo <= 39){
-                comboMultiplier = 4;
-            }
-            int overdriveFactor = 1;
-            if (overdriveActive) {
-                overdriveFactor = 2;
-            }
+            int comboMultiplier = getComboMultiplier();
+            int overdriveFactor = getOverdriveFactor();
             score += comboMultiplier * overdriveFactor * qualityMultiplier;
             fireScoreChanged();
 
@@ -340,11 +319,8 @@ public class Level {
     }
 
     public void longNoteCompleted() {
-        int comboMultiplier = Math.min((combo / 10) + 1, 5);
-        int overdriveFactor = 1;
-        if (overdriveActive) {
-            overdriveFactor = 2;
-        }
+        int comboMultiplier = getComboMultiplier();
+        int overdriveFactor = getOverdriveFactor();
         score += 5 * comboMultiplier * overdriveFactor;
 
         if (!overdriveActive) {
@@ -383,17 +359,7 @@ public class Level {
     }
 
     private void fireComboChanged(int newCombo) {
-        // Výpočet combo multiplikátoru (max 4x)
-        int comboMultiplier = 1;
-        if (newCombo <= 9) {
-            comboMultiplier = 1;
-        } else if (newCombo <= 19) {
-            comboMultiplier = 2;
-        } else if (newCombo <= 29) {
-            comboMultiplier = 3;
-        } else {
-            comboMultiplier = 4;
-        }
+        int comboMultiplier = getComboMultiplier();
 
         for (GameEventListener listener : listeners) {
             listener.onComboChanged(newCombo, comboMultiplier, overdriveActive);
@@ -404,7 +370,27 @@ public class Level {
         if (overdrive > 0.5) {
             overdriveActive = true;
             fireOverdriveChanged();
-            fireComboChanged(combo);  // Okamžitě aktualizovat UI
+            fireComboChanged(combo);
+        }
+    }
+
+    private int getComboMultiplier() {
+        if (combo <= 9) {
+            return 1;
+        } else if (combo <= 19) {
+            return 2;
+        } else if (combo <= 29) {
+            return 3;
+        } else {
+            return 4;
+        }
+    }
+
+    private int getOverdriveFactor() {
+        if (overdriveActive) {
+            return 2;
+        } else {
+            return 1;
         }
     }
 }

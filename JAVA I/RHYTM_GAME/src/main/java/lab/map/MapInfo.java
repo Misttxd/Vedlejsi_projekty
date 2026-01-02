@@ -1,5 +1,7 @@
 package lab.map;
 
+import lab.Difficulty;
+
 public class MapInfo {
     private final long id;
     private final String mapName;
@@ -23,11 +25,8 @@ public class MapInfo {
     }
 
     public int getEstimatedNoteCount() {
-        double calcBpm = bpm;
-        if (difficulty.equals("Lehká")) calcBpm /= 4.0;
-        else if (difficulty.equals("Střední")) calcBpm /= 2.0;
-        else if (difficulty.equals("Expert")) calcBpm *= 2.0;
-        
+        Difficulty diff = Difficulty.fromDisplayName(difficulty);
+        double calcBpm = bpm * diff.getBpmMultiplier();
         return (int) (durationSeconds * (calcBpm / 60.0));
     }
 
