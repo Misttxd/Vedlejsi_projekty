@@ -21,9 +21,7 @@ public class DrawingThread extends AnimationTimer {
         this.level = level;
     }
 
-    /**
-     * Draws objects into the canvas. Put you code here.
-     */
+
     @Override
     public void handle(long now) {
         double delta = lastFrame == 0 ? 0 : (now - lastFrame) / 1_000_000_000D;

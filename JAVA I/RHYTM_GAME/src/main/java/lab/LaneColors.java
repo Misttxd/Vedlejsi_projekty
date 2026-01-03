@@ -15,7 +15,7 @@ public final class LaneColors {
         Color.rgb(255, 64, 129),   // Růžová - D
         Color.rgb(255, 255, 0),    // Žlutá - J
         Color.rgb(41, 121, 255),   // Modrá - K
-        Color.rgb(255, 172, 28)    // Fialová - L
+        Color.rgb(255, 172, 28)    // Orange - L
     };
 
 

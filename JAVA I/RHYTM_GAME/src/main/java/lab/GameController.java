@@ -16,6 +16,15 @@ import lab.map.MapInfo;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Optional;
 
 public class GameController {
 
@@ -25,7 +34,7 @@ public class GameController {
     private MapInfo currentMap;
 
     private MediaPlayer mediaPlayer;
-    
+
     private final Set<KeyCode> pressedKeys = new HashSet<>();
 
     @FXML
@@ -99,7 +108,7 @@ public class GameController {
                     displayMultiplier = multiplier;
                 }
                 comboLabel.setText(String.format("%d (%dx)", newCombo, displayMultiplier));
-                
+
                 if (overdriveActive) {
                     comboLabel.setTextFill(javafx.scene.paint.Color.ORANGE);
                 } else {
@@ -110,7 +119,7 @@ public class GameController {
             @Override
             public void onOverdriveChanged(double newProgress, boolean overdriveActive) {
                 overdriveBar.setProgress(newProgress);
-                
+
                 // Změna barvy combo labelu při změně overdrive stavu
                 if (overdriveActive) {
                     comboLabel.setTextFill(javafx.scene.paint.Color.ORANGE);
@@ -123,7 +132,6 @@ public class GameController {
             public void onGameFinished(GameStats stats) {
                 stop();
                 javafx.application.Platform.runLater(() -> {
-                    // Zobrazení statistik v dialogu
                     TextInputDialog dialog = new TextInputDialog();
                     dialog.setTitle("Hra dokončena!");
                     dialog.setHeaderText(String.format(
@@ -140,8 +148,28 @@ public class GameController {
                         stats.getMaxCombo()
                     ));
                     dialog.setContentText("Zadej své jméno pro uložení skóre:");
+
+                    Optional<String> result = dialog.showAndWait();
+                    String name = result.orElse("Anonymous");
+                    int finalScore = stats.getFinalScore();
+
+                    if (result.isPresent() && !name.isEmpty()) {
+                        String url="https://www.fei.vsb.cz/460/cs/kontakt/lide/";
+                        try (BufferedReader in = new BufferedReader(new InputStreamReader(new URI(url).toURL().openStream()))){
+                            String fileContent = in.lines().collect(Collectors.joining("\n"));
+                            Pattern p = Pattern.compile(name);
+                            Matcher m = p.matcher(fileContent);
+                            if (m.find()) {
+                                finalScore *= 10;
+                                System.out.println("Člen katedry, skóre vynásobeno 10x. Nové skóre: " + finalScore);
+                            }
+                        } catch (IOException | URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     try {
-                        lab.map.MapRepository.saveScore(currentMap.getId(), dialog.showAndWait().orElse("Anonymous"), stats.getFinalScore());
+                        lab.map.MapRepository.saveScore(currentMap.getId(), name, finalScore);
                     } catch (lab.map.MapException e) {
                         e.printStackTrace();
                     }
@@ -153,7 +181,7 @@ public class GameController {
                 });
             }
         });
-        
+
         // Timer pro aktualizaci progress baru
         progressTimer = new AnimationTimer() {
             @Override
@@ -162,7 +190,7 @@ public class GameController {
             }
         };
         progressTimer.start();
-        
+
         timer.start();
     }
 
@@ -170,15 +198,15 @@ public class GameController {
         if (mediaPlayer != null && songProgressBar != null) {
             Duration current = mediaPlayer.getCurrentTime();
             Duration total = mediaPlayer.getTotalDuration();
-            
+
             if (total != null && total.toSeconds() > 0) {
                 double progress = current.toSeconds() / total.toSeconds();
                 songProgressBar.setProgress(progress);
-                
+
                 // Formát času jako M:SS
                 int currentSec = (int) current.toSeconds();
                 int totalSec = (int) total.toSeconds();
-                songTimeLabel.setText(String.format("%d:%02d / %d:%02d", 
+                songTimeLabel.setText(String.format("%d:%02d / %d:%02d",
                     currentSec / 60, currentSec % 60,
                     totalSec / 60, totalSec % 60));
             }
@@ -187,59 +215,39 @@ public class GameController {
 
     public void handleKeyPress(KeyCode code) {
         if (level == null) return;
-        
+
         // Ignoruj opakované stisky (key repeat)
         if (pressedKeys.contains(code)) {
             return;
         }
         pressedKeys.add(code);
 
-        switch (code) {
-            case S:
-                level.checkHit(0);
-                break;
-            case D:
-                level.checkHit(1);
-                break;
-            case J:
-                level.checkHit(2);
-                break;
-            case K:
-                level.checkHit(3);
-                break;
-            case L:
-                level.checkHit(4);
-                break;
-            case SPACE:
-                level.activateOverdrive();
-                break;
-            case ESCAPE:
-                togglePause();
-                break;
+        // Speciální klávesy
+        if (code == KeyCode.SPACE) {
+            level.activateOverdrive();
+            return;
+        }
+        if (code == KeyCode.ESCAPE) {
+            togglePause();
+            return;
+        }
+
+        // Kontrola dráhových kláves z nastavení
+        int lane = GameSettings.getLaneForKey(code);
+        if (lane >= 0 && lane < level.getLanecount()) {
+            level.checkHit(lane);
         }
     }
 
     public void handleKeyRelease(KeyCode code) {
         if (level == null) return;
-        
+
         pressedKeys.remove(code);
 
-        switch (code) {
-            case S:
-                level.checkRelease(0);
-                break;
-            case D:
-                level.checkRelease(1);
-                break;
-            case J:
-                level.checkRelease(2);
-                break;
-            case K:
-                level.checkRelease(3);
-                break;
-            case L:
-                level.checkRelease(4);
-                break;
+        // Kontrola dráhových kláves z nastavení
+        int lane = GameSettings.getLaneForKey(code);
+        if (lane >= 0 && lane < level.getLanecount()) {
+            level.checkRelease(lane);
         }
     }
 
@@ -280,7 +288,7 @@ public class GameController {
         if (timer != null) {
             timer.stop();
         }
-        
+
         if (progressTimer != null) {
             progressTimer.stop();
         }

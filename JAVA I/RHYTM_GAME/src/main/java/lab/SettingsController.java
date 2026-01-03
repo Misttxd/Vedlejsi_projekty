@@ -3,6 +3,8 @@ package lab;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import lab.map.MapInfo;
 
 /**
@@ -26,12 +28,31 @@ public class SettingsController {
     @FXML
     private Label noteOffsetLabel;
     
+    // TextFieldy pro nastavení kláves
+    @FXML
+    private TextField lane1KeyField;
+    @FXML
+    private TextField lane2KeyField;
+    @FXML
+    private TextField lane3KeyField;
+    @FXML
+    private TextField lane4KeyField;
+    @FXML
+    private TextField lane5KeyField;
+    
     @FXML
     void initialize() {
         // Načtení aktuálních hodnot nastavení
         musicVolumeSlider.setValue(GameSettings.getMusicVolume() * 100);
         sfxVolumeSlider.setValue(GameSettings.getSfxVolume() * 100);
         noteOffsetSlider.setValue(GameSettings.getNoteOffsetMs());
+        
+        // Načtení aktuálních kláves
+        lane1KeyField.setText(GameSettings.getLaneKey(0).getName());
+        lane2KeyField.setText(GameSettings.getLaneKey(1).getName());
+        lane3KeyField.setText(GameSettings.getLaneKey(2).getName());
+        lane4KeyField.setText(GameSettings.getLaneKey(3).getName());
+        lane5KeyField.setText(GameSettings.getLaneKey(4).getName());
         
         // Aktualizace labelů
         updateMusicVolumeLabel();
@@ -74,7 +95,23 @@ public class SettingsController {
         GameSettings.setSfxVolume(sfxVolumeSlider.getValue() / 100.0);
         GameSettings.setNoteOffsetMs((int) noteOffsetSlider.getValue());
         
+        // Uložení kláves
+        saveKeyBinding(0, lane1KeyField.getText());
+        saveKeyBinding(1, lane2KeyField.getText());
+        saveKeyBinding(2, lane3KeyField.getText());
+        saveKeyBinding(3, lane4KeyField.getText());
+        saveKeyBinding(4, lane5KeyField.getText());
+        
         navigateBack();
+    }
+    
+    private void saveKeyBinding(int lane, String keyName) {
+        try {
+            KeyCode key = KeyCode.valueOf(keyName.toUpperCase());
+            GameSettings.setLaneKey(lane, key);
+        } catch (IllegalArgumentException e) {
+            // Neplatná klávesa - ignorujeme
+        }
     }
     
     @FXML

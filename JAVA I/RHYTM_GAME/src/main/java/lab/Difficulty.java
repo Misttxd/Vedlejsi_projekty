@@ -1,9 +1,6 @@
 package lab;
 
-/**
- * Enum reprezentující obtížnosti hry.
- * Každá obtížnost má svůj zobrazovaný název, počet drah a násobič BPM.
- */
+
 public enum Difficulty {
     EASY("Lehká", 4, 0.25, 60),      // Velká hit zóna, pomalé noty
     MEDIUM("Střední", 4, 0.5, 50),   // Střední hit zóna
@@ -38,17 +35,18 @@ public enum Difficulty {
         return hitZoneHeight;
     }
 
-    /**
-     * Najde Difficulty podle zobrazovaného jména.
-     * @param displayName zobrazované jméno (např. "Lehká", "Expert")
-     * @return odpovídající Difficulty, nebo MEDIUM jako default
-     */
+
     public static Difficulty fromDisplayName(String displayName) {
-        for (Difficulty d : values()) {
-            if (d.displayName.equalsIgnoreCase(displayName)) {
-                return d;
-            }
+        if (displayName.equalsIgnoreCase("Lehká")) {
+            return EASY;
+        } else if (displayName.equalsIgnoreCase("Střední")) {
+            return MEDIUM;
+        } else if (displayName.equalsIgnoreCase("Těžká")) {
+            return HARD;
+        } else if (displayName.equalsIgnoreCase("Expert")) {
+            return EXPERT;
+        } else {
+            return MEDIUM;
         }
-        return MEDIUM; // default
     }
 }

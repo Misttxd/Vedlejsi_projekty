@@ -5,6 +5,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import lab.map.MapInfo;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ public class Level {
     private final Difficulty difficulty;
 
     private int[] lanePressed;
+    private boolean[] showKeyHints;  // Nápověda kláves pro každou dráhu zvlášť
 
 
     public Level(double width, double height, Difficulty difficulty, MapInfo map, MediaPlayer mediaPlayer) {
@@ -58,6 +61,12 @@ public class Level {
         this.hitZone = new Rectangle2D(0, height - HIT_ZONE_Y_OFFSET, width, hitZoneHeight);
         this.mediaPlayer = mediaPlayer;
         this.lanePressed = new int[lanecount];
+
+        // Inicializace nápovědy kláves - všechny dráhy zobrazují hint na začátku
+        this.showKeyHints = new boolean[lanecount];
+        for (int i = 0; i < lanecount; i++) {
+            showKeyHints[i] = true;
+        }
 
         this.noteSpawner = new NoteSpawner(this, map, mediaPlayer);
         entities.add(noteSpawner);
@@ -196,6 +205,18 @@ public class Level {
             gc.setStroke(Color.BLACK);
             gc.setLineWidth(2);
             gc.strokeRect(x, hitZone.getMinY(), laneWidth, hitZone.getHeight());
+
+            // Zobrazení nápovědy kláves (pokud je aktivní pro danou dráhu)
+            if (showKeyHints[i]) {
+                String keyName = GameSettings.getLaneKey(i).getName();
+                gc.setFont(new Font("Arial Bold", 24));
+                gc.setFill(Color.WHITE);
+                gc.setTextAlign(TextAlignment.CENTER);
+                double textX = x + laneWidth / 2;
+                double textY = hitZone.getMinY() + hitZone.getHeight() / 2 + 8;
+                gc.fillText(keyName, textX, textY);
+                gc.setTextAlign(TextAlignment.LEFT);  // Vrátit výchozí zarovnání
+            }
         }
 
         for (int i = 0; i <= lanecount; i++) {
@@ -240,10 +261,12 @@ public class Level {
     }
 
     private void updateLaneColors() {
+        // Dráhy zůstávají rozsvícené dokud hráč nepustí klávesu (reset v checkRelease)
+        // Pouze aktualizujeme na 1 pokud držíme dlouhou notu
         for (int i = 0; i < lanecount; i++) {
             int lane = i;
-            
-            // Kontrola, zda je v dráze držená nota
+
+            // Kontrola, zda je v dráze držená dlouhá nota
             boolean hasHeldNote = false;
             for (DrawableSimulable entity : entities) {
                 if (entity instanceof Note) {
@@ -255,15 +278,18 @@ public class Level {
                 }
             }
 
+            // Pokud držíme dlouhou notu, dráha svítí úspěšně
             if (hasHeldNote) {
                 lanePressed[lane] = 1;
-            } else if (lanePressed[lane] == 1) {
-                lanePressed[lane] = 0;
             }
+            // Jinak necháme hodnotu jak je - reset proběhne při puštění klávesy
         }
     }
 
     public void checkHit(int lane) {
+        // Skrýt nápovědu klávesy pro tuto dráhu
+        showKeyHints[lane] = false;
+
         // Kontrola, zda už držíme notu v této dráze
         boolean alreadyHolding = false;
         for (DrawableSimulable entity : entities) {
@@ -353,15 +379,11 @@ public class Level {
     }
 
     public void longNoteCompleted() {
-        int comboMultiplier = getComboMultiplier();
-        int overdriveFactor = getOverdriveFactor();
-        score += 5 * comboMultiplier * overdriveFactor;
-
+        // Pouze přidání overdrive, žádný bodový bonus
         if (!overdriveActive) {
             overdrive = Math.min(1.0, overdrive + 0.03);
         }
 
-        fireScoreChanged();
         fireOverdriveChanged();
     }
 
@@ -401,7 +423,7 @@ public class Level {
     }
 
     public void activateOverdrive() {
-        if (overdrive > 0.5) {
+        if (overdrive > 0.2) {
             overdriveActive = true;
             fireOverdriveChanged();
             fireComboChanged(combo);
@@ -421,7 +443,7 @@ public class Level {
     }
 
     private int getOverdriveFactor() {
-        if (overdriveActive) {
+        if (overdriveActive == true) {
             return 2;
         } else {
             return 1;
