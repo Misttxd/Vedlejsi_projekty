@@ -95,3 +95,6 @@ nb-configuration.xml
 ##############################
 *.mv.db
 *.trace.db
+*.png
+*.jpg
+*.jpeg
