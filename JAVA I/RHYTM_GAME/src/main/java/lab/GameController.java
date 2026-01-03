@@ -76,7 +76,7 @@ public class GameController {
             if (musicResource != null) {
                 Media media = new Media(musicResource.toExternalForm());
                 mediaPlayer = new MediaPlayer(media);
-                mediaPlayer.setVolume(GameSettings.getInstance().getMusicVolume());
+                mediaPlayer.setVolume(GameSettings.getMusicVolume());
                 mediaPlayer.play();
             }
         }

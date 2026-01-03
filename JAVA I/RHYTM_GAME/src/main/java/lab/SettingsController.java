@@ -28,12 +28,10 @@ public class SettingsController {
     
     @FXML
     void initialize() {
-        GameSettings settings = GameSettings.getInstance();
-        
-        // Nastavení počátečních hodnot
-        musicVolumeSlider.setValue(settings.getMusicVolume() * 100);
-        sfxVolumeSlider.setValue(settings.getSfxVolume() * 100);
-        noteOffsetSlider.setValue(settings.getNoteOffsetMs());
+        // Načtení aktuálních hodnot nastavení
+        musicVolumeSlider.setValue(GameSettings.getMusicVolume() * 100);
+        sfxVolumeSlider.setValue(GameSettings.getSfxVolume() * 100);
+        noteOffsetSlider.setValue(GameSettings.getNoteOffsetMs());
         
         // Aktualizace labelů
         updateMusicVolumeLabel();
@@ -71,10 +69,10 @@ public class SettingsController {
     
     @FXML
     void onSaveClicked() {
-        GameSettings settings = GameSettings.getInstance();
-        settings.setMusicVolume(musicVolumeSlider.getValue() / 100.0);
-        settings.setSfxVolume(sfxVolumeSlider.getValue() / 100.0);
-        settings.setNoteOffsetMs((int) noteOffsetSlider.getValue());
+        // Uložení hodnot do nastavení
+        GameSettings.setMusicVolume(musicVolumeSlider.getValue() / 100.0);
+        GameSettings.setSfxVolume(sfxVolumeSlider.getValue() / 100.0);
+        GameSettings.setNoteOffsetMs((int) noteOffsetSlider.getValue());
         
         navigateBack();
     }

@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MenuController {
 
@@ -57,7 +56,15 @@ public class MenuController {
     }
 
     public void displayMaps(java.util.List<MapInfo> maps) {
-        this.groupedMaps = maps.stream().collect(Collectors.groupingBy(MapInfo::getMapName));
+        // Ruční seskupení map podle jména písničky
+        this.groupedMaps = new HashMap<>();
+        for (MapInfo map : maps) {
+            String name = map.getMapName();
+            if (!groupedMaps.containsKey(name)) {
+                groupedMaps.put(name, new java.util.ArrayList<>());
+            }
+            groupedMaps.get(name).add(map);
+        }
         
         songListView.getItems().clear();
         songListView.getItems().addAll(groupedMaps.keySet());

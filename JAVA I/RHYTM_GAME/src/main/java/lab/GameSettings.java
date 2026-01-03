@@ -1,46 +1,55 @@
 package lab;
 
 /**
- * Singleton třída pro uchování nastavení hry.
- * Nastavení přetrvává po dobu běhu aplikace.
+ * Třída pro uchování nastavení hry.
+ * Používá statické proměnné pro přístup odkudkoliv.
  */
 public class GameSettings {
     
-    private static final GameSettings INSTANCE = new GameSettings();
+    // Statické proměnné pro nastavení
+    private static double musicVolume = 1.0;  // 0.0 - 1.0
+    private static double sfxVolume = 1.0;    // 0.0 - 1.0
+    private static int noteOffsetMs = 0;      // v milisekundách (-200 až +200)
     
-    private double musicVolume = 1.0;  // 0.0 - 1.0
-    private double sfxVolume = 1.0;    // 0.0 - 1.0
-    private int noteOffsetMs = 0;      // v milisekundách (-200 až +200)
-    
-    private GameSettings() {
-        // Singleton - privátní konstruktor
-    }
-    
-    public static GameSettings getInstance() {
-        return INSTANCE;
-    }
-    
-    public double getMusicVolume() {
+    public static double getMusicVolume() {
         return musicVolume;
     }
     
-    public void setMusicVolume(double musicVolume) {
-        this.musicVolume = Math.max(0.0, Math.min(1.0, musicVolume));
+    public static void setMusicVolume(double volume) {
+        if (volume < 0.0) {
+            musicVolume = 0.0;
+        } else if (volume > 1.0) {
+            musicVolume = 1.0;
+        } else {
+            musicVolume = volume;
+        }
     }
     
-    public double getSfxVolume() {
+    public static double getSfxVolume() {
         return sfxVolume;
     }
     
-    public void setSfxVolume(double sfxVolume) {
-        this.sfxVolume = Math.max(0.0, Math.min(1.0, sfxVolume));
+    public static void setSfxVolume(double volume) {
+        if (volume < 0.0) {
+            sfxVolume = 0.0;
+        } else if (volume > 1.0) {
+            sfxVolume = 1.0;
+        } else {
+            sfxVolume = volume;
+        }
     }
     
-    public int getNoteOffsetMs() {
+    public static int getNoteOffsetMs() {
         return noteOffsetMs;
     }
     
-    public void setNoteOffsetMs(int noteOffsetMs) {
-        this.noteOffsetMs = Math.max(-200, Math.min(200, noteOffsetMs));
+    public static void setNoteOffsetMs(int offset) {
+        if (offset < -200) {
+            noteOffsetMs = -200;
+        } else if (offset > 200) {
+            noteOffsetMs = 200;
+        } else {
+            noteOffsetMs = offset;
+        }
     }
 }

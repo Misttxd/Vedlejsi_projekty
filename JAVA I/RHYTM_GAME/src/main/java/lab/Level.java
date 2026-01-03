@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import java.util.Comparator;
-import java.util.Optional;
 
 public class Level {
 
@@ -94,14 +93,20 @@ public class Level {
     public void checkRelease(int lane) {
         lanePressed[lane] = 0;
 
-        Optional<Note> releaseNote = entities.stream()
-            .filter(e -> e instanceof Note)
-            .map(e -> (Note) e)
-            .filter(n -> n.getLane() == lane && n.isWaitingForRelease())
-            .findFirst();
+        // Hledání release noty v dané dráze
+        Note releaseNote = null;
+        for (DrawableSimulable entity : entities) {
+            if (entity instanceof Note) {
+                Note n = (Note) entity;
+                if (n.getLane() == lane && n.isWaitingForRelease()) {
+                    releaseNote = n;
+                    break;
+                }
+            }
+        }
 
-        if (releaseNote.isPresent()) {
-            Note note = releaseNote.get();
+        if (releaseNote != null) {
+            Note note = releaseNote;
             double arrowY = note.getHeadY() - 40 - 10; // Šipka NAD notou: gap (40) + střed šipky (10)
             double toleranceUp = 30; // Rezerva směrem nahoru
             if (arrowY >= hitZone.getMinY() - toleranceUp && arrowY <= hitZone.getMaxY()) {
@@ -113,7 +118,9 @@ public class Level {
                 fireScoreChanged();
 
                 combo++;
-                if (combo > maxCombo) maxCombo = combo;
+                if (combo > maxCombo) {
+                    maxCombo = combo;
+                }
                 fireComboChanged(combo);
 
                 perfectCount++;
@@ -127,15 +134,20 @@ public class Level {
             return;
         }
 
-        Optional<Note> heldNote = entities.stream()
-            .filter(e -> e instanceof Note)
-            .map(e -> (Note) e)
-            .filter(n -> n.getLane() == lane && n.isBeingHeld())
-            .findFirst();
+        // Hledání držené noty v dané dráze
+        Note heldNote = null;
+        for (DrawableSimulable entity : entities) {
+            if (entity instanceof Note) {
+                Note n = (Note) entity;
+                if (n.getLane() == lane && n.isBeingHeld()) {
+                    heldNote = n;
+                    break;
+                }
+            }
+        }
 
-        if (heldNote.isPresent()) {
-            Note note = heldNote.get();
-            note.setBeingHeld(false);
+        if (heldNote != null) {
+            heldNote.setBeingHeld(false);
         }
     }
 
@@ -229,11 +241,19 @@ public class Level {
 
     private void updateLaneColors() {
         for (int i = 0; i < lanecount; i++) {
-            final int lane = i;
-            boolean hasHeldNote = entities.stream()
-                .filter(e -> e instanceof Note)
-                .map(e -> (Note) e)
-                .anyMatch(n -> n.getLane() == lane && n.isBeingHeld());
+            int lane = i;
+            
+            // Kontrola, zda je v dráze držená nota
+            boolean hasHeldNote = false;
+            for (DrawableSimulable entity : entities) {
+                if (entity instanceof Note) {
+                    Note n = (Note) entity;
+                    if (n.getLane() == lane && n.isBeingHeld()) {
+                        hasHeldNote = true;
+                        break;
+                    }
+                }
+            }
 
             if (hasHeldNote) {
                 lanePressed[lane] = 1;
@@ -244,23 +264,37 @@ public class Level {
     }
 
     public void checkHit(int lane) {
-        boolean alreadyHolding = entities.stream()
-            .filter(e -> e instanceof Note)
-            .map(e -> (Note) e)
-            .anyMatch(n -> n.getLane() == lane && n.isBeingHeld());
+        // Kontrola, zda už držíme notu v této dráze
+        boolean alreadyHolding = false;
+        for (DrawableSimulable entity : entities) {
+            if (entity instanceof Note) {
+                Note n = (Note) entity;
+                if (n.getLane() == lane && n.isBeingHeld()) {
+                    alreadyHolding = true;
+                    break;
+                }
+            }
+        }
 
         if (alreadyHolding) {
             return;
         }
-        Optional<Note> hitNote = entities.stream()
-            .filter(e -> e instanceof Note)
-            .map(e -> (Note) e)
-            .filter(n -> n.getLane() == lane && n.isActive() && !n.isBeingHeld() && !n.wasHit() && n.isAnyPartInHitZone())
-            .findFirst();
 
-        if (hitNote.isPresent() && hitNote.get().isAnyPartInHitZone()) {
+        // Hledání noty k zásahu
+        Note hitNote = null;
+        for (DrawableSimulable entity : entities) {
+            if (entity instanceof Note) {
+                Note n = (Note) entity;
+                if (n.getLane() == lane && n.isActive() && !n.isBeingHeld() && !n.wasHit() && n.isAnyPartInHitZone()) {
+                    hitNote = n;
+                    break;
+                }
+            }
+        }
+
+        if (hitNote != null && hitNote.isAnyPartInHitZone()) {
             lanePressed[lane] = 1;
-            Note note = hitNote.get();
+            Note note = hitNote;
 
             double headOffset = Math.abs(note.getHeadY() - hitZone.getMinY());
             boolean isPerfectTiming = headOffset <= 20;
