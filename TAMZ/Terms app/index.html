@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<!-- =============================================================
+TODO 1: Přidání důležitých termínů
+=============================================================
+Vytvořte novou ion-card, ve které zobrazíte 3 důležité termíny
+(např. konec semestru, zkouška, servis ...).
+
+Harmonogram semestru: https://www.vsb.cz/cs/student/harmonogram/
+Ověření výsledků: https://www.timeanddate.com/date/durationresult.html
+-->
+
+<!-- =============================================================
+TODO 2: Barevné rozlišení zbývajících dnů
+=============================================================
+Podle počtu zbývajících dnů změňte barvu textu termínu, například:
+- méně než 7 dnů → červeně
+- méně než 30 dnů → oranžově
+- 30 a více dnů → zeleně
+- v minulosti → šedě
+-->
+
+<!-- =============================================================
+TODO 3: Progress bar průběhu semestru
+=============================================================
+Přidejte ion-card s komponentou ion-progress-bar, která
+zobrazí, kolik procent semestru již uběhlo.
+
+Dokumentace: https://ionicframework.com/docs/api/progress-bar
+-->
+
+<!-- =============================================================
+TODO 4: Toast upozornění na blízké termíny
+=============================================================
+Při načtení stránky zkontrolujte, zda je některý termín
+za 7 nebo méně dnů. Pokud ano, zobrazte ion-toast
+s upozorněním.
+
+Dokumentace: https://ionicframework.com/docs/api/toast
+-->
+
+<!-- =============================================================
+BONUS: Živý odpočet v reálném čase
+=============================================================
+Přidejte kartu, která zobrazuje odpočet do konce semestru například
+ve formátu: "93d 14h 23m 45s" a aktualizuje se každou sekundu.
+
+HINT: Použijte setInterval
+-->
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" rel="stylesheet">
+  <title>Terms App</title>
+</head>
+
+<body>
+  <ion-app>
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Termíny</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+
+      <!-- Karta: Aktualni datum -->
+      <ion-card>
+        <ion-card-content>
+          <div>
+            <ion-text id="SemesterStart">Začátek semestru (16.02.2026)</ion-text>
+            <ion-text id="SemesterEnd" style="float: right;">Konec semestru (16.05.2026)</ion-text>
+          </div>
+          <div style="text-align: center;">
+            <ion-text id="countdown">ODPOČET</ion-text>
+          </div>
+
+          <ion-progress-bar id="myProg">
+
+          </ion-progress-bar>
+
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Karta: Ukazka ion-datetime -->
+      <ion-card>
+        <ion-card-content>
+          <ion-text style="display: block; font-size:150%; text-align: center;">
+            Zadej datum
+          </ion-text>
+          <p style="text-align: center; padding-bottom: 5px">
+            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+            <ion-modal>
+              <ion-datetime id="datetime" locale="cs-CZ" presentation="date" show-default-buttons="true"></ion-datetime>
+            </ion-modal>
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Důležité termíny</ion-card-title>
+          <!-- <ion-card-subtitle>Card Subtitle</ion-card-subtitle> -->
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list id="ionList">
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <div id="termColor1" style="width:100%; height:100%; background-color: green; border-radius: 8px;">
+                </div>
+              </ion-thumbnail>
+              <ion-label id="labelTerminNazev1"> Konec semestru</ion-label>
+              <ion-text id="labelTerm1" style="display: block; font-size:110%; padding-top: 5px; padding-bottom: 5px">
+                Zbývá času: ---
+              </ion-text>
+            </ion-item>
+
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <div id="termColor2" style="width:100%; height:100%; background-color: blue; border-radius: 8px;">
+                </div>
+              </ion-thumbnail>
+              <ion-label id="labelTerminNazev2"> Kariéra PLUS</ion-label>
+              <ion-text id="labelTerm2" style="display: block; font-size:110%; padding-top: 5px; padding-bottom: 5px">
+                Zbývá času: ---
+              </ion-text>
+            </ion-item>
+
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <div id="termColor3" style="width:100%; height:100%; background-color: red; border-radius: 8px;">
+                </div>
+              </ion-thumbnail>
+              <ion-label id="labelTerminNazev3"> Sportovní den</ion-label>
+              <ion-text id="labelTerm3" style="display: block; font-size:110%; padding-top: 5px; padding-bottom: 5px">
+                Zbývá času: ---
+              </ion-text>
+            </ion-item>
+
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-toast id="myToast" message="This toast will disappear after 5 seconds" duration="5000">
+
+      </ion-toast>
+
+      <style>
+        ion-item {
+          --padding-start: 0;
+        }
+      </style>
+
+    </ion-content>
+
+  </ion-app>
+
+  <script>
+    //TADYTADYTADYTADYTADYTADY
+    // https://www.w3schools.com/js/js_variables.asp
+
+    let myProg = /** @type {any} */ (document.getElementById('myProg'));
+
+    let myLabelTerm1 = /** @type {any} */ (document.getElementById('labelTerm1'));
+    let myLabelTerm2 = /** @type {any} */ (document.getElementById('labelTerm2'));
+    let myLabelTerm3 = /** @type {any} */ (document.getElementById('labelTerm3'));
+
+    let myColorTerm1 = /** @type {any} */ (document.getElementById('termColor1'));
+    let myColorTerm2 = /** @type {any} */ (document.getElementById('termColor2'));
+    let myColorTerm3 = /** @type {any} */ (document.getElementById('termColor3'));
+
+    let myLabelTermNazev1 = /** @type {any} */ (document.getElementById('labelTerminNazev1'));
+    let myLabelTermNazev2 = /** @type {any} */ (document.getElementById('labelTerminNazev2'));
+    let myLabelTermNazev3 = /** @type {any} */ (document.getElementById('labelTerminNazev3'));
+
+    //let myIonListTerms = /** @type {any} */ (document.getElementById('ionList'));
+
+    let myToast = /** @type {any} */ (document.getElementById('myToast'));
+
+    let myCountdown = /** @type {any} */ (document.getElementById('countdown'));
+
+
+    // === Ukazka: reakce na vyber data v ion-datetime ===
+
+
+    function setColor(element, days) {
+
+      if (days >= 30) {
+        element.style.backgroundColor = "green";
+      }
+      else if (days >= 7) {
+        element.style.backgroundColor = "orange";
+      }
+      else if (days >= 0) {
+        element.style.backgroundColor = "red";
+      }
+      else {
+        element.style.backgroundColor = "gray";
+      }
+    }
+
+    let startOfSemesterDate = new Date(2026, 1, 16) // 16. února 2026
+    let endOfSemesterDate = new Date(2026, 4, 16); // 16. května 2026
+    let karieraPlusDate = new Date(2026, 2, 10); // 10. března 2026
+    let sportovniDenDate = new Date(2026, 3, 22); // 22. dubna 2026
+
+
+
+
+    function update(selected) {
+
+      let progress = (selected - startOfSemesterDate) / (endOfSemesterDate - startOfSemesterDate);
+      myProg.value = progress;
+
+      let diffDays1 = Math.ceil((endOfSemesterDate - selected) / (1000 * 60 * 60 * 24));
+      myLabelTerm1.textContent = "Zbývá času: " + diffDays1 + " dní";
+      setColor(myColorTerm1, diffDays1);
+
+      let diffDays2 = Math.ceil((karieraPlusDate - selected) / (1000 * 60 * 60 * 24));
+      myLabelTerm2.textContent = "Zbývá času: " + diffDays2 + " dní";
+      setColor(myColorTerm2, diffDays2);
+
+      let diffDays3 = Math.ceil((sportovniDenDate - selected) / (1000 * 60 * 60 * 24));
+      myLabelTerm3.textContent = "Zbývá času: " + diffDays3 + " dní";
+      setColor(myColorTerm3, diffDays3);
+
+      if (diffDays1 <= 7) {
+        myToast.message = myLabelTermNazev1.textContent + ": zbývá " + diffDays1 + " dní";
+        myToast.present();
+      }
+      if (diffDays2 <= 7) {
+        myToast.message = myLabelTermNazev2.textContent + ": zbývá " + diffDays2 + " dní";
+        myToast.present();
+      }
+      if (diffDays3 <= 7) {
+        myToast.message = myLabelTermNazev3.textContent + ": zbývá " + diffDays3 + " dní";
+        myToast.present();
+      }
+
+    }
+
+    let simulatedTimeOffset = 0;
+
+    function updateCountdown() {
+      let now = new Date(Date.now() + simulatedTimeOffset);
+      let diffSeconds = Math.ceil((endOfSemesterDate - now) / 1000);
+      let days = Math.floor(diffSeconds / (3600 * 24));
+      let hours = Math.floor((diffSeconds % (3600 * 24)) / 3600);
+      let minutes = Math.floor((diffSeconds % 3600) / 60);
+      let seconds = diffSeconds % 60;
+      myCountdown.textContent = `${days} dní, ${hours} hodin, ${minutes} minut, ${seconds} sekund`;
+    }
+
+    update(new Date());
+    updateCountdown();
+
+    let dateTimeHtml = /** @type {any} */ (document.getElementById('datetime'));
+    dateTimeHtml?.addEventListener("ionChange", function (e) {
+      let selectedDate = new Date(this.value);
+      simulatedTimeOffset = selectedDate.getTime() - Date.now();
+      update(selectedDate);
+      updateCountdown();
+    });
+
+    setInterval(function () {
+      updateCountdown();
+    }, 1000);
+
+  </script>
+
+</body>
+
+</html>
