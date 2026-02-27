@@ -37,6 +37,10 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 ### Funkcionální Programování (FPR)
 - Cvičení v jazyce Haskell pokrývající matematické funkce, operace se seznamy a manipulaci s textovými bludišti.
 
+### Jazyk Java I (JAVA I)
+- Vývoj desktopových aplikací v jazyce Java s využitím frameworku JavaFX a nástroje Maven.
+- **Rytmická hra**: Semestrální projekt hry s hodnocením přesnosti úderů do padajících not, vlastním systémem skóre a ukládáním do H2 databáze.
+
 ### Objektově Orientované Programování (OOP)
 - Sada projektů v C++ demonstrující principy OOP, jako je dědičnost, polymorfismus a abstraktní třídy.
 - Zahrnuje návrhy jednoduchých systémů (banka, škola, fakturace).
