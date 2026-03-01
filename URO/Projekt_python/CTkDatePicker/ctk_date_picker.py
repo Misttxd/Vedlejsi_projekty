@@ -66,6 +66,7 @@ class CTkDatePicker(ctk.CTkFrame):
         if self.popup is not None:
             self.popup.destroy()
         self.popup = ctk.CTkToplevel(self)
+        self.popup.attributes("-topmost", True)
         self.popup.title("Select Date")
         self.popup.geometry("+%d+%d" % (self.winfo_rootx(), self.winfo_rooty() + self.winfo_height()))
         self.popup.resizable(False, False)
