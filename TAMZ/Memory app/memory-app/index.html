@@ -1,0 +1,239 @@
+<!-- =============================================================
+    TODO 0: Zobrazení záznamů v ionic-list
+    =============================================================
+    Upravte funkci showItems() tak, aby se zobrazovaly správné
+    názvy záznamu v ion-list (místo HTML list).
+-->
+
+
+<!-- =============================================================
+    TODO 1: Smazání všech záznamů
+    =============================================================
+    Doplňte funkci, která odstraní všechny záznamy z úložiště
+    a aktualizuje zobrazený seznam.
+-->
+
+<!-- =============================================================
+    TODO 2: Přidání záznamu s vlastním názvem
+    =============================================================
+    Upravte přidávání tak, aby se jako název záznamu použil
+    text zadaný uživatelem (ion-input). 
+    Co použít jako vhodný klíč?
+-->
+
+<!-- =============================================================
+    TODO 3: Odstranění jednotlivého záznamu
+    =============================================================
+    Přidejte možnost odstranit konkrétní záznam ze seznamu
+    (např. tlačítkem u každé položky).
+-->
+
+<!-- =============================================================
+    Za splnění základních TODO 0-3 získáte 2 body.
+    Pokud vypracujete i některá z následujících rozšíření (bonus), 
+    můžete získat další 1 bod navíc.
+    =============================================================
+    - Vytvořte objekt reprezentující záznam a do úložiště ukládejte
+      a načítejte tento objekt pomocí JSON.stringify / JSON.parse.
+      Např.: { name: "Nákup", priority: "high" }
+    
+    - Přidejte barvu/ikonu podle priority (ion-select + ion-icon)
+    
+    - Použijte ion-item-sliding pro swipe-to-delete
+      https://ionicframework.com/docs/api/item-sliding
+    
+    - Přidejte ion-alert pro potvrzení smazání
+      https://ionicframework.com/docs/api/alert
+    
+    - Přidejte ion-badge s počtem položek do headeru
+      https://ionicframework.com/docs/api/badge
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" rel="stylesheet">
+</head>
+
+<body>
+  <ion-app>
+    <ion-header>
+
+      <ion-toolbar>
+        <ion-title>Local Storage <ion-badge id="item-count" color="primary">0</ion-badge></ion-title>
+      </ion-toolbar>
+
+    </ion-header>
+
+    <ion-content class="ion-padding">
+
+      <!-- <ion-button id="button-list-1" onclick="showHList(50)">HTML List</ion-button>
+      <ion-button id="button-list-2" onclick="showIList(50)">Ionic List</ion-button>
+      <ion-button id="button-list-3" onclick="addSimpleItem()">LS add</ion-button>
+      <ion-button id="button-list-4" onclick="showItems()">LS read</ion-button>-->
+      <ion-button id="button-delete-all" onclick="deleteAllItems()" color="danger">Delete All</ion-button>
+
+      <ul id="html-list"> </ul>
+      <ion-list id="ionic-list" inset="true"> </ion-list>
+
+      <div id="add_item" class="ion-margin-top">
+        <ion-input id="Outline-input" label="Item name" label-placement="floating" fill="outline" placeholder="Name...">
+
+          <ion-select id="Priority-input" slot="end" aria-label="Priority" interface="popover" placeholder="Priority">
+            <ion-select-option value="low">Low</ion-select-option>
+            <ion-select-option value="medium">Medium</ion-select-option>
+            <ion-select-option value="high">High</ion-select-option>
+          </ion-select>
+
+          <ion-button id="Outline-input-button" slot="end" onclick="addTextboxItem()">ADD</ion-button>
+
+        </ion-input>
+      </div>
+
+    </ion-content>
+  </ion-app>
+
+  <script>
+
+    let prioritySelect = document.getElementById("Priority-input");
+    prioritySelect.value = "low";
+
+
+
+    window.addEventListener('load', function () {
+      showItems();
+    });
+
+    function addTextboxItem() {
+      let textbox = document.getElementById("Outline-input");
+      let prioritySelect = document.getElementById("Priority-input");
+
+      let text = textbox.value.trim();
+      let priority = prioritySelect.value;
+
+      if (text === "") {
+        return;
+      }
+
+      let key = "item_" + Date.now();
+
+      let itemObj = { name: text, priority: priority };
+
+      localStorage.setItem(key, JSON.stringify(itemObj));
+
+      textbox.value = "";
+      showItems();
+    }
+
+    function deleteAllItems() {
+      localStorage.clear();
+      showItems();
+    }
+
+    function getIconForPriority(priority) {
+      if (priority === 'high') {
+        return { name: 'alert-circle', color: 'danger' };
+      }
+      else if (priority === 'medium') {
+        return { name: 'warning', color: 'warning' };
+      }
+      else if (priority === 'low') {
+        return { name: 'checkmark-circle', color: 'success' };
+      }
+      else {
+        return { name: 'information-circle', color: 'primary' };
+      }
+    }
+
+    function showHList(n) {
+      console.log('showHList');
+      for (let i = 0; i < n; i++) {
+        let node = document.createElement("li");
+        node.innerText = i.toString();
+        document.getElementById("html-list").appendChild(node);
+      }
+    }
+
+    function deleteThis(key) {
+      localStorage.removeItem(key);
+      showItems();
+    }
+
+    // function showIList(n) {
+    //   console.log('showIList');
+    //   for (let i = 0; i < n; i++) {
+    //     let node = document.createElement("ion-item");
+    //     node.setAttribute("button", "true");
+    //     node.innerHTML = `<ion-label>${i.toString()}</ion-label>`;
+    //     document.getElementById("ionic-list").appendChild(node);
+    //   }
+    // }
+
+    // function addSimpleItem() {
+
+    //   localStorage.setItem("key-1", "AAA BBB CCC DDD");
+    //   localStorage.setItem("key-2", "BBB CCC DDD EEE");
+    //   localStorage.setItem("key-3", "CCC DDD FFF GGG");
+    //   console.log("localStorage.length: " + localStorage.length);
+
+    // }
+
+    function showItems() {
+
+      let ionic_list = document.getElementById("ionic-list");
+      let item_badge = document.getElementById("item-count");
+
+      ionic_list.innerHTML = "";
+
+      item_badge.innerText = localStorage.length;
+      if (localStorage.length > 0) {
+        item_badge.style.display = 'inline-block';
+      }
+      else {
+        item_badge.style.display = 'none';
+      }
+
+      for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+
+        let valStr = localStorage.getItem(key);
+        let itemObj;
+
+        try {
+          itemObj = JSON.parse(valStr);
+        } catch (e) {
+          itemObj = { name: valStr, priority: 'low' };
+        }
+
+        let iconInfo = getIconForPriority(itemObj.priority);
+
+        let node = document.createElement("ion-item");
+        node.innerHTML = `
+          <ion-icon name="${iconInfo.name}" color="${iconInfo.color}" slot="start"></ion-icon>
+          <ion-label>
+            <h2>${itemObj.name}</h2>
+            <p>Priority: ${itemObj.priority}</p>
+          </ion-label> 
+          <ion-button slot="end" onclick="deleteThis('${key}')">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        `;
+        ionic_list.appendChild(node);
+      }
+
+    }
+
+    function itemClick(id) {
+      console.log("Item ID: " + id);
+    }
+
+  </script>
+
+</body>
+
+</html>
