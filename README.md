@@ -1,4 +1,4 @@
-﻿# Vedlejší Projekty
+# Vedlejší Projekty
 
 Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různých oblastí programování. Slouží jako přehled technologií a jazyků, kterým jsem se věnoval.
 
@@ -49,3 +49,6 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 - Úvod do webových a mobilních technologií.
 - **Terms app**: Aplikace v Ionic/Vite pro odpočet důležitých termínů (zkoušky, konec semestru).
 
+### Uživatelská Rozhraní (URO)
+- Tvorba grafických uživatelských rozhraní v různých frameworcích a technologiích.
+- **Task Manager (Python)**: Aplikace ze CustomTkinteru (Python) pro správu úkolů, kategorizaci a termíny. Bude doplněna podobnými verzemi v dalších technologiích (např. Qt).
