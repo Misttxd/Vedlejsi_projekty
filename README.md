@@ -48,6 +48,7 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 ### Technologie a Aplikace Mobilních Zařízení (TAMZ)
 - Úvod do webových a mobilních technologií.
 - **Terms app**: Aplikace v Ionic/Vite pro odpočet důležitých termínů (zkoušky, konec semestru).
+- **BMI calc**: Aplikace pro výpočet BMI s ukládáním historie, postavená na Ionic a Vite.
 
 ### Uživatelská Rozhraní (URO)
 - Tvorba grafických uživatelských rozhraní v různých frameworcích a technologiích.
