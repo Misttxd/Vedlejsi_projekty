@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" rel="stylesheet">
+</head>
+
+<body>
+  <ion-app>
+
+
+    <ion-header>
+
+      <ion-toolbar>
+        <ion-title>HTTP</ion-title>
+      </ion-toolbar>
+
+    </ion-header>
+    <ion-content class="ion-padding">
+
+      <ion-card class="ion-margin-top">
+        <ion-card-content>
+          <ion-input class="ion-margin-top" id="URL_input" label="URL" label-placement="floating" fill="outline"
+            placeholder="Enter URL...">
+            <ion-icon slot="start" name="link"></ion-icon>
+          </ion-input>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="ion-margin-top">
+        <ion-card-content>
+          <ion-input class="ion-margin-top" id="Login_input" label="Login" label-placement="floating" fill="outline"
+            placeholder="Enter Login...">
+            <ion-icon slot="start" name="person" aria-hidden="true"></ion-icon>
+
+
+            <ion-button slot="end" color="danger" fill="clear" onclick="deleteText()">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+
+
+          </ion-input>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="ion-margin-top">
+        <ion-card-content>
+          <ion-list>
+
+            <ion-item>
+              <ion-label id="RSD-text">
+                Received Secret Data:
+              </ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-label id="DSD-text">
+                Decoded Secret Data (atob):
+              </ion-label>
+            </ion-item>
+
+            <ion-item>
+              <ion-label id="FM-text">
+                Final Message:
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="ion-margin-top">
+        <ion-card-content>
+          <ion-button id="getCode_button" expand="block" shape="round" onclick="getCode() //TODO">GET
+            CODE</ion-button>
+        </ion-card-content>
+        <ion-card-content>
+          <ion-button id="sendCode_button" expand="block" shape="round" onclick="sendCode() //TODO">SEND
+            CODE</ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-content>
+          <ion-label id="vtipecek">
+            lol
+          </ion-label>
+        </ion-card-content>
+      </ion-card>
+
+
+
+
+
+    </ion-content>
+  </ion-app>
+
+
+  <style>
+    ion-list {
+      width: 100%;
+    }
+
+    ion-radio.wrapped::part(label) {
+      white-space: normal;
+    }
+
+    #result-modal {
+      --height: auto;
+    }
+  </style>
+
+
+
+  <script>
+    getVtipecek("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,political&format=txt");
+
+    async function getVtipecek(file) {
+      let myObject = await fetch(file);
+      let myText = await myObject.text();
+      let vtipecekLabel = document.getElementById("vtipecek");
+      vtipecekLabel.innerHTML = myText;
+    }
+
+    function deleteText() {
+      let LoginInput = document.getElementById("Login_input");
+      LoginInput.value = null;
+    }
+
+
+    let secretToken = "";
+    async function getCode() {
+      try {
+        let login = document.getElementById("Login_input").value;
+        let url = document.getElementById("URL_input").value;
+        let timestamp = Date.now(); // Čas v milisekundách od 1970-01-01 [cite: 178]
+
+        // GET request s parametry user a timestamp [cite: 178]
+        let response = await fetch(`${url}?user=${login}&timestamp=${timestamp}`);
+        secretToken = await response.text(); // Získáme base64 token [cite: 180]
+
+        document.getElementById("RSD-text").innerText = "Received Secret Data: " + secretToken;
+        document.getElementById("DSD-text").innerText = "Decoded Secret Data (atob): " + atob(secretToken); // Dekódování pomocí atob [cite: 180]
+      } catch (e) {
+        console.log("chyba");
+      }
+    }
+
+    async function sendCode() {
+      try {
+        let url = document.getElementById("URL_input").value;
+
+        // Nový request na stejnou URL bez loginu, s hlavičkou Authorization [cite: 181]
+        let response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + secretToken // "Bearer " + token_var [cite: 181]
+          }
+        });
+
+        let finalMessage = await response.text();
+        document.getElementById("FM-text").innerText = "Final Message: " + finalMessage;
+      } catch (e) {
+        console.log("chyba");
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>

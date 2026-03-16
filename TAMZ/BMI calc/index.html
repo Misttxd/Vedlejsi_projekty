@@ -297,19 +297,31 @@
       document.getElementById('result-modal').present();
 
       let timeKey = Date.now();
-      let vysledek = "BMI: " + bmi.toFixed(1) + " ze dne " + new Date().toLocaleDateString();
+      let vysledek = JSON.stringify({
+        bmi: bmi.toFixed(1),
+        name: username.value,
+        age: age.value,
+        gender: gender.value,
+        height: height.value,
+        weight: weight.value,
+        date: new Date().toLocaleDateString()
+      });
 
       localStorage.setItem(timeKey, vysledek);
 
+      let data = JSON.parse(vysledek);
       let historyList = document.getElementById("History_list");
-      historyList.innerHTML += `
-        <ion-item id="${timeKey}">
-          <ion-label>${vysledek}</ion-label>
-          <ion-button slot="end" color="danger" fill="clear" onclick="deleteThis('${timeKey}')">
+      historyList.innerHTML += \`
+        <ion-item id="\${timeKey}">
+          <ion-label>
+            <h2>BMI: \${data.bmi}</h2>
+            <p>\${data.name} • \${data.date}</p>
+          </ion-label>
+          <ion-button slot="end" color="danger" fill="clear" onclick="deleteThis('\${timeKey}')">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
           </ion-button>
         </ion-item>
-      `;
+      \`;
     }
 
     function showItems() {
@@ -319,16 +331,19 @@
       for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);
 
-        let hodnota = localStorage.getItem(key);
+        let data = JSON.parse(localStorage.getItem(key));
 
-        historyList.innerHTML += `
-          <ion-item id="${key}">
-            <ion-label>${hodnota}</ion-label>
-            <ion-button slot="end" color="danger" fill="clear" onclick="deleteThis('${key}')">
+        historyList.innerHTML += \`
+          <ion-item id="\${key}">
+            <ion-label>
+              <h2>BMI: \${data.bmi}</h2>
+              <p>\${data.name} • \${data.date}</p>
+            </ion-label>
+            <ion-button slot="end" color="danger" fill="clear" onclick="deleteThis('\${key}')">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-button>
           </ion-item>
-        `;
+        \`;
       }
     }
 
