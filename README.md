@@ -50,6 +50,7 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 - **Terms app**: Aplikace v pro odpočet důležitých termínů (zkoušky, konec semestru).
 - **Memory app**: Aplikace pro ukládání jednoduchých záznamů do lokální paměti.
 - **BMI calc**: Aplikace pro výpočet BMI s ukládáním historie.
+- **API app**: Aplikace demonstrující HTTP požadavky (GET a POST) s využitím tokenu.
 
 ### Uživatelská Rozhraní (URO)
 - Tvorba grafických uživatelských rozhraní v různých frameworcích a technologiích.
