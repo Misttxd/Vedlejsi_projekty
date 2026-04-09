@@ -19,6 +19,11 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 - **Projekt**: Kompletní SQL skripty (DDL, DML) a LaTeX dokumentace pro databázi rytmické hry.
 - **SQL Cvičení**: Sada vyřešených SQL dotazů zaměřených na analýzu dat z vědecké databáze.
 
+### Databázové Systémy II (DS II)
+- Sjednocená sada SQL/PLSQL cvičení s důrazem na procedury, funkce, triggery a práci s kurzory.
+- Tematické tréninkové scénáře pro procvičování na test (zadání, vlastní vypracování, referenční řešení).
+- Více informací ve složce [DS II](./DS%20II/README.md).
+
 ### Assembler (ASM)
 - Implementace základních algoritmů a práce s pamětí v NASM ve spojení s jazykem C.
 
@@ -52,7 +57,7 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 
 ### Technologie a Aplikace Mobilních Zařízení (TAMZ)
 - Úvod do webových a mobilních technologií.
-- **Terms app**: Aplikace v pro odpočet důležitých termínů (zkoušky, konec semestru).
+- **Terms app**: Aplikace pro odpočet důležitých termínů (zkoušky, konec semestru).
 - **Memory app**: Aplikace pro ukládání jednoduchých záznamů do lokální paměti.
 - **BMI calc**: Aplikace pro výpočet BMI s ukládáním historie.
 - **API app**: Aplikace demonstrující HTTP požadavky (GET a POST) s využitím tokenu.
