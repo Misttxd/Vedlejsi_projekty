@@ -2,11 +2,6 @@
 
 Tato složka obsahuje tematické scénáře pro procvičování na test z DS II.
 
-## Jak s tím pracovat
-
-1. Nejprve si přečti zadani.md.
-2. Poté řeš úlohy v zadani.sql.
-3. Nakonec porovnej své řešení se souborem vypracovani.sql.
 
 ## Přehled scénářů
 

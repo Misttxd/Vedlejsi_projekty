@@ -23,8 +23,3 @@ Tato složka je uklizená verze materiálů k předmětu Databázové systémy I
 - vzorkovani-a-vypocet-odmen
 - kontrola-konzistence-a-reporting
 
-## Co bylo sjednoceno
-
-- Sjednocené názvy souborů do jednotného stylu: malými písmeny, pomlčky pro složky, smysluplné názvy podle obsahu.
-- Odstraněné duplicitní kopie cvičení, ponechaná jedna hlavní verze.
-- Složka GRIND nahrazena přehlednou částí treninkove-scenare.
