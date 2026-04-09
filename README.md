@@ -45,6 +45,11 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 - Sada projektů v C++ demonstrující principy OOP, jako je dědičnost, polymorfismus a abstraktní třídy.
 - Zahrnuje návrhy jednoduchých systémů (banka, škola, fakturace).
 
+### Síťové komunikace a jazyky (SKJ)
+- Semestrální backendový projekt Object Storage API ve FastAPI.
+- Součástí je SQLAlchemy perzistence, Pydantic validace, Alembic migrace, buckety, billing a soft delete.
+- Více informací ve složce [SKJ](./SKJ/README.md).
+
 ### Technologie a Aplikace Mobilních Zařízení (TAMZ)
 - Úvod do webových a mobilních technologií.
 - **Terms app**: Aplikace v pro odpočet důležitých termínů (zkoušky, konec semestru).
