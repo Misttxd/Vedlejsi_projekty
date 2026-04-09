@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+
+# Local runtime/data artifacts
+storage/
+*.db
+*.sqlite
+*.sqlite3
+metadata.json
+
+# Alembic cache
+alembic/**/__pycache__/
