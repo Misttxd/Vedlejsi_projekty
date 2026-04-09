@@ -2,24 +2,29 @@
 
 Tato složka je uklizená verze materiálů k předmětu Databázové systémy II.
 
-## Struktura
+## Rychlá orientace
 
-- [Cvičení](./cviceni/README.md)
-  - [cv01_sql_dotazy.sql](./cviceni/cv01_sql_dotazy.sql) - SQL dotazy a úkoly z cvičení (sjednocená verze)
-  - [cv02_plsql_zaklady.sql](./cviceni/cv02_plsql_zaklady.sql) - PL/SQL základy (deklarace, bloky, DML)
-  - [cv03_procedury_funkce_triggery.sql](./cviceni/cv03_procedury_funkce_triggery.sql) - procedury, funkce, triggery
-  - [cv04_kurzory_a_pokrocile_ulohy.sql](./cviceni/cv04_kurzory_a_pokrocile_ulohy.sql) - kurzory a pokročilejší úlohy
-  - [cv05_odmeny_a_priprava.sql](./cviceni/cv05_odmeny_a_priprava.sql) - příprava na výpočty odměn a reporty
+- [Cvičení](./cviceni/README.md): sjednocené SQL/PLSQL materiály od cv01 do cv05.
+- [Tréninkové scénáře](./treninkove-scenare/README.md): tematické procvičování na test.
 
-- [Tréninkové scénáře](./treninkove-scenare/README.md)
-  - [sprava-vazeb-a-xml-export](./treninkove-scenare/sprava-vazeb-a-xml-export/)
-  - [vkladani-clanku-a-json-export](./treninkove-scenare/vkladani-clanku-a-json-export/)
-  - [dynamicke-tabulky-a-triggery](./treninkove-scenare/dynamicke-tabulky-a-triggery/)
-  - [vzorkovani-a-vypocet-odmen](./treninkove-scenare/vzorkovani-a-vypocet-odmen/)
-  - [kontrola-konzistence-a-reporting](./treninkove-scenare/kontrola-konzistence-a-reporting/)
+## Cvičení
+
+- cv01_sql_dotazy.sql - SQL dotazy a analytické úlohy.
+- cv02_plsql_zaklady.sql - PL/SQL bloky, proměnné, výjimky, DML.
+- cv03_procedury_funkce_triggery.sql - procedury, funkce, triggery.
+- cv04_kurzory_a_pokrocile_ulohy.sql - kurzory a pokročilejší logika.
+- cv05_odmeny_a_priprava.sql - odměny, přepočty a reporty.
+
+## Tréninkové scénáře
+
+- sprava-vazeb-a-xml-export
+- vkladani-clanku-a-json-export
+- dynamicke-tabulky-a-triggery
+- vzorkovani-a-vypocet-odmen
+- kontrola-konzistence-a-reporting
 
 ## Co bylo sjednoceno
 
 - Sjednocené názvy souborů do jednotného stylu: malými písmeny, pomlčky pro složky, smysluplné názvy podle obsahu.
 - Odstraněné duplicitní kopie cvičení, ponechaná jedna hlavní verze.
-- Složka `GRIND` nahrazena přehlednou částí `treninkove-scenare`.
+- Složka GRIND nahrazena přehlednou částí treninkove-scenare.
