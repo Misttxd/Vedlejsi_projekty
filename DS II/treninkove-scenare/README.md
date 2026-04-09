@@ -11,4 +11,4 @@ Tato složka obsahuje tematické scénáře pro procvičování na test z DS II.
 - vzorkovani-a-vypocet-odmen - vzorkování dat a výpočet odměny za článek.
 - kontrola-konzistence-a-reporting - kontrola konzistence statistik a report oborů pro instituci.
 
-Každý scénář obsahuje stejnou trojici souborů: zadani.md, zadani.sql, vypracovani.sql.
+Každý scénář obsahuje stejnou dvojici souborů: zadani.md, vypracovani.sql.
