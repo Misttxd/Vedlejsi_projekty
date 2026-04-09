@@ -51,6 +51,7 @@ Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různ
 - **Memory app**: Aplikace pro ukládání jednoduchých záznamů do lokální paměti.
 - **BMI calc**: Aplikace pro výpočet BMI s ukládáním historie.
 - **API app**: Aplikace demonstrující HTTP požadavky (GET a POST) s využitím tokenu.
+- **Phaser game**: 2D hra ve Phaser 3 se sbíráním předmětů, nepřítelem, skórováním a offline režimem (PWA).
 
 ### Uživatelská Rozhraní (URO)
 - Tvorba grafických uživatelských rozhraní v různých frameworcích a technologiích.
