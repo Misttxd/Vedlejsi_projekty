@@ -1,5 +1,5 @@
 // Název mezipaměti (cache). Při změně verze dojde k přenačtení souborů.
-const CACHE_N = 'pwa-cache-v027';
+const CACHE_N = 'pwa-cache-v029'; //##
 
 // Seznam souborů, které se mají uložit do mezipaměti ihned při instalaci.
 const cacheUrls = [

@@ -81,21 +81,32 @@ function create() {
         ? map.createLayer('collision', tiles, 0, 0)
         : backgroundLayer;
 
-    // https://docs.phaser.io/api-documentation/class/tilemaps-tilemap#setcollisionbyexclusion
-    collisionLayer.setCollisionByExclusion([-1]);
+    const structureTileIds = [ //##
+        // 4 strechy (3x3 bloky) //##
+        28, 29, 30, 36, 37, 38, 44, 45, 46, //##
+        // fontana (3x3 blok) //##
+        52, 53, 54, 60, 61, 62, 68, 69, 70 //##
+    ]; //##
+
+    // Hardcoded hitboxy na strechy + fontanu podle ID v bezjmena.json //##
+    collisionLayer.setCollision(structureTileIds); //##
 
 
     bestScore = Number(localStorage.getItem('vebakBestScore') || 0); //##
 
     player = this.physics.add.sprite(100, 100, 'robot');
     player.body.setSize(30, 42, true); //##
+    player.setCollideWorldBounds(true); //##
 
-    enemy = this.physics.add.sprite(getRandomInt(40, map.widthInPixels - 40), getRandomInt(40, map.heightInPixels - 40), 'enemy');
+    const enemySpawn = getRandomWalkablePoint(40); //##
+    enemy = this.physics.add.sprite(enemySpawn.x, enemySpawn.y, 'enemy');
     enemy.setScale(0.08);
     enemy.body.setSize(36, 36, true); //## 
+    enemy.setCollideWorldBounds(true); //##
 
-    enemyPointX = getRandomInt(40, map.widthInPixels - 40); //##
-    enemyPointY = getRandomInt(40, map.heightInPixels - 40); //##
+    const enemyTarget = getRandomWalkablePoint(40); //##
+    enemyPointX = enemyTarget.x; //##
+    enemyPointY = enemyTarget.y; //##
 
 
     vebak = this.physics.add.sprite(0, 0, 'vebak'); //##
@@ -116,6 +127,7 @@ function create() {
     }); //##
 
     this.physics.add.collider(player, collisionLayer);
+    this.physics.add.collider(enemy, collisionLayer); //##
     this.physics.add.overlap(player, backgroundLayer);
     this.physics.add.overlap(player, vebak, collisionPlayerVebak);
     this.physics.add.overlap(player, enemy, collisionPlayerEnemy);
@@ -155,12 +167,33 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
 }
 
+function getRandomWalkablePoint(padding) { //##
+    for (let i = 0; i < 80; i++) { //##
+        let x = getRandomInt(padding, map.widthInPixels - padding); //##
+        let y = getRandomInt(padding, map.heightInPixels - padding); //##
+        let tile = collisionLayer.getTileAtWorldXY(x, y); //##
+
+        if (!tile || !tile.collides) { //##
+            return { x: x, y: y }; //##
+        } //##
+    } //##
+
+    return { x: padding, y: padding }; //##
+} //##
+
 function enemyMovement(){
     let distanceToTarget = Phaser.Math.Distance.Between(enemy.x, enemy.y, enemyPointX, enemyPointY); //##
 
     if (distanceToTarget < 8) { //##
-        enemyPointX = getRandomInt(40, map.widthInPixels - 40); //##
-        enemyPointY = getRandomInt(40, map.heightInPixels - 40); //##
+        const nextPoint = getRandomWalkablePoint(40); //##
+        enemyPointX = nextPoint.x; //##
+        enemyPointY = nextPoint.y; //##
+    } //##
+
+    if (distanceToTarget > 16 && (enemy.body.blocked.left || enemy.body.blocked.right || enemy.body.blocked.up || enemy.body.blocked.down)) { //##
+        const nextPoint = getRandomWalkablePoint(40); //##
+        enemyPointX = nextPoint.x; //##
+        enemyPointY = nextPoint.y; //##
     }
 
     let dx = enemyPointX - enemy.x; //##
