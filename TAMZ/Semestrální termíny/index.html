@@ -1,61 +1,13 @@
 <!DOCTYPE html>
 <html>
 
-<!-- =============================================================
-TODO 1: Přidání důležitých termínů
-=============================================================
-Vytvořte novou ion-card, ve které zobrazíte 3 důležité termíny
-(např. konec semestru, zkouška, servis ...).
-
-Harmonogram semestru: https://www.vsb.cz/cs/student/harmonogram/
-Ověření výsledků: https://www.timeanddate.com/date/durationresult.html
--->
-
-<!-- =============================================================
-TODO 2: Barevné rozlišení zbývajících dnů
-=============================================================
-Podle počtu zbývajících dnů změňte barvu textu termínu, například:
-- méně než 7 dnů → červeně
-- méně než 30 dnů → oranžově
-- 30 a více dnů → zeleně
-- v minulosti → šedě
--->
-
-<!-- =============================================================
-TODO 3: Progress bar průběhu semestru
-=============================================================
-Přidejte ion-card s komponentou ion-progress-bar, která
-zobrazí, kolik procent semestru již uběhlo.
-
-Dokumentace: https://ionicframework.com/docs/api/progress-bar
--->
-
-<!-- =============================================================
-TODO 4: Toast upozornění na blízké termíny
-=============================================================
-Při načtení stránky zkontrolujte, zda je některý termín
-za 7 nebo méně dnů. Pokud ano, zobrazte ion-toast
-s upozorněním.
-
-Dokumentace: https://ionicframework.com/docs/api/toast
--->
-
-<!-- =============================================================
-BONUS: Živý odpočet v reálném čase
-=============================================================
-Přidejte kartu, která zobrazuje odpočet do konce semestru například
-ve formátu: "93d 14h 23m 45s" a aktualizuje se každou sekundu.
-
-HINT: Použijte setInterval
--->
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
   <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" rel="stylesheet">
-  <title>Terms App</title>
+  <title>Semestrální termíny</title>
 </head>
 
 <body>
@@ -69,7 +21,7 @@ HINT: Použijte setInterval
 
     <ion-content class="ion-padding">
 
-      <!-- Karta: Aktualni datum -->
+      <!-- Karta: Aktuální datum -->
       <ion-card>
         <ion-card-content>
           <div>
@@ -205,6 +157,23 @@ HINT: Použijte setInterval
       }
     }
 
+    function formatRemainingDays(days) {
+      if (days < 0) {
+        return "Proběhlo před " + Math.abs(days) + " dny";
+      }
+      if (days === 0) {
+        return "Probíhá dnes";
+      }
+      return "Zbývá času: " + days + " dní";
+    }
+
+    function showNearTermToast(label, days) {
+      if (days >= 0 && days <= 7) {
+        myToast.message = label.textContent + ": zbývá " + days + " dní";
+        myToast.present();
+      }
+    }
+
     let startOfSemesterDate = new Date(2026, 1, 16) // 16. února 2026
     let endOfSemesterDate = new Date(2026, 4, 16); // 16. května 2026
     let karieraPlusDate = new Date(2026, 2, 10); // 10. března 2026
@@ -216,32 +185,24 @@ HINT: Použijte setInterval
     function update(selected) {
 
       let progress = (selected - startOfSemesterDate) / (endOfSemesterDate - startOfSemesterDate);
+      progress = Math.min(Math.max(progress, 0), 1);
       myProg.value = progress;
 
       let diffDays1 = Math.ceil((endOfSemesterDate - selected) / (1000 * 60 * 60 * 24));
-      myLabelTerm1.textContent = "Zbývá času: " + diffDays1 + " dní";
+      myLabelTerm1.textContent = formatRemainingDays(diffDays1);
       setColor(myColorTerm1, diffDays1);
 
       let diffDays2 = Math.ceil((karieraPlusDate - selected) / (1000 * 60 * 60 * 24));
-      myLabelTerm2.textContent = "Zbývá času: " + diffDays2 + " dní";
+      myLabelTerm2.textContent = formatRemainingDays(diffDays2);
       setColor(myColorTerm2, diffDays2);
 
       let diffDays3 = Math.ceil((sportovniDenDate - selected) / (1000 * 60 * 60 * 24));
-      myLabelTerm3.textContent = "Zbývá času: " + diffDays3 + " dní";
+      myLabelTerm3.textContent = formatRemainingDays(diffDays3);
       setColor(myColorTerm3, diffDays3);
 
-      if (diffDays1 <= 7) {
-        myToast.message = myLabelTermNazev1.textContent + ": zbývá " + diffDays1 + " dní";
-        myToast.present();
-      }
-      if (diffDays2 <= 7) {
-        myToast.message = myLabelTermNazev2.textContent + ": zbývá " + diffDays2 + " dní";
-        myToast.present();
-      }
-      if (diffDays3 <= 7) {
-        myToast.message = myLabelTermNazev3.textContent + ": zbývá " + diffDays3 + " dní";
-        myToast.present();
-      }
+      showNearTermToast(myLabelTermNazev1, diffDays1);
+      showNearTermToast(myLabelTermNazev2, diffDays2);
+      showNearTermToast(myLabelTermNazev3, diffDays3);
 
     }
 
@@ -250,6 +211,10 @@ HINT: Použijte setInterval
     function updateCountdown() {
       let now = new Date(Date.now() + simulatedTimeOffset);
       let diffSeconds = Math.ceil((endOfSemesterDate - now) / 1000);
+      if (diffSeconds <= 0) {
+        myCountdown.textContent = "Semestr skončil";
+        return;
+      }
       let days = Math.floor(diffSeconds / (3600 * 24));
       let hours = Math.floor((diffSeconds % (3600 * 24)) / 3600);
       let minutes = Math.floor((diffSeconds % 3600) / 60);

@@ -1,54 +1,3 @@
-<!-- =============================================================
-    TODO 0: Zobrazení záznamů v ionic-list
-    =============================================================
-    Upravte funkci showItems() tak, aby se zobrazovaly správné
-    názvy záznamu v ion-list (místo HTML list).
--->
-
-
-<!-- =============================================================
-    TODO 1: Smazání všech záznamů
-    =============================================================
-    Doplňte funkci, která odstraní všechny záznamy z úložiště
-    a aktualizuje zobrazený seznam.
--->
-
-<!-- =============================================================
-    TODO 2: Přidání záznamu s vlastním názvem
-    =============================================================
-    Upravte přidávání tak, aby se jako název záznamu použil
-    text zadaný uživatelem (ion-input). 
-    Co použít jako vhodný klíč?
--->
-
-<!-- =============================================================
-    TODO 3: Odstranění jednotlivého záznamu
-    =============================================================
-    Přidejte možnost odstranit konkrétní záznam ze seznamu
-    (např. tlačítkem u každé položky).
--->
-
-<!-- =============================================================
-    Za splnění základních TODO 0-3 získáte 2 body.
-    Pokud vypracujete i některá z následujících rozšíření (bonus), 
-    můžete získat další 1 bod navíc.
-    =============================================================
-    - Vytvořte objekt reprezentující záznam a do úložiště ukládejte
-      a načítejte tento objekt pomocí JSON.stringify / JSON.parse.
-      Např.: { name: "Nákup", priority: "high" }
-    
-    - Přidejte barvu/ikonu podle priority (ion-select + ion-icon)
-    
-    - Použijte ion-item-sliding pro swipe-to-delete
-      https://ionicframework.com/docs/api/item-sliding
-    
-    - Přidejte ion-alert pro potvrzení smazání
-      https://ionicframework.com/docs/api/alert
-    
-    - Přidejte ion-badge s počtem položek do headeru
-      https://ionicframework.com/docs/api/badge
--->
-
 <!DOCTYPE html>
 <html>
 
@@ -65,32 +14,27 @@
     <ion-header>
 
       <ion-toolbar>
-        <ion-title>Local Storage <ion-badge id="item-count" color="primary">0</ion-badge></ion-title>
+        <ion-title>Lokální paměť <ion-badge id="item-count" color="primary">0</ion-badge></ion-title>
       </ion-toolbar>
 
     </ion-header>
 
     <ion-content class="ion-padding">
 
-      <!-- <ion-button id="button-list-1" onclick="showHList(50)">HTML List</ion-button>
-      <ion-button id="button-list-2" onclick="showIList(50)">Ionic List</ion-button>
-      <ion-button id="button-list-3" onclick="addSimpleItem()">LS add</ion-button>
-      <ion-button id="button-list-4" onclick="showItems()">LS read</ion-button>-->
-      <ion-button id="button-delete-all" onclick="deleteAllItems()" color="danger">Delete All</ion-button>
+      <ion-button id="button-delete-all" onclick="deleteAllItems()" color="danger">Smazat vše</ion-button>
 
-      <ul id="html-list"> </ul>
       <ion-list id="ionic-list" inset="true"> </ion-list>
 
       <div id="add_item" class="ion-margin-top">
-        <ion-input id="Outline-input" label="Item name" label-placement="floating" fill="outline" placeholder="Name...">
+        <ion-input id="Outline-input" label="Název položky" label-placement="floating" fill="outline" placeholder="Název...">
 
-          <ion-select id="Priority-input" slot="end" aria-label="Priority" interface="popover" placeholder="Priority">
-            <ion-select-option value="low">Low</ion-select-option>
-            <ion-select-option value="medium">Medium</ion-select-option>
-            <ion-select-option value="high">High</ion-select-option>
+          <ion-select id="Priority-input" slot="end" aria-label="Priorita" interface="popover" placeholder="Priorita">
+            <ion-select-option value="low">Nízká</ion-select-option>
+            <ion-select-option value="medium">Střední</ion-select-option>
+            <ion-select-option value="high">Vysoká</ion-select-option>
           </ion-select>
 
-          <ion-button id="Outline-input-button" slot="end" onclick="addTextboxItem()">ADD</ion-button>
+          <ion-button id="Outline-input-button" slot="end" onclick="addTextboxItem()">Přidat</ion-button>
 
         </ion-input>
       </div>
@@ -150,38 +94,20 @@
       }
     }
 
-    function showHList(n) {
-      console.log('showHList');
-      for (let i = 0; i < n; i++) {
-        let node = document.createElement("li");
-        node.innerText = i.toString();
-        document.getElementById("html-list").appendChild(node);
+    function getPriorityLabel(priority) {
+      if (priority === 'high') {
+        return 'vysoká';
       }
+      if (priority === 'medium') {
+        return 'střední';
+      }
+      return 'nízká';
     }
 
     function deleteThis(key) {
       localStorage.removeItem(key);
       showItems();
     }
-
-    // function showIList(n) {
-    //   console.log('showIList');
-    //   for (let i = 0; i < n; i++) {
-    //     let node = document.createElement("ion-item");
-    //     node.setAttribute("button", "true");
-    //     node.innerHTML = `<ion-label>${i.toString()}</ion-label>`;
-    //     document.getElementById("ionic-list").appendChild(node);
-    //   }
-    // }
-
-    // function addSimpleItem() {
-
-    //   localStorage.setItem("key-1", "AAA BBB CCC DDD");
-    //   localStorage.setItem("key-2", "BBB CCC DDD EEE");
-    //   localStorage.setItem("key-3", "CCC DDD FFF GGG");
-    //   console.log("localStorage.length: " + localStorage.length);
-
-    // }
 
     function showItems() {
 
@@ -217,7 +143,7 @@
           <ion-icon name="${iconInfo.name}" color="${iconInfo.color}" slot="start"></ion-icon>
           <ion-label>
             <h2>${itemObj.name}</h2>
-            <p>Priority: ${itemObj.priority}</p>
+            <p>Priorita: ${getPriorityLabel(itemObj.priority)}</p>
           </ion-label> 
           <ion-button slot="end" onclick="deleteThis('${key}')">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
@@ -226,10 +152,6 @@
         ionic_list.appendChild(node);
       }
 
-    }
-
-    function itemClick(id) {
-      console.log("Item ID: " + id);
     }
 
   </script>

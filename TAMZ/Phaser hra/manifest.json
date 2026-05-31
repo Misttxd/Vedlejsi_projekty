@@ -1,6 +1,6 @@
 {
-  "name": "Phaser Game",
-  "short_name": "Game",
+  "name": "Phaser hra",
+  "short_name": "Hra",
   "start_url": "index.html",
   "display": "fullscreen",
   "background_color": "#000000",

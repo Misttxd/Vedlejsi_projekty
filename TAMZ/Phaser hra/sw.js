@@ -1,5 +1,5 @@
 // Název mezipaměti (cache). Při změně verze dojde k přenačtení souborů.
-const CACHE_N = 'pwa-cache-v029'; //##
+const CACHE_N = 'pwa-cache-v030'; //##
 
 // Seznam souborů, které se mají uložit do mezipaměti ihned při instalaci.
 const cacheUrls = [
@@ -10,7 +10,7 @@ const cacheUrls = [
     "./assets/items.png",
     "./assets/map_tiles.png",
     "./assets/json_map.json",
-    "./maps/bezjmena.json",
+    "./maps/mapa.json",
     "./maps/vebak.png",
     "./maps/enemy.png",
     "./maps/coin_sound.mp3",

@@ -17,7 +17,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Ionic + React + Leaflet Maps</IonTitle>
+          <IonTitle>Mapa a lokace</IonTitle>
         </IonToolbar>
 
         <IonToolbar>

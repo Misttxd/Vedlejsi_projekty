@@ -1,4 +1,4 @@
-# Memory App
+# Lokální paměť
 
 Aplikace pro ukládání jednoduchých záznamů (úkolů).
 

@@ -1,8 +1,10 @@
-# Terms App
+# Semestrální termíny
 
 Aplikace pro sledování důležitých termínů v semestru.
 
 ## Popis funkčnosti
 - Zobrazuje začátek a konec semestru s odpočtem v reálném čase.
-- Vizuálně barevně rozlišuje termíny podle zbývajících dnů (zelená - bezpečí, oranžová - blížící se, červená - kriticky blízko).
-- Upozorňuje uživatele pomocí vyskakovacího okna při nízkém počtu dnů do důležité události.
+- Vizuálně rozlišuje termíny podle zbývajících dnů (zelená, oranžová, červená, šedá pro proběhlé termíny).
+- Obsahuje přepínač data pro simulaci průběhu semestru.
+- Ukazuje průběh semestru pomocí progress baru.
+- Upozorňuje uživatele pomocí toastu, pokud se blíží důležitá událost.

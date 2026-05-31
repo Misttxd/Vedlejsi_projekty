@@ -1,6 +1,6 @@
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
+describe('Mapa a lokace', () => {
+  it('zobrazí úvodní obrazovku aplikace', () => {
     cy.visit('/')
-    cy.contains('Iocic + React + Leaflet Maps')
+    cy.contains('Mapa a lokace')
   })
 })

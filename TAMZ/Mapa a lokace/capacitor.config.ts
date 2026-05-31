@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'map.app',
-  appName: 'map-app',
+  appId: 'cz.tamz.mapaalokace',
+  appName: 'Mapa a lokace',
   webDir: 'dist'
 };
 

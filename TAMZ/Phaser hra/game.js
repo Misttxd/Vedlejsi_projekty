@@ -58,7 +58,7 @@ function preload() {
 
     this.load.image('vebak', 'maps/vebak.png');
     this.load.image('tiles', 'assets/map_tiles.png');
-    this.load.tilemapTiledJSON('json_map', 'maps/bezjmena.json');
+    this.load.tilemapTiledJSON('json_map', 'maps/mapa.json');
 
     this.load.image('enemy', 'maps/enemy.png');
     this.load.audio('coinSound', 'maps/coin_sound.mp3'); //##
@@ -70,7 +70,7 @@ function preload() {
 
 function create() {
     map = this.make.tilemap({ key: 'json_map' });
-    //'test_Tiles' - name of the tileset in maps/bezjmena.json
+    //'test_Tiles' - name of the tileset in maps/mapa.json
     //'tiles' - name of the image in load.images()
     const tiles = map.addTilesetImage('test_Tiles', 'tiles');
     backgroundLayer = map.createLayer('Vrstva dlaždic 1', tiles, 0, 0);
@@ -82,13 +82,13 @@ function create() {
         : backgroundLayer;
 
     const structureTileIds = [ //##
-        // 4 strechy (3x3 bloky) //##
+        // 4 střechy (3x3 bloky) //##
         28, 29, 30, 36, 37, 38, 44, 45, 46, //##
-        // fontana (3x3 blok) //##
+        // fontána (3x3 blok) //##
         52, 53, 54, 60, 61, 62, 68, 69, 70 //##
     ]; //##
 
-    // Hardcoded hitboxy na strechy + fontanu podle ID v bezjmena.json //##
+    // Hardcoded hitboxy na střechy + fontánu podle ID v mapa.json //##
     collisionLayer.setCollision(structureTileIds); //##
 
 
@@ -281,13 +281,11 @@ function update() {
 }
 
 function updateText() {
-    scoreText.setText('Skore: ' + score); //##
-    bestScoreText.setText('Nejlepsi skore: ' + bestScore); //##
+    scoreText.setText('Skóre: ' + score); //##
+    bestScoreText.setText('Nejlepší skóre: ' + bestScore); //##
 }
 
 function collisionPlayerEnemy(player, enemy) {
-    //console.log("collision")
-
     if (score > 0) { //##
         player.scene.sound.play('deathSound'); //##
     } //##
@@ -300,7 +298,6 @@ function collisionPlayerEnemy(player, enemy) {
 }
 
 function collisionPlayerVebak(player, item) {
-    //console.log("collision")
     item.disableBody(true, true);
 
     player.scene.sound.play('coinSound'); //##
