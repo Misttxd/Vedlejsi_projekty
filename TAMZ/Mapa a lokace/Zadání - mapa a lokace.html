@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<!-- saved from url=(0074)https://mrl.cs.vsb.cz/data/vyuka/tamz/2026/10/TAMZ-2026-leaflet_react.html -->
+<html lang="cs"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zadání: Mapa a lokace</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0 auto;
+      max-width: 800px;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: #2c3e50;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      border: 1px solid #ddd;
+    }
+
+    code {
+      font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+      font-size: 14px;
+    }
+
+    p code,
+    li code {
+      background-color: #f4f4f4;
+      padding: 1px 5px;
+      border-radius: 3px;
+      border: 1px solid #ddd;
+      font-size: 13px;
+    }
+
+    .step {
+      margin-bottom: 40px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+
+    .step:last-child {
+      border-bottom: none;
+    }
+
+    .poznamka {
+      background-color: #f9f9f9;
+      border-left: 4px solid #aaa;
+      padding: 10px 15px;
+      margin: 15px 0;
+      font-size: 0.95em;
+    }
+
+    .poznamka strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Zadání úkolu: Ionic + React – Mapa a API</h1>
+  <p>
+    <strong>Cíl:</strong> Vytvořit aplikaci, která umožní vyhledat místo podle názvu (pomocí externího API) a zobrazit
+    jej na mapě včetně uložení do seznamu. Očekává se, že pro vypracování úkolu logicky propojíte jednotlivé komponenty.
+  </p>
+
+  <div class="poznamka">
+    <strong>Užitečné odkazy:</strong>
+    <ul>
+      <li><a href="https://react-leaflet.js.org/" target="_blank">React Leaflet Dokumentace</a></li>
+      <li><a href="https://nominatim.org/release-docs/latest/api/Search/" target="_blank">Nominatim API (Geocoding)</a></li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h2>1. Příprava a instalace</h2>
+    <p>Nejprve do projektu nainstalujte knihovnu Leaflet pro práci s mapami.</p>
+    <pre><code>npm install leaflet react-leaflet
+npm install -D @types/leaflet</code></pre>
+    <p><strong>Nezapomeňte</strong> do souboru s mapou naimportovat základní CSS styl:
+      <code>import 'leaflet/dist/leaflet.css';</code>
+    </p>
+  </div>
+
+  <div class="step">
+    <h2>2. Struktura komponent</h2>
+    <p>Vaším úkolem je vytvořit alespoň tyto tři komponenty ve složce <code>src/components</code> a následně je propojit na
+      hlavní obrazovce (<code>Home.tsx</code>):</p>
+    <ul>
+      <li><strong><code>MyMap.tsx</code></strong> – Vykreslí mapu se všemi místy (špendlíky)</li>
+      <li><strong><code>CityForm.tsx</code></strong> – Formulář s textovým polem a tlačítkem. Stará se o volání API a
+        ukládání nového místa.</li>
+      <li><strong><code>PlaceList.tsx</code></strong> – Scrollovatelný seznam historie vyhledaných míst uvnitř
+        komponenty <code>IonCard</code>.</li>
+    </ul>
+    <div class="poznamka">
+      <strong>Nápověda:</strong><br>
+      Stav obsahující pole všech nalezených míst (např. <code>const [places, setPlaces] = useState&lt;any[]&gt;([]);</code>) by měl
+      být definován ve vaší rodičovské komponentě (<code>Home.tsx</code>). Teprve z ní se musí stav poslat do všech tří
+      komponent přes parametry (props).
+    </div>
+  </div>
+
+  <div class="step">
+    <h2>3. Požadavky na jednotlivé části</h2>
+
+    <h3 style="margin-top: 20px;">A) CityForm (Vyhledávací formulář)</h3>
+    <p>
+      Může obsahovat komponenty <code>IonInput</code> pro zadání názvu a <code>IonButton</code>. Při kliknutí zavoláte
+      přes <code>fetch</code> veřejné API Nominatim:
+    </p>
+    <pre><code>https://nominatim.openstreetmap.org/search?format=json&amp;q=NAZEV_MISTA</code></pre>
+    <p>
+      Z odpovědi z API (což je pole JSON objektů) si vezměte první prvek a vytáhněte z něj vlastnosti:
+    </p><ul>
+      <li><code>display_name</code> (název)</li>
+      <li><code>lat</code> (zeměpisná šířka) pozor, API vrací text, převeďte na číslo pomocí parseFloat()</li>
+      <li><code>lon</code> (zeměpisná délka) pozor, API vrací text, převeďte na číslo pomocí parseFloat()</li>
+    </ul>
+    Z nich můžete vytvořit objekty a vložit je do pole. Pokud hledané místo na API neexistuje, můžete uživateli ukázat varování.
+    <p></p>
+
+    <h3 style="margin-top: 20px;">B) MyMap (Zobrazení mapy)</h3>
+    <p>Využijte komponenty z <code>react-leaflet</code>. Budete potřebovat minimálně <code>MapContainer</code>,
+      <code>TileLayer</code> a pak <code>Marker</code> s vloženým textem (<code>Popup</code>).
+    </p>
+
+    <div class="poznamka">
+      <strong>Základní ukázka Leaflet mapy v Reactu:</strong><br>
+      Tady je malá nápověda, jak vypadá naprostý základ s jedním pevným bodem:
+      <pre style="margin-top: 10px; padding: 10px;"><code>import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+
+export default function MyMap() {
+  return (
+    &lt;MapContainer center={[49.8209, 18.2625]} zoom={8} style={{ height: '70vh', width: '100%' }}&gt;
+      &lt;TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" /&gt;
+      
+      &lt;Marker position={[49.8209, 18.2625]}&gt;
+        &lt;Popup&gt;Ostrava&lt;/Popup&gt;
+      &lt;/Marker&gt;
+    &lt;/MapContainer&gt;
+  );
+}</code></pre>
+    </div>
+
+    <div class="poznamka">
+      <strong>Nápověda pro vykreslování v Reactu:</strong><br>
+      Pro vykreslení více bodů do mapy můžete využit .map<br>
+      <code>{places.map((place, index) =&gt; ( &lt;Marker ... /&gt; ))}</code>
+    </div>
+
+    <h3 style="margin-top: 20px;">C) PlaceList (Seznam historie)</h3>
+    <p>
+      Vykreslete nalezená místa jako Ionic list (<code>IonList</code> a <code>IonItem</code>) a celé to obalte do karty
+      (<code>IonCard</code>).
+    </p>
+
+  </div>
+
+  <div class="step">
+    <h2>4. Rozšíření</h2>
+    <p>
+      Jako rozšíření je možné celou aplikaci rozdělit na dvě záložky pomocí komponenty
+      <a href="https://ionicframework.com/docs/api/segment" target="_blank">IonSegment</a>.
+    </p>
+    <ul>
+      <li>V <strong>prvním segmentu</strong> (záložce) se bude zobrazovat formulář pro zadávání a seznam uložených míst.</li>
+      <li>Ve <strong>druhém segmentu</strong> bude zobrazená samotná mapa.</li>
+    </ul>
+  </div>
+
+
+
+
+</body></html>

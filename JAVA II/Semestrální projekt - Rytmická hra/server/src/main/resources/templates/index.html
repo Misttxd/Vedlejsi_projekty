@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rhythm Game - skóre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            color: #222222;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 1000px;
+            max-width: 100%;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid #cccccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background: #eeeeee;
+        }
+
+        .muted {
+            color: #777777;
+        }
+
+        details {
+            width: 1000px;
+            max-width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #cccccc;
+            padding: 10px;
+        }
+
+        details details {
+            width: auto;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Rhythm Game</h1>
+
+<h2>Skladby a obtížnosti</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Skladba</th>
+        <th>Obtížnost</th>
+        <th>BPM</th>
+        <th>Délka</th>
+        <th>Počet drah</th>
+        <th>Rychlost generování</th>
+        <th>Hit zóna</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="map : ${maps}">
+        <td th:text="${map.song.title}">Song</td>
+        <td th:text="${map.difficulty}">Difficulty</td>
+        <td th:text="${map.song.bpm}">0</td>
+        <td th:text="|${map.song.durationSeconds / 60}:${#numbers.formatInteger(map.song.durationSeconds % 60, 2)}|">0:00</td>
+        <td th:text="${map.laneCount}">4</td>
+        <td th:text="${map.bpmMultiplier} + 'x'">1x</td>
+        <td th:text="${map.hitZoneHeight}">0</td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(maps)}">
+        <td colspan="7" class="muted">Nejsou dostupné žádné mapy.</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Všechny záznamy podle skladby</h2>
+
+<p class="muted" th:if="${totalScoreCount == 0}">Zatím není uložený žádný záznam.</p>
+
+<details th:each="songEntry : ${mapsBySong}">
+    <summary>
+        <span th:text="${songEntry.key}">Skladba</span>
+    </summary>
+
+    <details th:each="map : ${songEntry.value}">
+        <summary>
+            <span th:text="${map.difficulty}">Obtížnost</span>
+            <span> - </span>
+            <span th:text="${#lists.size(scoresByMap[map.id])}">0</span>
+            <span> záznamů</span>
+        </summary>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Hráč</th>
+                <th>Body</th>
+                <th>Rank</th>
+                <th>Přesnost</th>
+                <th>Max combo</th>
+                <th>Datum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="score : ${scoresByMap[map.id]}">
+                <td th:text="${score.player != null ? score.player.nickName : '---'}">Player</td>
+                <td th:text="${score.points}">0</td>
+                <td th:text="${score.rank}">F</td>
+                <td th:text="${#numbers.formatDecimal(score.accuracy, 1, 1)} + '%'">0%</td>
+                <td th:text="${score.maxCombo}">0</td>
+                <td th:text="${#temporals.format(score.playedAt, 'dd.MM.yyyy HH:mm')}">datum</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(scoresByMap[map.id])}">
+                <td colspan="6" class="muted">Pro tuto obtížnost zatím není uložený žádný záznam.</td>
+            </tr>
+            </tbody>
+        </table>
+    </details>
+</details>
+
+<p>
+    <a href="/swagger-ui/index.html">Swagger UI</a>
+</p>
+</body>
+</html>

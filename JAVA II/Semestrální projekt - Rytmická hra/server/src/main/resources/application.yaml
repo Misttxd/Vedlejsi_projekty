@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: rhythm-game-server
+  datasource:
+    url: jdbc:h2:file:./rhythm-game-server-db
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+server:
+  port: 8080

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+    <style>
+        body {
+            font-family: Georgia, "Times New Roman", serif;
+            margin: 40px;
+            color: #1f2933;
+            background: #f7f7f2;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #d8d6cc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #e8e3d3;
+        }
+
+        button {
+            padding: 6px 10px;
+            border: 1px solid #9b2c2c;
+            color: white;
+            background: #c53030;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h1>Users</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Akce</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.email}"></td>
+        <td>
+            <form th:action="@{/users/{id}/delete(id=${user.id})}" method="post">
+                <button type="submit">Smazat</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

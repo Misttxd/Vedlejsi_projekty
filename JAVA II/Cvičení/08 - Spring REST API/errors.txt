@@ -1,0 +1,416 @@
+findAll
+
+Test FAILURE:
+Response content
+Expected: (a string containing "id" and a string containing "00000000-0000-0000-0000-000000000000" and a string containing "2022-01-01" and a string containing "firstName")
+     but: a string containing "00000000-0000-0000-0000-000000000000" was "[{"id":"193f3156-c2fc-45d1-8b19-886224c1121d","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"},{"id":"2381690f-9e46-4fe6-998c-751b8fb3eefe","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"}]"
+java.lang.AssertionError: 
+Response content
+Expected: (a string containing "id" and a string containing "00000000-0000-0000-0000-000000000000" and a string containing "2022-01-01" and a string containing "firstName")
+     but: a string containing "00000000-0000-0000-0000-000000000000" was "[{"id":"193f3156-c2fc-45d1-8b19-886224c1121d","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"},{"id":"2381690f-9e46-4fe6-998c-751b8fb3eefe","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"}]"
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.springframework.test.web.servlet.result.ContentResultMatchers.lambda$string$0(ContentResultMatchers.java:141)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at cz.vsb.fei.java2.lab08.Java2RestServerApplicationTests.findAll(Java2RestServerApplicationTests.java:80)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /players
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#findAll()
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = [{"id":"193f3156-c2fc-45d1-8b19-886224c1121d","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"},{"id":"2381690f-9e46-4fe6-998c-751b8fb3eefe","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /players/
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#findAll()
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = [{"id":"193f3156-c2fc-45d1-8b19-886224c1121d","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"},{"id":"2381690f-9e46-4fe6-998c-751b8fb3eefe","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /players
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#findAll()
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = [{"id":"193f3156-c2fc-45d1-8b19-886224c1121d","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"},{"id":"2381690f-9e46-4fe6-998c-751b8fb3eefe","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /players/
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#findAll()
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = [{"id":"193f3156-c2fc-45d1-8b19-886224c1121d","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"},{"id":"2381690f-9e46-4fe6-998c-751b8fb3eefe","firstName":"Tester","lastName":"Testovaný","dayOfBirth":"2022-01-01"}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+findById
+
+Test FAILURE:
+Status expected:<200> but was:<404>
+java.lang.AssertionError: Status expected:<200> but was:<404>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:62)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:129)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$0(StatusResultMatchers.java:600)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at cz.vsb.fei.java2.lab08.Java2RestServerApplicationTests.findById(Java2RestServerApplicationTests.java:115)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /players/00000000-0000-0000-0000-000000000000
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#findById(UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 404
+    Error message = null
+          Headers = []
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /players/00000000-0000-0000-0000-000000000000
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#findById(UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 404
+    Error message = null
+          Headers = []
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+update
+
+Test FAILURE:
+Status expected:<200> but was:<400>
+java.lang.AssertionError: Status expected:<200> but was:<400>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:62)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:129)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$0(StatusResultMatchers.java:600)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at cz.vsb.fei.java2.lab08.Java2RestServerApplicationTests.update(Java2RestServerApplicationTests.java:130)
+
+2026-04-08T15:32:08.485Z  WARN 155 --- [java2-lab08] [           main] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Invalid numeric value: Leading zeroes not allowed]
+
+MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /players/00000000-0000-0000-0000-000000000000
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"117"]
+             Body = {"id":00000000-0000-0000-0000-000000000000,"firstName":"tESTER-NEW","lastName":"Falešný","dayOfBirth":"2020-12-12"}
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#update(UUID, Player)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = []
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /players/00000000-0000-0000-0000-000000000000
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"117"]
+             Body = {"id":00000000-0000-0000-0000-000000000000,"firstName":"tESTER-NEW","lastName":"Falešný","dayOfBirth":"2020-12-12"}
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#update(UUID, Player)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = org.springframework.http.converter.HttpMessageNotReadableException
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 400
+    Error message = null
+          Headers = []
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+delete
+
+Test FAILURE:
+Range for response status value 404 expected:<SUCCESSFUL> but was:<CLIENT_ERROR>
+java.lang.AssertionError: Range for response status value 404 expected:<SUCCESSFUL> but was:<CLIENT_ERROR>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:62)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:129)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$is2xxSuccessful$0(StatusResultMatchers.java:80)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at cz.vsb.fei.java2.lab08.Java2RestServerApplicationTests.delete(Java2RestServerApplicationTests.java:138)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /players/00000000-0000-0000-0000-000000000000
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#findById(UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 404
+    Error message = null
+          Headers = []
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /players/00000000-0000-0000-0000-000000000000
+       Parameters = {}
+          Headers = []
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = cz.vsb.fei.java2.lab08.PlayerController
+           Method = cz.vsb.fei.java2.lab08.PlayerController#findById(UUID)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 404
+    Error message = null
+          Headers = []
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []

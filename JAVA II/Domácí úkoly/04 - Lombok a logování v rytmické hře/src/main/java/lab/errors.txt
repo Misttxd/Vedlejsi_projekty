@@ -1,0 +1,157 @@
+useLombokConfigTest(String, int)[10]
+
+Test FAILURE:
+
+Expected: Files with name .*\.java shoud contains regexp '@ToString' at least 3 times.
+     but: Files with name .*\.java contains regext '@ToString' only 2 times.
+java.lang.AssertionError: 
+
+Expected: Files with name .*\.java shoud contains regexp '@ToString' at least 3 times.
+     but: Files with name .*\.java contains regext '@ToString' only 2 times.
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:6)
+	at lab01@0.0.1-SNAPSHOT/jez04.structure.test.ClassStructureTest.useLombokConfigTest(ClassStructureTest.java:56)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:803)
+	at java.base/java.util.stream.ReferencePipeline$7$1FlatMap.accept(ReferencePipeline.java:293)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632)
+	at java.base/java.util.stream.ReferencePipeline$7$1FlatMap.accept(ReferencePipeline.java:293)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632)
+	at java.base/java.util.stream.ReferencePipeline$7$1FlatMap.accept(ReferencePipeline.java:293)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+base:/work/target/test-classes/jez04/structure/test/ClassStructureTest.class
+result:/work/target/test-classes
+file: /work/src/main/java/lab/map/Score.java count: 1
+file: /work/src/main/java/lab/map/MapInfo.java count: 0
+file: /work/src/main/java/lab/map/MapException.java count: 0
+file: /work/src/main/java/lab/map/MapRepository.java count: 0
+file: /work/src/main/java/lab/HitEffect.java count: 0
+file: /work/src/main/java/lab/App.java count: 0
+file: /work/src/main/java/lab/GameSettings.java count: 0
+file: /work/src/main/java/lab/SettingsController.java count: 0
+file: /work/src/main/java/lab/DrawingThread.java count: 0
+file: /work/src/main/java/lab/Difficulty.java count: 0
+file: /work/src/main/java/lab/GameEventListener.java count: 0
+file: /work/src/main/java/lab/Note.java count: 0
+file: /work/src/main/java/lab/GameStats.java count: 1
+file: /work/src/main/java/lab/WorldEntity.java count: 0
+file: /work/src/main/java/lab/Level.java count: 0
+file: /work/src/main/java/lab/DrawableSimulable.java count: 0
+file: /work/src/main/java/lab/GameController.java count: 0
+file: /work/src/main/java/lab/LaneColors.java count: 0
+file: /work/src/main/java/lab/MenuController.java count: 0
+file: /work/src/main/java/lab/NoteSpawner.java count: 0
+file: /work/src/main/java/module-info.java count: 0
+2
+
+
+
+useLombokConfigTest(String, int)[12]
+
+Test FAILURE:
+
+Expected: Files with name .*\.java shoud contains regexp '@ToString' at least 5 times.
+     but: Files with name .*\.java contains regext '@ToString' only 2 times.
+java.lang.AssertionError:
+
+Expected: Files with name .*\.java shoud contains regexp '@ToString' at least 5 times.
+     but: Files with name .*\.java contains regext '@ToString' only 2 times.
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+	at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:6)
+	at lab01@0.0.1-SNAPSHOT/jez04.structure.test.ClassStructureTest.useLombokConfigTest(ClassStructureTest.java:56)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:803)
+	at java.base/java.util.stream.ReferencePipeline$7$1FlatMap.accept(ReferencePipeline.java:293)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632)
+	at java.base/java.util.stream.ReferencePipeline$7$1FlatMap.accept(ReferencePipeline.java:293)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:214)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632)
+	at java.base/java.util.stream.ReferencePipeline$7$1FlatMap.accept(ReferencePipeline.java:293)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:632)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+base:/work/target/test-classes/jez04/structure/test/ClassStructureTest.class
+result:/work/target/test-classes
+file: /work/src/main/java/lab/map/Score.java count: 1
+file: /work/src/main/java/lab/map/MapInfo.java count: 0
+file: /work/src/main/java/lab/map/MapException.java count: 0
+file: /work/src/main/java/lab/map/MapRepository.java count: 0
+file: /work/src/main/java/lab/HitEffect.java count: 0
+file: /work/src/main/java/lab/App.java count: 0
+file: /work/src/main/java/lab/GameSettings.java count: 0
+file: /work/src/main/java/lab/SettingsController.java count: 0
+file: /work/src/main/java/lab/DrawingThread.java count: 0
+file: /work/src/main/java/lab/Difficulty.java count: 0
+file: /work/src/main/java/lab/GameEventListener.java count: 0
+file: /work/src/main/java/lab/Note.java count: 0
+file: /work/src/main/java/lab/GameStats.java count: 1
+file: /work/src/main/java/lab/WorldEntity.java count: 0
+file: /work/src/main/java/lab/Level.java count: 0
+file: /work/src/main/java/lab/DrawableSimulable.java count: 0
+file: /work/src/main/java/lab/GameController.java count: 0
+file: /work/src/main/java/lab/LaneColors.java count: 0
+file: /work/src/main/java/lab/MenuController.java count: 0
+file: /work/src/main/java/lab/NoteSpawner.java count: 0
+file: /work/src/main/java/module-info.java count: 0
+2

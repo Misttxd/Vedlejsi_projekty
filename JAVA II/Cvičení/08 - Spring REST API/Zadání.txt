@@ -1,0 +1,103 @@
+Téma:
+
+Spring
+Spring REST
+Spring @Autowired / Spring @Autowired
+Spring Data JPA @Query / Spring Data JPA @Query
+Studijní materiály:
+
+Přednášky (prezentace z přednášek)
+Prerekvizity:
+
+Pokud používáte IntelliJ IDEA, aktivujte si Ultimate subscription (můžete využít Student Pack). V případě, že využíváte jiné IDE, nainstalujte si vhodnou aplikaci pro správu H2 databáze (např. SQuirreL).
+1. Inicializace Spring server
+Použijte Spring Initializr1 a vytvořte nový Maven web server projekt.
+
+Pří vytváření zvolte:
+
+Project: Maven
+Language: Java
+Spring Boot version: 4.0.5
+Project Metadata (důležité pro úspěšné provedení testů):
+Group: cz.vsb.fei
+Artifact: java2-lab08
+Package name: cz.vsb.fei.java2.lab08 (ne podtržítko ale tečku, jinak neprojdou testy v Kelvinu)
+Packaging: Jar
+Configuration: YAML
+Java version: 25
+Do závislostí přidejte (pomocí tlačítka ADD DEPENDENCIES...):
+Lombok
+Spring Web
+SpringDoc OpenAPI
+Thymeleaf
+Spring Data JPA
+H2 Database
+Projekt vygenerujte (stáhněte).
+
+2. Doplnění závislostí
+Do pom.xml přidejte:
+
+Závislost na Hibernate ORM Hibernate Processor (využijte poslední stable verzi).
+Do path /project/build/plugins/plugin[artifactId='maven-compiler-plugin']/configuration/annotationProcessorPaths/ přidejte konfiguraci:
+<path>
+ <groupId>org.hibernate.orm</groupId>
+ <artifactId>hibernate-processor</artifactId>
+</path>
+Do path /project/build/plugins/ přidejte plugin:
+<plugin>
+ <groupId>org.codehaus.mojo</groupId>
+ <artifactId>build-helper-maven-plugin</artifactId>
+ <executions>
+     <execution>
+         <id>add-source</id>
+         <phase>process-resources</phase>
+         <goals>
+             <goal>add-source</goal>
+         </goals>
+     <configuration>
+         <sources>
+             <source>target/generated-sources/annotations</source>
+         </sources>
+     </configuration>
+     </execution>
+ </executions>
+</plugin>
+3. Implementujte
+Vytvořte entitu Player se jménem (firstName), příjmením (lastName) a datem narození (dayOfBirth).
+Vytvořte JPA repository pro Player.
+Vytvořte REST controller s metodami pro CRUD operace (dodržte pravidla REST API) a pro vygenerování většího počtu objektů hráč. Využijte @Autowired namísto konstruktoru.
+Vytvořte vlastní metodu s využitím anotace @Query a pro ni nějaké URL na vyvolání (např. pro nejmladší nebo nejstarší hráče).
+Projekt spusťte jako běžnou Java aplikaci a otestujte, zda se na adrese http://localhost:8080 objeví vámi zvolený text.
+
+Webové rozhraní pro testování endpointů najdete na adrese:
+
+http://localhost:8080/swagger-ui/index.html
+
+API specifikace:
+
+http://localhost:8080/v3/api-docs
+
+Volitelná konfigurace Springu:
+
+spring:
+  application:
+    name: java2-lab08
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:file:./db/game-db
+    username: sa
+    driverClassName: org.h2.Driver
+
+  jpa:
+    properties:
+      jakarta:
+        persistence:
+          schema-generation:
+            database.action: create
+H2 konzole (po nastavení spring.h2.console.enabled na true):
+
+http://localhost:8080/h2-console/
+
+Třída na pomoc s generováním náhodných textů Tools.java.

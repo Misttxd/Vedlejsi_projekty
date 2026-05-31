@@ -1,0 +1,232 @@
+package lab;
+
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Stream;
+import javafx.scene.canvas.GraphicsContext;
+import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
+
+
+@Log4j2
+public class World {
+
+    public static final MyPoint GRAVITY = new MyPoint(0, Setting.getInstance().getGravity());
+    @Getter
+    private final double width;
+
+    @Getter
+    private final double height;
+
+    private List<DrawableSimulable> entities;
+    private final Collection<DrawableSimulable> entitiesToRemove = new LinkedList<>();
+    private final Collection<DrawableSimulable> entitiesToAdd = new LinkedList<>();
+
+    @Getter
+    private final Cannon cannon;
+
+    private Comparator<DrawableSimulable> comparator;
+
+    @Getter
+    private List<Ufo.DestroyInfo> destroyInfos = new LinkedList<>();
+
+    private boolean spectatorMode;
+
+
+    private final int port = 4600;
+
+    private final Object entitiesLock = new Object();
+
+    public World(double width, double height) {
+        this.width = width;
+        this.height = height;
+        entities = new ArrayList<>();
+        entities.add(new UfoSpawner(this));
+        cannon = new Cannon(this, new MyPoint(0, height - 20), -45);
+        entities.add(cannon);
+        entities.addAll(Stream.generate(() -> new Ufo(this)).limit(Setting.getInstance().getNumberOfUfos()).toList());
+        entitiesToAdd.add(
+            new RotatingUfoFormation(this, new MyPoint(100, 200), new Ufo(this), new Ufo(this), new Ufo(this),
+                new Ufo(this), new Ufo(this), new Ufo(this)));
+        comparator = new Comparator<DrawableSimulable>() {
+            @Override
+            public int compare(DrawableSimulable o1, DrawableSimulable o2) {
+                if (o1 instanceof Bullet b1 && o2 instanceof Bullet b2) {
+                    return 0;
+                }
+                if (o1 instanceof Bullet && !(o2 instanceof Bullet)) {
+                    return 1;
+                }
+                if (!(o1 instanceof Bullet) && o2 instanceof Bullet) {
+                    return -1;
+                }
+                if (o1 instanceof Ufo u1 && o2 instanceof Ufo u2) {
+                    if (u1.getWidth() < u2.getWidth() && u1.getHeight() < u2.getHeight()) {
+                        return -1;
+                    }
+                    if (u1.getWidth() > u2.getWidth() && u1.getHeight() > u2.getHeight()) {
+                        return 1;
+                    }
+                    return Double.compare(u2.getWidth(), u1.getWidth());
+                }
+                return 0;
+            }
+        };
+        comparator = comparator.reversed();
+        entities.sort(comparator);
+    }
+
+    public void draw(GraphicsContext gc) {
+        gc.clearRect(0, 0, width, height);
+        gc.save();
+        for (DrawableSimulable entity : entities) {
+            entity.draw(gc);
+        }
+        gc.restore();
+    }
+
+    public void simulate(double deltaTime) {
+        if (spectatorMode) {
+            return;
+        }
+
+
+        synchronized (entitiesLock)
+        {
+            for (DrawableSimulable entity : entities) {
+                entity.simulate(deltaTime);
+            }
+            for (DrawableSimulable e1 : entities) {
+                if (e1 instanceof Collisionable c1) {
+                    for (DrawableSimulable e2 : entities) {
+                        if (e2 instanceof Collisionable c2) {
+                            if (c1 != c2 && c1.intersect(c2)) {
+                                c1.hitBy(c2);
+                            }
+                        }
+                    }
+                }
+            }
+            for (DrawableSimulable e2 : entitiesToRemove) {
+                if (!entities.remove(e2)) {
+                    for (Formation<? extends DrawableSimulable> formation : entities.stream()
+                        .filter(e -> e instanceof Formation<? extends DrawableSimulable>).map(Formation.class::cast)
+                        .toList()) {
+                        if (formation.remove(e2)) {
+                            break;
+                        }
+                    }
+                }
+            }
+            entities.addAll(entitiesToAdd);
+            entitiesToAdd.clear();
+            entitiesToRemove.clear();
+            entities.sort(comparator);
+        }
+
+    }
+
+    public void add(DrawableSimulable entity) {
+        if (spectatorMode) {
+            return;
+        }
+        entitiesToAdd.add(entity);
+    }
+
+    public void remove(DrawableSimulable entity) {
+        if (spectatorMode) {
+            return;
+        }
+        entitiesToRemove.add(entity);
+    }
+
+    public void setSpectatorMode(boolean spectatorMode) {
+        this.spectatorMode = spectatorMode;
+        if (!spectatorMode) {
+            startServer();
+        } else {
+            connectToServer();
+        }
+    }
+
+    public void startServer() {
+        new Thread(() -> {
+            try {
+
+
+                ServerSocket serverSocket = new ServerSocket(port);
+                log.info("Server started on port " + port);
+                Socket connection = serverSocket.accept();
+                log.info("Server accepted connection");
+                connection.getOutputStream();
+
+                new Thread(() -> {
+                    try {
+                        log.info("Thread for new client started");
+                        ObjectOutputStream outputStream = new ObjectOutputStream(connection.getOutputStream());
+                        while (true){
+                            outputStream.reset();
+                            synchronized (entitiesLock){
+                                outputStream.writeObject(entities);
+                                log.info("Send object: "+ entities);
+
+                            }
+                            outputStream.flush();
+                            Thread.sleep(1);
+                        }
+                    } catch (IOException | InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }).start();
+
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+
+    }
+
+    public void connectToServer() {
+
+        new Thread(()-> {
+            Socket socket = null;
+            try {
+                socket = new Socket("localhost", port);
+                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                while (true){
+                    Object newObject = inputStream.readObject();
+                    log.info("Received object: "+ newObject);
+
+                    ArrayList<DrawableSimulable> newEntities =
+                        (ArrayList<DrawableSimulable>) newObject;
+                    synchronized (entitiesLock){
+                        entities.clear();
+                        entities.addAll(newEntities);
+                        entities.sort(comparator);
+                    }
+
+                }
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }catch (ClassNotFoundException e){
+                throw new RuntimeException(e);
+            }
+           // log.info("Connecter to server: " + socket.getInetAddress());
+        }).start();
+
+    }
+}

@@ -1,0 +1,200 @@
+package lab;
+
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@ToString //Useless
+public class Note extends WorldEntity {
+    @Getter
+    private int lane;
+    private double speed;
+    @Getter
+    private boolean isActive = true;
+    private double noteWidth;
+    private static final double NOTE_HEIGHT = 40; // puvodne 30 ale vypadalo to divne
+
+
+
+    private double length;
+    @Getter
+    private boolean isBeingHeld = false;
+    private boolean wasHit = false;
+    private final Color laneColor;
+
+    private boolean inReleaseNote;
+    @Setter
+    @Getter
+    private boolean waitingForRelease = false;
+
+    public Note(Level level, int lane) {
+        this(level, lane, false);
+    }
+
+    public Note(Level level, int lane, double length) {
+        super(level, new Point2D(0, 0));
+        this.lane = lane;
+        this.speed = 200;
+        this.length = length;
+        this.laneColor = LaneColors.getColor(lane);
+
+        double laneWidth = level.getWidth() / level.getLanecount();
+        this.noteWidth = laneWidth;
+        double x = lane * laneWidth;
+        this.position = new Point2D(x, -NOTE_HEIGHT);
+    }
+    public Note(Level level, int lane, boolean inReleaseNote) {
+        super(level, new Point2D(0, 0));
+        this.lane = lane;
+        this.speed = 200;
+        this.laneColor = LaneColors.getColor(lane);
+
+        double laneWidth = level.getWidth() / level.getLanecount();
+        this.noteWidth = laneWidth;
+        double x = lane * laneWidth;
+        this.position = new Point2D(x, -NOTE_HEIGHT);
+        this.inReleaseNote = inReleaseNote;
+    }
+
+    public boolean isReleaseNote() {
+        return inReleaseNote;
+    }
+
+    public boolean isLongNote() {
+        return length > 0;
+    }
+
+    public void setBeingHeld(boolean held) {
+        if (isActive) {
+            this.isBeingHeld = held;
+            if (held) {
+                this.wasHit = true;
+            }
+        }
+    }
+
+    public boolean wasHit() {
+        return wasHit;
+    }
+
+    public void markAsHit() {
+        this.wasHit = true;
+    }
+
+    public double getTailEndY() {
+        return position.getY() - length;
+    }
+
+    public double getHeadY() {
+        return position.getY();
+    }
+
+    public double getBottomY() {
+        return position.getY() + NOTE_HEIGHT;
+    }
+
+    public boolean isAnyPartInHitZone() {
+        Rectangle2D hitZone = level.getHitZone();
+        return getBottomY() >= hitZone.getMinY() && getTailEndY() <= hitZone.getMaxY();
+    }
+
+    public void deactivate() {
+        this.isActive = false;
+        this.isBeingHeld = false;
+        level.remove(this);
+    }
+
+    @Override
+    public void drawInternal(GraphicsContext gc) {
+        if (length > 0) {
+            Color tailColor;
+            if (isBeingHeld) {
+                tailColor = Color.WHITE;
+            } else {
+                tailColor = laneColor.deriveColor(0, 0.5, 1.2, 0.6);
+            }
+            gc.setFill(tailColor);
+            gc.fillRect(position.getX() + 5, position.getY() - length, noteWidth - 10, length);
+            gc.setStroke(laneColor.darker());
+            gc.setLineWidth(1);
+            gc.strokeRect(position.getX() + 5, position.getY() - length, noteWidth - 10, length);
+        }
+
+        Color headColor;
+        if (isBeingHeld) {
+            headColor = Color.WHITE;
+        } else {
+            headColor = laneColor;
+        }
+        gc.setFill(headColor);
+
+        double zaobleni = 10;
+        gc.fillRoundRect(position.getX() + 2, position.getY(), noteWidth - 4, NOTE_HEIGHT, zaobleni, zaobleni);
+        gc.setStroke(laneColor.darker());
+        gc.setLineWidth(2);
+        gc.strokeRoundRect(position.getX() + 2, position.getY(), noteWidth - 4, NOTE_HEIGHT, zaobleni, zaobleni);
+        if (inReleaseNote) {
+            double centerX = position.getX() + noteWidth / 2;
+            double gap = 40;  // Mezera mezi šipkou a notou
+            double arrowHeight = 20;
+            double arrowBottom = position.getY() - gap;  // Šipka NAD notou
+            double arrowTop = arrowBottom - arrowHeight;
+            Color arrowColor;
+            if (waitingForRelease) {
+                arrowColor = Color.WHITE;
+            } else {
+                arrowColor = laneColor;
+            }
+            gc.setFill(arrowColor);
+            gc.fillPolygon(
+                new double[] {centerX - 12, centerX + 12, centerX},
+                new double[] {arrowTop, arrowTop, arrowBottom},  // Špička dolů
+                3
+            );
+            gc.setStroke(laneColor.darker());
+            gc.strokePolygon(
+                new double[] {centerX - 12, centerX + 12, centerX},
+                new double[] {arrowTop, arrowTop, arrowBottom},
+                3
+            );
+        }
+    }
+
+    @Override
+    public void simulate(double delta) {
+        position = position.add(0, speed * delta);
+
+        if (isLongNote()) {
+            if (isBeingHeld && isAnyPartInHitZone()) {
+                level.addPartialScore(delta * 10);
+            }
+
+            if (getTailEndY() > level.getHeight()) { //tady muze byt problem ze to nepusobi vycentrovane
+                if (wasHit) {
+                    level.longNoteCompleted(); //momentalne nedela nic 🙀
+                } else {
+                    level.noteMissed();
+                }
+                deactivate();
+            }
+        } else {
+            // Pro release noty musime pockat az projede cela (vcetne sipky nahore)
+            double disappearY;
+            if (isReleaseNote()) {
+                disappearY = position.getY() - 60;
+            } else {
+                disappearY = position.getY();
+            }
+            if (disappearY > level.getHeight() && isActive) {
+                if (!wasHit) {
+                    level.noteMissed();
+                }
+                deactivate();
+            }
+        }
+    }
+}
