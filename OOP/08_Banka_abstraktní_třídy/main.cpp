@@ -41,12 +41,31 @@ public:
 };
 
 
-class Account
+class AbstractAccount //tahle cela trida!!!
+{
+public:
+    AbstractAccount();
+    virtual ~AbstractAccount();
+
+    virtual bool CanWithdraw(double a) = 0;
+};
+
+AbstractAccount::AbstractAccount()
+{
+    cout << "AbstractAccount constructor" << endl;
+}
+
+AbstractAccount::~AbstractAccount()
+{
+    cout << "AbstractAccount destrucotr" << endl;
+}
+
+class Account : public AbstractAccount
 {
 private:
     static int objectsCount;
     int number;
-    //tady byl balance
+
     double interestRate;
     static double baseInterestRate;
 
@@ -64,7 +83,7 @@ public:
         this->interestRate = baseInterestRate;
         this->owner = o;
 
-        Account::objectsCount = +1;
+        Account::objectsCount += 1;
     }
 
     Account(int n, Client* o, double ir)
@@ -74,12 +93,15 @@ public:
         this->interestRate = ir;
         this->owner = o;
 
-        Account::objectsCount = +1;
+        Account::objectsCount += 1;
     }
 
-    ~Account()
+    virtual ~Account()  //tady virtual!!!
     {
         Account::objectsCount -= 1;
+
+        cout << "Account destructor" << endl; //tady!!!
+
     }
 
     static void SetBaseInterestRate(double IR)
@@ -199,8 +221,12 @@ public:
     {
         this->credit = c;
     }
+    virtual ~CreditAccount() //tady virtual!!!
+    {
+        cout << "CreditAccount destructor" << endl; //tady!!!
+    }
 
-    bool CanWithdraw(double a)
+    virtual bool CanWithdraw(double a)
     {
         return (this->GetBalance() + this->credit >= a);
     }
@@ -215,6 +241,8 @@ public:
         return success;
     }
 };
+
+
 
 
 class Bank
@@ -292,13 +320,13 @@ public:
     }
     Account* CreateAccount(int n, Client* c, Client* p)
     {
-        accounts[accountsCount] = new PartnerAccount(n, c, p); //tady
+        accounts[accountsCount] = new PartnerAccount(n, c, p);
         accountsCount++;
         return accounts[accountsCount - 1];
     }
     Account* CreateAccount(int n, Client* c, Client* p, double ir)
     {
-        accounts[accountsCount] = new PartnerAccount(n, c, p, ir); //tady
+        accounts[accountsCount] = new PartnerAccount(n, c, p, ir);
         accountsCount++;
         return accounts[accountsCount - 1];
     }
@@ -321,21 +349,17 @@ int Client::objectsCount = 0;
 int Account::objectsCount = 0;
 double Account::baseInterestRate = 2.0;
 
-int main2()
+int main1()
 {
     Client* o = new Client(0, "Smith");
-
     CreditAccount* ca = new CreditAccount(1, o, 1000);
-    cout << ca->CanWithdraw(1000) << endl;
 
-    Account* a = ca;
-    cout << a->CanWithdraw(1000) << endl;
+    AbstractAccount* aa = ca;
 
-    cout << ca->Withdraw(1000) << endl;
+    delete aa;
+    delete o;
 
-    a = nullptr;
-    delete ca;
-    delete a;
+    //AbstractAccount* naa = new AbstractAccount();
 
     getchar();
     return 0;

@@ -11,34 +11,9 @@ Tento projekt je nástroj příkazové řádky napsaný v jazyce C pro interakti
 -   Výpočet agregovaných dat (průměr, min, max, suma).
 -   Uložení upravených dat do výstupního souboru.
 
-## Sestavení projektu (Build)
-
-Projekt je určen k sestavení pomocí `CMake` a `make`. Pro sestavení postupujte následovně:
-
-```sh
-# Vytvoření a vstup do adresáře pro sestavení
-mkdir build
-cd build
-
-# Spuštění CMake pro vygenerování Makefile
-cmae ..
-
-# Vlastní kompilace
-make
-```
-Po úspěšném sestavení naleznete spustitelný soubor `PROJEKT` v adresáři `build`.
-
 ## Použití
+Tento projekt slouží jako praktické cvičení pro manipulaci s CSV soubory, správu dynamické paměti a návrh uživatelského rozhraní příkazové řádky (CLI) v C.
 
-Program se spouští z příkazové řádky s argumenty pro vstupní a výstupní soubor.
-
-```sh
-./PROJEKT --input input.csv --output output.csv
-```
--   `--input <cesta>`: Vstupní CSV soubor, který se má načíst.
--   `--output <cesta>`: Soubor, do kterého se uloží data po ukončení programu příkazem `exit`.
-
-Po spuštění program vypíše informace o načteném souboru a vstoupí do interaktivního režimu, kde očekává příkazy.
 
 ## Příkazy
 

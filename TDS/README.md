@@ -1,19 +1,16 @@
-# Technologie Databazovych Systemu I (TDS I)
+# Technologie databázových systémů (TDS)
 
-Tato slozka obsahuje semestralni projekt k predmetu Technologie databazovych systemu I. Projekt navrhuje a implementuje databazovou vrstvu pro rytmickou hru, vcetne uzivatelu, hracu, administratoru, skladeb, hernich sezeni, achievementu, komentaru, reportu obsahu a historizace zmen.
+Tato složka obsahuje semestrální projekt k předmětu Technologie databázových systémů. Projekt navrhuje a implementuje komplexní relační databázovou vrstvu pro rytmickou hru, včetně hráčů, skladeb, herních sezení, achievementů, komentářů, reportů obsahu a historizace změn.
 
-## Popis
+## Popis projektu
 
-Databaze je navrzena pro aplikaci, ve ktere hraci vybira skladby, hraji jejich obtiznostni varianty, ziskavaji skore a odemykaji achievementy. Soucasti projektu je logicky a relacni model, Oracle SQL skripty, ukazkova data, dotazy a LaTeX dokumentace.
+Databáze je navržena pro aplikaci, ve které hráči vybírají skladby, hrají jejich obtížnostní varianty, získávají skóre a odemykají achievementy. Součástí projektu je logický a relační model, komplexní Oracle SQL skripty, ukázková data, analytické dotazy a kompletní projektová dokumentace v PDF.
 
-## Obsah
+## Obsah složky
 
-- **DDL_script.sql** - samostatny DDL skript pro vytvoreni zakladni struktury databaze.
-- **TDS_init_data.sql** - kompletni inicializacni skript s mazanim objektu, vytvorenim tabulek, triggeru a vlozenim testovacich dat.
-- **TDS_commands.sql** - sada SQL prikazu a ukolovych dotazu nad projektovou databazi.
-- **projekt_latex.tex** - zdrojovy kod dokumentace v LaTeXu.
-- **dokumentace.pdf** - vygenerovana projektova dokumentace.
-- **logicky_model.png** - logicky model databaze.
-- **relacni_model.png** - relacni model databaze.
-
-Soubor `DDL_script.sql` slouzi jako samostatny prehled zakladni databazove struktury bez cele inicializacni casti.
+- **DDL_script.sql** - Samostatný DDL skript pro vytvoření základní struktury databáze (tabulky, indexy, integritní omezení).
+- **TDS_init_data.sql** - Kompletní inicializační skript s mazáním stávajících objektů, vytvořením tabulek, triggerů a vložením rozsáhlých testovacích dat.
+- **TDS_commands.sql** - Bohatá sada SQL příkazů, analytických dotazů a úloh nad projektovou databází.
+- **dokumentace.pdf** - Kompletní vygenerovaná projektová dokumentace s popisem entit, integritních omezení a business logiky.
+- **logicky_model.png** - Logický model databázového schématu.
+- **relacni_model.png** - Relační model databázového schématu.

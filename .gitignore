@@ -1,20 +1,56 @@
-# Zkompilované soubory
+# Zkompilované soubory a buildy
 *.exe
 *.o
+*.obj
 *.out
+*.pdb
+*.ilk
+*.dir/
+Build/
+build/
+bin/
+obj/
+target/
+dist/
+node_modules/
 
-# Nastavení editoru
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+ENV/
+
+# Nastavení editoru a IDE
 .vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.project
+.classpath
+.settings/
 
 # Soubory generované CMake
+CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 Makefile
+
+# Databáze a lokální data
+*.db
+*.sqlite
+*.mv.db
+*.trace.db
+storage/
 
 # Dočasné soubory OS
 .DS_Store
 Thumbs.db
 
-# Ignorovat GitHub Workflows
+# Ignorovat specifické soubory
 .github/workflows/
 task.txt

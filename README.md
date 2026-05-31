@@ -1,68 +1,33 @@
-# Vedlejší Projekty
+# Vedlejší projekty
 
-Tento repozitář obsahuje sbírku mých menších projektů a cvičení z různých oblastí programování. Slouží jako přehled technologií a jazyků, kterým jsem se věnoval.
+Tento repozitář obsahuje sbírku mých projektů, cvičení a úkolů z různých předmětů a oblastí programování. Slouží jako přehled technologií, jazyků a architektur, kterým jsem se věnoval.
 
-## Přehled Projektů
+## Přehled předmětů a projektů
 
-### Algoritmy I (ALG I)
-- **Slévání Seřazených Seznamů**: Projekt v C++ pro efektivní slévání k seřazených seznamů do jednoho výsledného souboru.
-- Obsahuje implementaci v C++ a pomocný Python skript pro generování dat.
+| Předmět / Oblast | Popis | Složka |
+| --- | --- | --- |
+| **ALG I** | Slévání seřazených seznamů (C++ a Python) | [ALG I](./ALG%20I) |
+| **ALG II** | Datové struktury a pokročilé grafové algoritmy (C++) | [ALG II](./ALG%20II) |
+| **ASM** | Práce s pamětí, registry a nízkoúrovňové operace (NASM & C) | [ASM](./ASM) |
+| **C** | Základy programování v C, dynamická alokace, editace CSV | [C](./C) |
+| **CUDA** | Paralelní výpočty a zpracování obrazu na GPU | [CUDA](./CUDA) |
+| **DS I** | SQL cvičení, DDL/DML návrh a relační modely | [DS I](./DS%20I) |
+| **DS II** | Tréninkové scénáře PL/SQL, triggery, funkce a procedury | [DS II](./DS%20II) |
+| **FPR** | Cvičení v jazyce Haskell (bludiště, algoritmy, typy) | [FPR](./FPR) |
+| **Java I** | Semestrální projekt rytmické hry v JavaFX s H2 databází | [Java I](./Java%20I) |
+| **Java II** | Pokročilá Java, Spring Boot REST API, Hibernate a JPA | [Java II](./Java%20II) |
+| **MCU** | Programování embedded systémů (LED, LCD, senzory) v C++ | [MCU](./MCU) |
+| **OOP** | Základy OOP v C++ (dědičnost, polymorfismus, zapouzdření) | [OOP](./OOP) |
+| **SKJ** | S3-like Object Storage API ve FastAPI s SQLAlchemy | [SKJ](./SKJ) |
+| **TAMZ** | Hybridní mobilní aplikace a Phaser 2D hra v JavaScriptu/Vite | [TAMZ](./TAMZ) |
+| **TDS** | Komplexní návrh a optimalizace SQL schématu pro rytmickou hru | [TDS](./TDS) |
+| **URO** | Tvorba GUI v Pythonu (CustomTkinter) a C++ (Qt Widgets) | [URO](./URO) |
 
-### Algoritmy II (ALG II)
-- Implementace pokročilých algoritmů a datových struktur v C++.
-- **Datové struktury**: AVL stromy, Binární halda (Heap).
-- **Grafové algoritmy**: Kruskalův algoritmus (MST), Žárliví manželé (BFS), Analýza závislostí (DFS).
-- **Ostatní**: Radix sort, Sběr mincí (Dynamické programování), Lights Out (Lineární algebra), Simplex, Binární vyhledávání.
+## Hlavní semestrální projekty
 
+V tomto repozitáři se nachází několik velkých semestrálních projektů:
+1. **[Rytmická hra v JavaFX](./Java%20I/Rytmick%C3%A1_hra)** - Desktopová hra založená na trefování rytmu skladeb s vlastním bodováním a lokálním ukládáním.
+2. **[Object Storage API (FastAPI)](./SKJ/Projekt)** - Backendová služba pro ukládání objektů (podobná AWS S3) s podporou billing limitů, soft-delete a verzování.
+3. **[Task Manager (Qt & Python)](./URO)** - Správce úkolů s grafickým rozhraním vytvořený jak v Pythonu (CustomTkinter), tak v C++ (Qt Widgets).
 
-### Databázové Systémy I (DS I)
-- **Projekt**: Kompletní SQL skripty (DDL, DML) a LaTeX dokumentace pro databázi rytmické hry.
-- **SQL Cvičení**: Sada vyřešených SQL dotazů zaměřených na analýzu dat z vědecké databáze.
-
-### Databázové Systémy II (DS II)
-- Sjednocená sada SQL/PLSQL cvičení s důrazem na procedury, funkce, triggery a práci s kurzory.
-- Tematické tréninkové scénáře pro procvičování na test (zadání, vlastní vypracování, referenční řešení).
-- Více informací ve složce [DS II](./DS%20II/README.md).
-
-### Assembler (ASM)
-- Implementace základních algoritmů a práce s pamětí v NASM ve spojení s jazykem C.
-
-### Jazyk C
-- Cvičení zaměřená na klíčové koncepty jazyka C, včetně dynamické alokace paměti, práce se soubory, textem a strukturami.
-- Obsahuje projekty jako interaktivní CSV editor a generátor histogramů.
-
-### CUDA
-- Ukázky využití paralelního programování na GPU pro zpracování obrazu.
-- Projekty zahrnují redukci barev, skládání obrázků a jednoduché animace s využitím OpenCV.
-
-### Mikrokontroléry (MCU)
-- Programování pro vestavěné systémy na vývojové desce MCXN-KIT.
-- Projekty se zaměřují na ovládání LED, LCD a zpracování vstupů z tlačítek a dotykové obrazovky.
-
-### Funkcionální Programování (FPR)
-- Cvičení v jazyce Haskell pokrývající matematické funkce, operace se seznamy a manipulaci s textovými bludišti.
-
-### Jazyk Java I (JAVA I)
-- Vývoj desktopových aplikací v jazyce Java s využitím frameworku JavaFX a nástroje Maven.
-- **Rytmická hra**: Semestrální projekt hry s hodnocením přesnosti úderů do padajících not, vlastním systémem skóre a ukládáním do H2 databáze.
-
-### Objektově Orientované Programování (OOP)
-- Sada projektů v C++ demonstrující principy OOP, jako je dědičnost, polymorfismus a abstraktní třídy.
-- Zahrnuje návrhy jednoduchých systémů (banka, škola, fakturace).
-
-### Skriptovací jazyky (SKJ)
-- Semestrální backendový projekt Object Storage API ve FastAPI.
-- Součástí je SQLAlchemy perzistence, Pydantic validace, Alembic migrace, buckety, billing a soft delete.
-- Více informací ve složce [SKJ](./SKJ/README.md).
-
-### Technologie a Aplikace Mobilních Zařízení (TAMZ)
-- Úvod do webových a mobilních technologií.
-- **Terms app**: Aplikace pro odpočet důležitých termínů (zkoušky, konec semestru).
-- **Memory app**: Aplikace pro ukládání jednoduchých záznamů do lokální paměti.
-- **BMI calc**: Aplikace pro výpočet BMI s ukládáním historie.
-- **API app**: Aplikace demonstrující HTTP požadavky (GET a POST) s využitím tokenu.
-- **Phaser game**: 2D hra ve Phaser 3 se sbíráním předmětů, nepřítelem, skórováním a offline režimem (PWA).
-
-### Uživatelská Rozhraní (URO)
-- Tvorba grafických uživatelských rozhraní v různých frameworcích a technologiích.
-- **Task Manager (Python)**: Aplikace ze CustomTkinteru (Python) pro správu úkolů, kategorizaci a termíny. Bude doplněna podobnými verzemi v dalších technologiích (např. Qt).
+Podrobné spouštěcí instrukce pro tyto hlavní projekty naleznete v jejich konkrétních složkách.

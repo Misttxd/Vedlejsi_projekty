@@ -1,4 +1,4 @@
-﻿# Databázové Systémy I (DS I)
+# Databázové Systémy I (DS I)
 
 Tento adresář obsahuje materiály a projekty související s databázovými systémy.
 
@@ -8,7 +8,7 @@ Tento adresář obsahuje materiály a projekty související s databázovými sy
 Návrh a implementace databáze pro ""Rytmickou hru"".
 - **DDL_script.sql**: Skript pro vytvoření struktury databáze (tabulky, klíče).
 - **DML_script.sql**: Skript pro naplnění databáze testovacími daty.
-- **projekt_latech.tex**: Zdrojový kód dokumentace v LaTeXu.
+- **projekt_latex.tex**: Zdrojový kód dokumentace v LaTeXu.
 - **relacni_model.png**: Diagram relačního modelu databáze.
 
 ### Testy a Cvičení

@@ -24,8 +24,8 @@ ziskejZnakZBludiste bludiste (indexRadku, indexSloupce) = (bludiste !! indexRadk
 vlozDoBludiste :: Bludiste -> [(Int, Int, Char)] -> Bludiste
 vlozDoBludiste puvodniBludiste seznamZmen = foldl aktualizujBludiste puvodniBludiste seznamZmen
 
-akualizujBludiste :: Bludiste -> (Int, Int, Char) -> Bludiste
-akualizujBludiste bludiste (indexRadku, indexSloupce, znak) =
+aktualizujBludiste :: Bludiste -> (Int, Int, Char) -> Bludiste
+aktualizujBludiste bludiste (indexRadku, indexSloupce, znak) =
   take indexRadku bludiste
   ++ [nahradVRadku (bludiste !! indexRadku) indexSloupce znak]
   ++ drop (indexRadku + 1) bludiste

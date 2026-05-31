@@ -46,12 +46,14 @@ class Account
 private:
     static int objectsCount;
     int number;
-    double balance;
+    //tady byl balance
     double interestRate;
-
     static double baseInterestRate;
 
     Client* owner;
+
+protected:
+    double balance;
 
 public:
 
@@ -59,10 +61,10 @@ public:
     {
         this->number = n;
         this->balance = 0;
-        this->interestRate = baseInterestRate; 
+        this->interestRate = baseInterestRate;
         this->owner = o;
 
-        Account::objectsCount = +1;
+        Account::objectsCount += 1;
     }
 
     Account(int n, Client* o, double ir)
@@ -72,10 +74,8 @@ public:
         this->interestRate = ir;
         this->owner = o;
 
-        Account::objectsCount = +1;
+        Account::objectsCount += 1;
     }
-    //TADY --
-
 
     ~Account()
     {
@@ -114,35 +114,28 @@ public:
     {
         return this->owner;
     }
-    
 
 
-    bool CanWithdraw(double amount)
+
+    virtual bool CanWithdraw(double amount)
     {
-        if (this->balance > amount)
-        {
-            return 1;
-        }
-        else if (this->balance < amount)
-        {
-            return 0;
-        }
+        return (this->balance >= amount);
     }
 
     void Deposit(double amount)
     {
         balance = balance + amount;
     }
+
     bool Withdraw(double amount)
     {
-        if (CanWithdraw(amount) == 1) {
-            balance = balance - amount;
-            return 1;
-        }
-        else
+        bool success = false;
+        if (this->CanWithdraw(amount))
         {
-            return 0;
+            this->balance -= amount;
+            success = true;
         }
+        return success;
     }
     void AddInterest()
     {
@@ -171,16 +164,20 @@ public:
     }
 };
 
-
-//TOHLE CELE
 class PartnerAccount : public Account
 {
 private:
     Client* partner;
 
 public:
-    PartnerAccount(int n, Client *o, Client *p);
-    PartnerAccount(int n, Client *o, Client *p, double ir);
+    PartnerAccount(int n, Client* o, Client* p) : Account(n, o)
+    {
+        this->partner = p;
+    }
+    PartnerAccount(int n, Client* o, Client* p, double ir) : Account(n, o, ir)
+    {
+        this->partner = p;
+    }
 
     Client* GetPartner()
     {
@@ -188,17 +185,37 @@ public:
     }
 };
 
-//TOHLE
-PartnerAccount::PartnerAccount(int n, Client* o, Client* p) : Account(n, o)
+class CreditAccount : public Account
 {
-    this->partner = p;
-}
+private:
+    double credit;
 
-//TOHLE
-PartnerAccount::PartnerAccount(int n, Client* o, Client *p,  double ir) : Account(n, o, ir)
-{
-    this->partner = p;
-}
+public:
+    CreditAccount(int n, Client* o, double c) : Account(n, o)
+    {
+        this->credit = c;
+    }
+    CreditAccount(int n, Client* o, double ir, double c) : Account(n, o, ir)
+    {
+        this->credit = c;
+    }
+
+    bool CanWithdraw(double a)
+    {
+        return (this->GetBalance() + this->credit >= a);
+    }
+    bool WithDraw(double a)
+    {
+        bool success = false;
+        if (this->CanWithdraw(a))
+        {
+            this->balance -= a;
+            success = true;
+        }
+        return success;
+    }
+};
+
 
 class Bank
 {
@@ -236,7 +253,7 @@ public:
         delete[] this->accounts;
     }
 
-    Client* GetClient(int c) 
+    Client* GetClient(int c)
     {
         for (int i = 0; i < clientsCount; i++) {
             if (clients[i]->GetCode() == c) {
@@ -306,81 +323,20 @@ double Account::baseInterestRate = 2.0;
 
 int main2()
 {
-    /*Bank bank(10, 10);
+    Client* o = new Client(0, "Smith");
 
-    Client* c1 = bank.CreateClient(1, "Adam");
-    Account* a1 = bank.CreateAccount(1, c1, 3.14);
+    CreditAccount* ca = new CreditAccount(1, o, 1000);
+    cout << ca->CanWithdraw(1000) << endl;
 
-    Client* c2 = bank.CreateClient(2, "Anna");
-    Account* a2 = bank.CreateAccount(2, c2);
+    Account* a = ca;
+    cout << a->CanWithdraw(1000) << endl;
 
-    cout << "Puvodni hodnoty uctu" << endl;
-    cout << "Ucet " << c1->GetCode() << " - stav: " << a1->GetBalance() << endl;
-    cout << endl;
+    cout << ca->Withdraw(1000) << endl;
 
-    a1->Deposit(500);
+    a = nullptr;
+    delete ca;
+    delete a;
 
-    cout << "Hodnoty po vlozeni" << endl;
-    cout << "Ucet " << c1->GetCode() << " - stav: " << a1->GetBalance() << endl;
-    cout << endl;
-
-    a1->Withdraw(200);
-
-    cout << "Hodnoty po vybrani" << endl;
-    cout << "Ucet " << c1->GetCode() << " - stav: " << a1->GetBalance() << endl;
-    cout << endl;
-
-    a1->SendMoney(a2, 200);
-
-    cout << "Hodnoty po poslani:" << endl;
-    cout << "Ucet " << c1->GetCode() << " - stav: " << a1->GetBalance() << endl;
-    cout << "Ucet " << c2->GetCode() << " - stav: " << a2->GetBalance() << endl;
-    cout << endl;
-
-
-    bank.AddInterest();
-
-    cout << "Hodnoty po zuroceni (" << a1->GetInterest() << "%):" << endl;
-    cout << "Ucet " << c1->GetCode() << " - stav: " << a1->GetBalance() << endl;
-    cout << "Hodnoty po zuroceni (" << a2->GetInterest() << "%):" << endl; 
-    cout << "Ucet " << c2->GetCode() << " - stav: " << a2->GetBalance() << endl;
-    cout << endl;
-
-
-
-    Account::SetBaseInterestRate(20.0);
-    Client* c3 = bank.CreateClient(3, "BaseInterestRate");
-    Account* a3 = bank.CreateAccount(3, c3);
-
-    a3->Deposit(1000);
-    cout << "Hodnoty po vlozeni" << endl;
-    cout << "Ucet " << c3->GetCode() << " - stav: " << a3->GetBalance() << endl;
-    cout << endl;
-    bank.AddInterest();
-
-    cout << "Hodnoty po zuroceni (" << a3->GetInterest() << "%):" << endl;
-    cout << "Ucet " << c3->GetCode() << " - stav: " << a3->GetBalance() << endl;
-
-    cout << endl;
-    */
-
-
-    Account* a;
-    Account* pa;
-
-    Bank* b = new Bank(100, 1000);
-    Client* o = b->CreateClient(0, "Smith");
-    Client* p = b->CreateClient(1, "Jones");
-    a = b->CreateAccount(0, o);
-    pa = b->CreateAccount(1, o, p);
-
-    cout << a->GetOwner()->GetName() << endl;
-    cout << pa->GetOwner()->GetName() << endl;
-
-    cout << b->GetClient(1)->GetName() << endl;
-    //cout << b->GetClient(1)->GetPartner() << endl;
-
-
-
+    getchar();
     return 0;
 }

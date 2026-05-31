@@ -16,3 +16,25 @@ Responzivní portfolio/landing page vytvořená v Reactu a TypeScriptu. Projekt 
 - Framer Motion
 - Lucide React
 - React Hook Form
+
+## Sestavení a spuštění
+
+Pro spuštění aplikace je vyžadován nainstalovaný **Node.js** (verze 18 nebo novější).
+
+### 1. Instalace závislostí:
+```bash
+npm install
+```
+
+### 2. Spuštění lokálního vývojového serveru:
+```bash
+npm run dev
+```
+Aplikace bude po spuštění serveru dostupná na adrese uvedené v konzoli (obvykle `http://localhost:5173`).
+
+### 3. Sestavení produkčního balíčku:
+```bash
+npm run build
+```
+Výsledné statické soubory naleznete v adresáři `dist/`.
+

@@ -13,34 +13,6 @@ Program využívá metodu opakovaného hledání minima. V každém kroku iteruj
 -   `Seznam.h`: Definuje jednoduchou třídu `Seznam` pro uchování dat a aktuálního stavu každého vstupního seznamu.
 -   `generate_data.py`: Python skript pro vygenerování sady testovacích dat.
 
-## Jak program použít
+## Použití
+Tento projekt slouží jako akademické cvičení pro pochopení a implementaci algoritmů slévání seřazených seznamů. Obsahuje pomocný Python skript pro generování dat a C++ zdrojové soubory.
 
-### 1. Příprava dat
-
-Program jako vstup očekává adresář se soubory `0.txt`, `1.txt`, ..., `k-1.txt`, kde každý soubor obsahuje seřazená celá čísla (jedno číslo na řádek).
-
-Pro snadné vytvoření testovacích dat můžete použít přiložený Python skript:
-```sh
-python generate_data.py
-```
-Tento příkaz vytvoří podadresář `vstupni_data` s 10 vzorovými soubory.
-
-### 2. Kompilace
-
-Program zkompilujte pomocí C++ kompilátoru (např. g++):
-```sh
-g++ Projekt_main.cpp -o slevani
-```
-
-### 3. Spuštění
-
-Program se spouští z příkazové řádky se třemi argumenty:
-1.  Počet vstupních souborů (`k`).
-2.  Cesta k adresáři s daty.
-3.  Název výstupního souboru.
-
-Příklad spuštění (po vygenerování dat):
-```sh
-./slevani 10 ./vstupni_data merged_output.txt
-```
-Tento příkaz zpracuje 10 souborů z adresáře `vstupni_data` a výsledek uloží do `merged_output.txt`.

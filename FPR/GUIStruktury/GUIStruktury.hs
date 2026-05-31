@@ -64,17 +64,17 @@ odstranKomponentyPodleNazvu (Kontejner aktualniNazev podrizenePrvky) nazvyKOdstr
 
 seznamVsechTlacitek :: PrvekGUI -> [PrvekGUI]
 seznamVsechTlacitek (Tlacitko nazev popisek) = [Tlacitko nazev popisek]
-seznamVsechTlacitek (TextovyPrvek _) = []
-seznamVsechTlacitek (Panel podrizenePrvky) = seznamTlacitekZPodrizenych podrizenePrvky
+seznamVsechTlacitek (TextovePole _ _) = []
+seznamVsechTlacitek (Kontejner _ podrizenePrvky) = seznamTlacitekZPodrizenych podrizenePrvky
   where
     seznamTlacitekZPodrizenych :: [PrvekGUI] -> [PrvekGUI]
     seznamTlacitekZPodrizenych [] = []
     seznamTlacitekZPodrizenych (prvniPrvek:zbytekPrvku) = seznamVsechTlacitek prvniPrvek ++ seznamTlacitekZPodrizenych zbytekPrvku
 
 odstranVsechnaTlacitka :: PrvekGUI -> PrvekGUI
-odstranVsechnaTlacitka (Tlacitko _ _) = Panel []
-odstranVsechnaTlacitka (TextovyPrvek popisek) = TextovyPrvek popisek
-odstranVsechnaTlacitka (Panel podrizenePrvky) = Panel (odstranTlacitkaZPodrizenych podrizenePrvky)
+odstranVsechnaTlacitka (Tlacitko _ _) = Kontejner "" []
+odstranVsechnaTlacitka (TextovePole nazev textVal) = TextovePole nazev textVal
+odstranVsechnaTlacitka (Kontejner nazev podrizenePrvky) = Kontejner nazev (odstranTlacitkaZPodrizenych podrizenePrvky)
   where
     odstranTlacitkaZPodrizenych :: [PrvekGUI] -> [PrvekGUI]
     odstranTlacitkaZPodrizenych [] = []
